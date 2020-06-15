@@ -7,11 +7,13 @@ import java.awt.Frame;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.media.opengl.*;
 import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.glu.GLU;
 
+import CollisionDetection.PointPolygonIntersection;
 import LinearMath.Vector;
 import Models.Cube;
 import Models.Wall;
@@ -34,13 +36,18 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
     private static GLCanvas canvas;
     private static Frame frame;
     private static Animator animator;
+    private PointPolygonIntersection ppi;
+    private List<Vector> wall;
+
 
     public ShooterGame() {
         this.cooSystem =  new CoordinateSystem();
         glu = new GLU();
         canvas = new GLCanvas();
-        frame = new Frame("Moving Game");
+        frame = new Frame("ShooterGame");
         animator = new Animator(canvas);
+        ppi = new PointPolygonIntersection();
+        initWall();
     }
 
     public void display(GLAutoDrawable gLDrawable) {
@@ -149,36 +156,30 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
     }
 
     public void keyPressed(KeyEvent e) {
-        float step = 1.0f;
+        float step = 0.5f;
         double angle = 0.05;
-        char keyPressed = e.getKeyChar();
-        if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            exit();
-        } else if (keyPressed == 'i' || keyPressed == 'I') {
-            cooSystem.rotate('x', angle);
-        } else if (keyPressed == 'k' || keyPressed == 'K') {
-            cooSystem.rotate('x', -angle);
-        } else if (keyPressed == 'l' || keyPressed == 'L') {
-            cooSystem.rotate('y', angle);
-        } else if (keyPressed == 'j' || keyPressed == 'J') {
-            cooSystem.rotate('y', -angle);
-        } else if (keyPressed == 'o' || keyPressed == 'O') {
-            cooSystem.rotate('z', -angle);
-        } else if (keyPressed == 'u' || keyPressed == 'U') {
-            cooSystem.rotate('z', angle);
-        }
-        else if (e.getKeyCode() == KeyEvent.VK_W) {
-            cooSystem.moveStep('z', -step);
-        } else if (keyPressed == 's' || keyPressed == 'S') {
-            cooSystem.moveStep('z', step);
-        } else if (keyPressed == 'd' || keyPressed == 'D') {
-            cooSystem.moveStep('x', step);
-        } else if (keyPressed == 'a' || keyPressed == 'A') {
-            cooSystem.moveStep('x', -step);
-        } else if (keyPressed == 'e' || keyPressed == 'E') {
-            cooSystem.moveStep('y', step);
-        } else if (keyPressed == 'q' || keyPressed == 'Q') {
-            cooSystem.moveStep('y', -step);
+        int keyPressed = e.getKeyCode();
+        switch (keyPressed) {
+            case KeyEvent.VK_UP:
+                if (!ppi.checkIntersection(cooSystem.getOrigin(), wall)) {
+                    cooSystem.moveStep('z', -step);
+                }
+                break;
+            case KeyEvent.VK_LEFT:
+                cooSystem.moveStep('x', -step);
+                break;
+            case KeyEvent.VK_RIGHT:
+                cooSystem.moveStep('x', step);
+                break;
+            case KeyEvent.VK_DOWN:
+                cooSystem.moveStep('z', step);
+                break;
+            case KeyEvent.VK_D:
+                cooSystem.rotate('y', angle);
+                break;
+            case KeyEvent.VK_A:
+                cooSystem.rotate('y', -angle);
+                break;
         }
     }
 
@@ -186,6 +187,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
     }
 
     public void keyTyped(KeyEvent e) {
+
     }
 
     public static void exit(){
@@ -263,5 +265,20 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         return models;
     }
 
+    private void initWall() {
+        this.wall = new ArrayList<>();
+        double[] arrVec1 = {-20, 40, -20};
+        Vector vec1 = new Vector(arrVec1, 3);
+        wall.add(0, vec1);
+        double[] arrVec2 = {20, 40, -20};
+        Vector vec2 = new Vector(arrVec2, 3);
+        wall.add(1, vec2);
+        double[] arrVec3 = {20, 0, -20};
+        Vector vec3 = new Vector(arrVec3, 3);
+        wall.add(2, vec3);
+        double[] arrVec4 = {-20, 0, -20};
+        Vector vec4 = new Vector(arrVec4, 3);
+        wall.add(3, vec4);
+    }
 
 }
