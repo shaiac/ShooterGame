@@ -76,10 +76,10 @@ public class ObjData {
         gl.glRotatef(angleZ,0,0,1);
         if(texture != null)
             texture.bind(gl);
-
+//TODO add material handler
         gl.glCallList(list);
         gl.glPopMatrix();
-        //TODO add material handler
+
     }
 }
 

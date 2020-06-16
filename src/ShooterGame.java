@@ -18,8 +18,9 @@ import LinearMath.Vector;
 import Models.Cube;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
+import Models.Sword;
 import Models.Wall;
-import Models.Model;
+import Models.IModel;
 import com.jogamp.newt.Window;
 import com.jogamp.newt.event.KeyAdapter;
 import com.jogamp.newt.event.KeyEvent;
@@ -41,8 +42,10 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
     private PointPolygonIntersection ppi;
     private List<Vector> wall;
     private ArrayList<ObjData> jack;
+    private List<ObjData> AK47;
+    private List<ObjData> oldPirate;
     private ObjectLoader loader = new ObjectLoader();
-    private List<Model> models = new ArrayList<>();
+    private List<IModel> models = new ArrayList<>();
 
     public ShooterGame() {
         this.cooSystem =  new CoordinateSystem();
@@ -56,11 +59,11 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
 
     public void display(GLAutoDrawable gLDrawable) {
         final GL2 gl = gLDrawable.getGL().getGL2();
-        float position0[] = {20f,10f,0f,1.0f};		// red light on the right side (light 0)
-        float position1[] = {-20f,10f,0f,1.0f};	// blue light on the left side (light 1)
+        //float position0[] = {20f,10f,0f,1.0f};		// red light on the right side (light 0)
+        //float position1[] = {-20f,10f,0f,1.0f};	// blue light on the left side (light 1)
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();  // Reset The View
-        gl.glTranslatef(0.0f, 0.0f, -5.0f);
+        //gl.glTranslatef(0.0f, 0.0f, -5.0f);
         gl.glTexParameteri ( GL2.GL_TEXTURE_2D,GL2.GL_TEXTURE_WRAP_S, GL2.GL_LINEAR);
         gl.glTexParameteri( GL2.GL_TEXTURE_2D,GL2.GL_TEXTURE_WRAP_T, GL2.GL_LINEAR);
         Vector origin = cooSystem.getOrigin();
@@ -69,23 +72,51 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         Vector y = cooSystem.getY();
 
         //The light
-        gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_POSITION, position0, 0);
-        gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_POSITION, position1, 0);
+        //gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_POSITION, position0, 0);
+        //gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_POSITION, position1, 0);
 
         glu.gluLookAt(origin.get(0), origin.get(1), origin.get(2), lookat.get(0), lookat.get(1), lookat.get(2), y.getVec()[0], y.getVec()[1], y.getVec()[2]);
 
 
-        for (Model model:models) {
+        for (IModel model : models) {
             model.draw(gl);
         }
-        gl.glPushMatrix();
+        /*gl.glPushMatrix();
         gl.glTranslatef(-150,-100,-300);
         //gl.glScalef(1/2,1/2,1/2);
         gl.glRotatef(90,0,1,0);
         for(ObjData obj:jack){
             obj.draw(gl);
         }
+        gl.glPopMatrix();*/
+        /*//jack
+        gl.glPushMatrix();
+        gl.glTranslatef(0,0,-10);
+        gl.glScalef(0.03f,0.03f,0.03f);
+        //gl.glRotatef(90,0,1,0);
+        for(ObjData obj:jack){
+            obj.draw(gl);
+        }
         gl.glPopMatrix();
+        //ak-47
+        gl.glPushMatrix();
+        gl.glTranslatef(0,5,-5);
+        gl.glScalef(0.01f,0.01f,0.01f);
+        gl.glRotatef(90,0,1,0);
+        for(ObjData obj:AK47){
+            obj.draw(gl);
+        }
+        gl.glPopMatrix();*/
+        //old pirate
+        /*gl.glPushMatrix();
+        gl.glTranslatef(0,5,-10);
+        gl.glScalef(0.01f,0.01f,0.01f);
+        gl.glRotatef(-90,0,1,1);
+        for(ObjData obj:oldPirate){
+            obj.draw(gl);
+        }
+        gl.glPopMatrix();*/
+
     }
 
     public void init(GLAutoDrawable drawable) {
@@ -119,8 +150,8 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
 
         // Light
         float	ambient[] = {0.7f,0.7f,0.7f,1.0f};
-        float	diffuse0[] = {1f,0f,0f,1.0f};
-        float	diffuse1[] = {0f,0f,1f,1.0f};
+        float	diffuse0[] = {0f,0f,0f,1.0f};
+        float	diffuse1[] = {0f,0f,0f,1.0f};
 
 
         gl.glShadeModel(GL2.GL_SMOOTH);
@@ -134,8 +165,23 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         gl.glEnable(GL2.GL_LIGHT1);
 
         gl.glEnable(GL2.GL_LIGHTING);
-        jack = loader.LoadModelToGL("objects/JackSparrow/Jack_Sparrow.obj",gl);
+        //jack = loader.LoadModelToGL("objects/JackSparrow/Jack_Sparrow.obj",gl);
+        //AK47 = loader.LoadModelToGL("objects/AK_47/Ak-47.obj",gl);
+        //oldPirate = loader.LoadModelToGL("objects/RzR/rzr.obj",gl);
+        Sword sword = new Sword("objects/RzR/rzr.obj");
+        sword.create(loader,gl);
+        sword.translate(0f,5f,-10f);
+        sword.scale(0.01f,0.01f,0.01f);
 
+        sword.rotate(45,'x');
+        sword.rotate(-45,'y');
+        //sword.rotate(90,'z');
+
+        models.add(sword);
+        //sword.rotate(-90,'z');
+        /*gl.glTranslatef(0,5,-10);
+        gl.glScalef(0.01f,0.01f,0.01f);
+        gl.glRotatef(-90,0,1,1);*/
         // create the model
         models.addAll(createWalls(gl));
         Cube cube1 = new Cube(-20,0,-20,5);
@@ -244,8 +290,8 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
                                boolean modeChanged, boolean deviceChanged) {
     }
 
-    public ArrayList<Model> createWalls(GL2 gl){
-        ArrayList<Model> models = new ArrayList<>();
+    public ArrayList<IModel> createWalls(GL2 gl){
+        ArrayList<IModel> models = new ArrayList<>();
 
         Wall front = new Wall(-20,0,-20,'x',10,40);
         front.setTex(walls);

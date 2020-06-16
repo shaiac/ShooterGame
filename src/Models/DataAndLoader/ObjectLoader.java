@@ -138,6 +138,7 @@ public class ObjectLoader {
             String line = null;
             String mtl = null;
             while ((line = br.readLine()) != null) {
+                line = line.trim();
                 if (line.startsWith("#")) { //read any descriptor data in the file
                     // Zzzz ...
                 } else if (line.equals("")) {
@@ -183,7 +184,7 @@ public class ObjectLoader {
             String data[] = texPath.split("\\.");
             return TextureIO.newTexture(myis, true, data[1]);
         } catch(Exception e){
-
+            System.out.println(e.getMessage());
         }
         return null;
     }

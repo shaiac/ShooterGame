@@ -10,7 +10,7 @@ import com.jogamp.opengl.util.texture.Texture;
 
 import javax.media.opengl.GL2;
 
-public class Cube implements Model {
+public class Cube extends Model {
     private float x,y,z;
     private float width;
     private int list;
@@ -21,27 +21,6 @@ public class Cube implements Model {
         this.y = y;
         this.z = z;
         this.width = width;
-    }
-
-    public void translate(float x, float y,float z){
-        float dx= x-this.x;
-        float dy = y-this.y;
-        float dz = z-this.z;
-        float[] trans = {dx,dy,dz};
-        data.Translate(trans);
-    }
-    public void rotate(float angle,char axis){
-        if(axis == 'x'){
-            data.setAngleX(angle);
-        }if(axis == 'y'){
-            data.setAngleY(angle);
-        }if(axis == 'z'){
-            data.setAngleZ(angle);
-        }
-    }
-    public void scale(float x,float y,float z){
-        float[] scale = {x,y,z};
-        data.Scale(scale);
     }
 
     public void setTexture(Texture texture) {

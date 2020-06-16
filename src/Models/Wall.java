@@ -10,7 +10,7 @@ import com.jogamp.opengl.util.texture.Texture;
 
 import javax.media.opengl.GL2;
 
-public class Wall implements Model {
+public class Wall extends Model {
     private float x,y,z;
     private char axis;
     private float width,length;
@@ -32,7 +32,7 @@ public class Wall implements Model {
         data.setTextureWrap(GL2.GL_REPEAT);
     }
 
-    public void setX(float x) {
+    /*public void setX(float x) {
         this.x = x;
     }
 
@@ -42,7 +42,7 @@ public class Wall implements Model {
 
     public void setZ(float z) {
         this.z = z;
-    }
+    }*/
 
     public void setColor(float red, float green, float blue){
         this.color = new float[3];
