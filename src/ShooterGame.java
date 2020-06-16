@@ -42,6 +42,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
     private List<Vector> wall;
     private ArrayList<ObjData> jack;
     private ObjectLoader loader = new ObjectLoader();
+    private List<Model> models = new ArrayList<>();
 
     public ShooterGame() {
         this.cooSystem =  new CoordinateSystem();
@@ -73,15 +74,6 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
 
         glu.gluLookAt(origin.get(0), origin.get(1), origin.get(2), lookat.get(0), lookat.get(1), lookat.get(2), y.getVec()[0], y.getVec()[1], y.getVec()[2]);
 
-        // create the model
-        ArrayList<Model> models = new ArrayList<>();
-        models.addAll(createWalls());
-        Cube cube1 = new Cube(-20,0,-20,5);
-        cube1.setTexture(cube);
-        models.add(cube1);
-        Cube cube2 = new Cube(15,0,-20,5);
-        cube2.setTexture(cube);
-        models.add(cube2);
 
         for (Model model:models) {
             model.draw(gl);
@@ -143,6 +135,17 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
 
         gl.glEnable(GL2.GL_LIGHTING);
         jack = loader.LoadModelToGL("objects/JackSparrow/Jack_Sparrow.obj",gl);
+
+        // create the model
+        models.addAll(createWalls(gl));
+        Cube cube1 = new Cube(-20,0,-20,5);
+        cube1.setTexture(cube);
+        cube1.create(gl);
+        models.add(cube1);
+        Cube cube2 = new Cube(15,0,-20,5);
+        cube2.setTexture(cube);
+        cube2.create(gl);
+        models.add(cube2);
         if (drawable instanceof Window) {
             Window window = (Window) drawable;
             window.addKeyListener(this);
@@ -241,36 +244,42 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
                                boolean modeChanged, boolean deviceChanged) {
     }
 
-    public ArrayList<Model> createWalls(){
+    public ArrayList<Model> createWalls(GL2 gl){
         ArrayList<Model> models = new ArrayList<>();
 
         Wall front = new Wall(-20,0,-20,'x',10,40);
         front.setTex(walls);
+        front.create(gl);
         models.add(front);
 
 
         Wall back = new Wall(-20.0f,0.0f,20.0f,'x',10,40);
         back.setTex(walls);
+        back.create(gl);
         models.add(back);
 
 
         Wall right = new Wall(20.0f,0.0f,-20.0f,'z',10,40);
         right.setTex(walls);
+        right.create(gl);
         models.add(right);
 
 
         Wall left = new Wall(-20.0f,0.0f,-20.0f,'z',10,40);
         left.setTex(walls);
+        left.create(gl);
         models.add(left);
 
 
         Wall top = new Wall(-20.0f,10.0f,-20.0f,'y',40,40);
         top.setTex(topWall);
+        top.create(gl);
         models.add(top);
 
 
         Wall bottom= new Wall(-20.0f,0.0f,-20.0f,'y',40,40);
         bottom.setTex(bottomWall);
+        bottom.create(gl);
         models.add(bottom);
 
         return models;
