@@ -5,6 +5,7 @@ Shai Acoca 315314278
  */
 package Models;
 
+import Models.DataAndLoader.ObjData;
 import com.jogamp.opengl.util.texture.Texture;
 
 import javax.media.opengl.GL2;
@@ -15,6 +16,8 @@ public class Wall implements Model {
     private float width,length;
     private Texture tex;
     private float color[];
+    private int list;
+    private ObjData data = new ObjData();
     public Wall(float x,float y,float z,char axis,float width,float length){
         this.x = x;
         this.y = y;
@@ -25,7 +28,8 @@ public class Wall implements Model {
     }
 
     public void setTex(Texture tex) {
-        this.tex = tex;
+        data.setTexture(tex);
+        data.setTextureWrap(GL2.GL_REPEAT);
     }
 
     public void setX(float x) {
@@ -46,18 +50,16 @@ public class Wall implements Model {
         this.color[1] = green;
         this.color[2] = blue;
     }
-    @Override
-    public void draw(GL2 gl){
-        tex.bind(gl);
-        gl.glTexParameteri ( GL2.GL_TEXTURE_2D,GL2.GL_TEXTURE_WRAP_S, GL2.GL_REPEAT);
-        gl.glTexParameteri( GL2.GL_TEXTURE_2D,GL2.GL_TEXTURE_WRAP_T, GL2.GL_REPEAT);
-        float texwidth = length/5.f;
-        float texhieght = width/5.f;
+    public void create(GL2 gl){
+        float texwidth = length/40.f;
+        float texhieght = width/10.f;
+
+        list = gl.glGenLists(1);
+        gl.glNewList(list,GL2.GL_COMPILE);
         gl.glBegin(GL2.GL_QUADS);
         if(color != null){
             gl.glColor3f(color[0],color[1],color[2]);
         }
-
         //texture2.bind(gl);
         gl.glTexCoord2f(0.0f,0.0f);
         gl.glVertex3f(x,y,z);
@@ -89,6 +91,15 @@ public class Wall implements Model {
         gl.glTexCoord2f(texwidth,0f);
         gl.glVertex3f(x,y,z);
         gl.glEnd();
+        gl.glEndList();
+        data.setList(list);
+    }
+    @Override
+    public void draw(GL2 gl){
+        data.draw(gl);
+        //tex.bind(gl);
+
+
     }
 
 }
