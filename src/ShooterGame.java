@@ -16,6 +16,8 @@ import javax.media.opengl.glu.GLU;
 import CollisionDetection.PointPolygonIntersection;
 import LinearMath.Vector;
 import Models.Cube;
+import Models.DataAndLoader.ObjData;
+import Models.DataAndLoader.ObjectLoader;
 import Models.Wall;
 import Models.Model;
 import com.jogamp.newt.Window;
@@ -38,13 +40,14 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
     private static Animator animator;
     private PointPolygonIntersection ppi;
     private List<Vector> wall;
-
+    private ArrayList<ObjData> jack;
+    private ObjectLoader loader = new ObjectLoader();
 
     public ShooterGame() {
         this.cooSystem =  new CoordinateSystem();
         glu = new GLU();
         canvas = new GLCanvas();
-        frame = new Frame("ShooterGame");
+        frame = new Frame("ThePirateShip");
         animator = new Animator(canvas);
         ppi = new PointPolygonIntersection();
         initWall();
@@ -80,10 +83,17 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         cube2.setTexture(cube);
         models.add(cube2);
 
-        for (Model model:models
-             ) {
+        for (Model model:models) {
             model.draw(gl);
         }
+        gl.glPushMatrix();
+        gl.glTranslatef(-150,-100,-300);
+        //gl.glScalef(1/2,1/2,1/2);
+        gl.glRotatef(90,0,1,0);
+        for(ObjData obj:jack){
+            obj.draw(gl);
+        }
+        gl.glPopMatrix();
     }
 
     public void init(GLAutoDrawable drawable) {
@@ -99,11 +109,12 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         try {
             String filename="resources/Picture1.jpg"; // the FileName to open
             cube=TextureIO.newTexture(new File( filename ),true);
-            filename="resources/Picture2.jpg";
+            //filename="resources/Picture2.jpg";
+            filename="resources/woodenWall.jpg";
             walls=TextureIO.newTexture(new File( filename ),true);
-            filename="resources/TopWall.jpg";
+            filename="resources/woodenWall.jpg";
             topWall=TextureIO.newTexture(new File( filename ),true);
-            filename="resources/BottomWall.jpg";
+            filename="resources/woodenWall.jpg";
             bottomWall=TextureIO.newTexture(new File( filename ),true);
 
         } catch (IOException e) {
@@ -131,7 +142,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         gl.glEnable(GL2.GL_LIGHT1);
 
         gl.glEnable(GL2.GL_LIGHTING);
-
+        jack = loader.LoadModelToGL("objects/JackSparrow/Jack_Sparrow.obj",gl);
         if (drawable instanceof Window) {
             Window window = (Window) drawable;
             window.addKeyListener(this);
