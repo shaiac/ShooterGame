@@ -5,6 +5,7 @@ Shai Acoca 315314278
  */
 package Models;
 
+import Models.DataAndLoader.ObjData;
 import com.jogamp.opengl.util.texture.Texture;
 
 import javax.media.opengl.GL2;
@@ -12,7 +13,8 @@ import javax.media.opengl.GL2;
 public class Cube implements Model {
     private float x,y,z;
     private float width;
-    private Texture texture;
+    private int list;
+    private ObjData data = new ObjData();
 
     public Cube(float x, float y,float z,float width){
         this.x = x;
@@ -21,29 +23,35 @@ public class Cube implements Model {
         this.width = width;
     }
 
-    public void setX(float x) {
-        this.x = x;
+    public void translate(float x, float y,float z){
+        float dx= x-this.x;
+        float dy = y-this.y;
+        float dz = z-this.z;
+        float[] trans = {dx,dy,dz};
+        data.Translate(trans);
     }
-
-    public void setY(float y) {
-        this.y = y;
+    public void rotate(float angle,char axis){
+        if(axis == 'x'){
+            data.setAngleX(angle);
+        }if(axis == 'y'){
+            data.setAngleY(angle);
+        }if(axis == 'z'){
+            data.setAngleZ(angle);
+        }
     }
-
-    public void setZ(float z) {
-        this.z = z;
+    public void scale(float x,float y,float z){
+        float[] scale = {x,y,z};
+        data.Scale(scale);
     }
 
     public void setTexture(Texture texture) {
-        this.texture = texture;
+        data.setTexture(texture);
+        data.setTextureWrap(GL2.GL_REPEAT);
     }
-
-    @Override
-    public void draw(GL2 gl) {
-        texture.bind(gl);
-        gl.glTexParameteri ( GL2.GL_TEXTURE_2D,GL2.GL_TEXTURE_WRAP_S, GL2.GL_REPEAT);
-        gl.glTexParameteri( GL2.GL_TEXTURE_2D,GL2.GL_TEXTURE_WRAP_T, GL2.GL_REPEAT);
+    public void create(GL2 gl){
+        list = gl.glGenLists(1);
+        gl.glNewList(list,GL2.GL_COMPILE);
         gl.glBegin(GL2.GL_QUADS);
-        // front Face
         gl.glTexCoord2f(0.0f, 0.0f);
         gl.glVertex3f(x, y, z+width);
         gl.glTexCoord2f(2f, 0.0f);
@@ -98,5 +106,11 @@ public class Cube implements Model {
         gl.glTexCoord2f(0.0f, 1.0f);
         gl.glVertex3f(x, y, z+width);
         gl.glEnd();
+        gl.glEndList();
+        data.setList(list);
+    }
+    @Override
+    public void draw(GL2 gl) {
+        data.draw(gl);
     }
 }
