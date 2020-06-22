@@ -62,7 +62,6 @@ public class ObjData {
 
     public void draw(GL2 gl){
         gl.glPushMatrix();
-        //gl.glLoadIdentity();
         gl.glTexParameteri ( GL2.GL_TEXTURE_2D,GL2.GL_TEXTURE_WRAP_S, textureWrap);
         gl.glTexParameteri( GL2.GL_TEXTURE_2D,GL2.GL_TEXTURE_WRAP_T, textureWrap);
 

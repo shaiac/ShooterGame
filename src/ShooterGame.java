@@ -18,7 +18,7 @@ import LinearMath.Vector;
 import Models.Cube;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
-import Models.Sword;
+import Models.Weapons.Sword;
 import Models.Wall;
 import Models.IModel;
 import com.jogamp.newt.Window;
@@ -46,8 +46,12 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
     private List<ObjData> oldPirate;
     private ObjectLoader loader = new ObjectLoader();
     private List<IModel> models = new ArrayList<>();
+    private Character character;
+    private Sword sword;
 
     public ShooterGame() {
+
+
         this.cooSystem =  new CoordinateSystem();
         glu = new GLU();
         canvas = new GLCanvas();
@@ -71,7 +75,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
 
         glu.gluLookAt(origin.get(0), origin.get(1), origin.get(2), lookat.get(0), lookat.get(1), lookat.get(2), y.getVec()[0], y.getVec()[1], y.getVec()[2]);
 
-
+        character.draw();
         for (IModel model : models) {
             model.draw(gl);
         }
@@ -126,15 +130,16 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         //jack = loader.LoadModelToGL("objects/JackSparrow/Jack_Sparrow.obj",gl);
         //AK47 = loader.LoadModelToGL("objects/AK_47/Ak-47.obj",gl);
         //oldPirate = loader.LoadModelToGL("objects/RzR/rzr.obj",gl);
-        Sword sword = new Sword("objects/RzR/rzr.obj");
+        sword = new Sword("objects/RzR/rzr.obj");
         sword.create(loader,gl);
-        sword.translate(0f,5f,-10f);
+        sword.translate(1f,0f,0f);
         sword.scale(0.01f,0.01f,0.01f);
         sword.rotate(45,'x');
         sword.rotate(-45,'y');
-        sword.rotate(90,'z');
-        models.add(sword);
+        sword.rotate(45,'z');
 
+        //models.add(sword);
+        this.character = new Character(sword,this.cooSystem,gl);
         //create the room
         models.addAll(createWalls(gl));
         Cube cube1 = new Cube(-20,0,-20,5);
@@ -171,31 +176,14 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
     }
 
     public void keyPressed(KeyEvent e) {
-        float step = 0.5f;
-        double angle = 0.05;
+
         int keyPressed = e.getKeyCode();
-        switch (keyPressed) {
-            case KeyEvent.VK_UP:
-                if (!ppi.checkIntersection(cooSystem.getOrigin(), wall)) {
-                    cooSystem.moveStep('z', -step);
-                }
-                break;
-            case KeyEvent.VK_LEFT:
-                cooSystem.moveStep('x', -step);
-                break;
-            case KeyEvent.VK_RIGHT:
-                cooSystem.moveStep('x', step);
-                break;
-            case KeyEvent.VK_DOWN:
-                cooSystem.moveStep('z', step);
-                break;
-            case KeyEvent.VK_D:
-                cooSystem.rotate('y', angle);
-                break;
-            case KeyEvent.VK_A:
-                cooSystem.rotate('y', -angle);
-                break;
+        if(keyPressed == KeyEvent.VK_Q){
+            character.attack();
+        }else{
+            character.walk(keyPressed);
         }
+
     }
 
     public void keyReleased(KeyEvent e) {
