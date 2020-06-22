@@ -4,8 +4,11 @@ import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
 
 import javax.media.opengl.GL2;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Sword extends Weapon {
+    private List<float[]> colPoints= new ArrayList<>();
     private String path;
     private boolean attackMode = false;
     private float fps;
@@ -15,6 +18,7 @@ public class Sword extends Weapon {
     private float rChange;
     private long startTime;
     private long endTime;
+    private long milliseconds;
     public Sword(String inPath){
 
         this.path = inPath;
@@ -36,42 +40,48 @@ public class Sword extends Weapon {
         }
         if(attackMode){
             endTime = System.currentTimeMillis();
-            long milliseconds = endTime- startTime;
+            milliseconds = endTime- startTime;
             change = (1f/2000f)*milliseconds;
-            rChange = (90f/2000f)*milliseconds;
+
             for (ObjData obj:data) {
-                moveSword();
+                moveSword(gl);
             }
             time += milliseconds;
-            /*try {
-
-                Thread.sleep((long) (1/fps*1000));
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }*/
             if(time >= duration){
                 attackMode = false;
                 time = 0;
+                rChange = 0f;
             }
             startTime = endTime;
         }
+        gl.glPushMatrix();
         for (ObjData obj:data) {
             obj.draw(gl);
         }
+        gl.glPopMatrix();
 
     }
-    private void moveSword() {
+    private void moveSword(GL2 gl) {
         if(time <= duration/2){
-            translate(-change,-change,0f);
-            rotate(-rChange,'x');
-            rotate(rChange,'y');
+            rChange += (60f/2000f)*milliseconds;
+            //translate(-change,-change,0f);
+            gl.glTranslatef(-0.5f,-0.5f,0.5f);
+            gl.glRotatef(-rChange,1,0,0);
+            gl.glRotatef(rChange,0,1,0);
+            gl.glTranslatef(0.5f,0.5f,-0.5f);
+            //rotate(-rChange,'x');
+            //rotate(rChange,'y');
         }else{
-            translate(change, change,0f);
-            rotate(rChange,'x');
-            rotate(-rChange,'y');
+            rChange -= (60f/2000f)*milliseconds;
+            //translate(change, change,0f);
+            gl.glTranslatef(-0.5f,-0.5f,0.5f);
+            gl.glRotatef(-rChange,1,0,0);
+            gl.glRotatef(rChange,0,1,0);
+            gl.glTranslatef(0.5f,0.5f,-0.5f);
+            //rotate(rChange,'x');
+            //rotate(-rChange,'y');
         }
     }
-
     @Override
     public void attack() {
         attackMode = true;

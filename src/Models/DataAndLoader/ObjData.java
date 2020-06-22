@@ -64,17 +64,19 @@ public class ObjData {
         gl.glPushMatrix();
         gl.glTexParameteri ( GL2.GL_TEXTURE_2D,GL2.GL_TEXTURE_WRAP_S, textureWrap);
         gl.glTexParameteri( GL2.GL_TEXTURE_2D,GL2.GL_TEXTURE_WRAP_T, textureWrap);
-
-
         gl.glTranslatef(translate[0],translate[1],translate[2]);
-        gl.glScalef(scale[0],scale[1],scale[2]);
+
+
 
         gl.glRotatef(angleX,1,0,0);
         gl.glRotatef(angleY,0,1,0);
         gl.glRotatef(angleZ,0,0,1);
+
+        gl.glScalef(scale[0],scale[1],scale[2]);
+
         if(texture != null)
             texture.bind(gl);
-//TODO add material handler
+        //TODO add material handler
         gl.glCallList(list);
         gl.glPopMatrix();
 

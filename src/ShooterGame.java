@@ -76,9 +76,19 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         glu.gluLookAt(origin.get(0), origin.get(1), origin.get(2), lookat.get(0), lookat.get(1), lookat.get(2), y.getVec()[0], y.getVec()[1], y.getVec()[2]);
 
         character.draw();
+        /*gl.glPushMatrix();
+        gl.glRotatef(90,1,0,0);
+        gl.glTranslatef(0,0,-3);
+
+        sword.draw(gl);
+        gl.glPopMatrix();*/
+        gl.glPushMatrix();
+
+
         for (IModel model : models) {
             model.draw(gl);
         }
+        gl.glPopMatrix();
     }
 
     public void init(GLAutoDrawable drawable) {
@@ -137,6 +147,8 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         sword.rotate(45,'x');
         sword.rotate(-45,'y');
         sword.rotate(45,'z');
+
+
 
         //models.add(sword);
         this.character = new Character(sword,this.cooSystem,gl);

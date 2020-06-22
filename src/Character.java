@@ -11,6 +11,7 @@ public class Character {
     private int ammu;
     private Weapon currentWeapon;
     private double totalRotation = 0;
+    private float deg;
 
     public Character(Weapon startWeapon,CoordinateSystem cooSystem,GL2 gl) {
         this.cooSystem = cooSystem;
@@ -29,9 +30,12 @@ public class Character {
     }
     public void draw(){
         gl.glPushMatrix();
-        gl.glRotatef((float) Math.toDegrees(totalRotation),0,1,0);
+        deg = (float) Math.toDegrees(totalRotation);
+
         gl.glTranslatef((float) cooSystem.getOrigin().getVec()[0],(float) cooSystem.getOrigin().getVec()[1],(float) cooSystem.getOrigin().getVec()[2]);
-        gl.glTranslatef(0,0,-2);
+        gl.glRotatef(deg,0,1,0);
+        gl.glTranslatef(0,0,-1.9f);
+
 
 
         currentWeapon.draw(gl);
@@ -62,11 +66,11 @@ public class Character {
                 break;
             case KeyEvent.VK_D:
                 cooSystem.rotate('y', angle);
-                this.totalRotation += angle;
+                this.totalRotation -= angle;
                 break;
             case KeyEvent.VK_A:
                 cooSystem.rotate('y', -angle);
-                this.totalRotation -=angle;
+                this.totalRotation +=angle;
                 break;
 
 
