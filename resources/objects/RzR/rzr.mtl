@@ -1,0 +1,8 @@
+newmtl Line01
+map_Kd razor.jpg
+
+newmtl Rec01
+map_Kd razorgrip.jpg
+
+#newmtl plane01
+#map_kd razorgrip.jpg

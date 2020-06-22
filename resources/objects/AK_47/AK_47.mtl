@@ -1,0 +1,8 @@
+#
+#
+
+newmtl AK_47
+map_Kd ak-47.jpg
+
+newmtl Round_2
+map_Kd ak-47-round.jpg
