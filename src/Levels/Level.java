@@ -12,6 +12,7 @@ public class Level {
         rooms = new ArrayList<>();
         numberOfRooms = 0;
     }
+    //read and build the level
     public void BuildLevel(String levelDefinition) {
         Reader reader = null;
         try {
