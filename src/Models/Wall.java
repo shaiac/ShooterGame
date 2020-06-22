@@ -32,18 +32,6 @@ public class Wall extends Model {
         data.setTextureWrap(GL2.GL_REPEAT);
     }
 
-    /*public void setX(float x) {
-        this.x = x;
-    }
-
-    public void setY(float y) {
-        this.y = y;
-    }
-
-    public void setZ(float z) {
-        this.z = z;
-    }*/
-
     public void setColor(float red, float green, float blue){
         this.color = new float[3];
         this.color[0] = red;

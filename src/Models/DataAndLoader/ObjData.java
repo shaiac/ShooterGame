@@ -40,7 +40,6 @@ public class ObjData {
     public void setAngleZ(float angleZ) {
         this.angleZ += angleZ;
     }
-
     public void Scale(float[] change){
         if(change.length!= 3){
             System.out.println("change need to have x,y,z");
