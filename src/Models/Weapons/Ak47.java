@@ -14,6 +14,15 @@ public class Ak47 extends Weapon{
     private ObjectLoader loader;
     private Magazine magazine;
     private List<Bullet> bulletsFired;
+    private boolean attackMode = false;
+    private float duration = 500f;
+    private float time;
+    private float change = 0;
+    private float rChange = 0;
+    private long startTime = 0;
+    private long endTime = 0;
+    private long milliseconds;
+    private boolean shot = false;
     public Ak47(String inPath) {
         this.path = inPath;
         ammu = 20;
@@ -36,11 +45,31 @@ public class Ak47 extends Weapon{
     @Override
     public void draw(GL2 gl) {
         gl.glPushMatrix();
+        gl.glTranslatef(0, -0.5f ,-2f);
         if (bulletsFired.size() != 0) {
             drawAllBulletsFired(gl);
         }
+        gl.glPopMatrix();
+        gl.glPushMatrix();
         if(!picked){
             //drawUnpicked();
+        }
+        if(attackMode){
+            endTime = System.currentTimeMillis();
+            milliseconds = endTime- startTime;
+            change = (1f/duration)*milliseconds;
+
+            for (ObjData obj:data) {
+                moveGun(gl);
+            }
+            time += milliseconds;
+            if(time >= duration){
+                shot = false;
+                attackMode = false;
+                time = 0;
+                rChange = 0f;
+            }
+            startTime = endTime;
         }
         for (ObjData obj:data) {
             obj.draw(gl);
@@ -50,7 +79,8 @@ public class Ak47 extends Weapon{
 
     @Override
     public void attack() {
-        bulletsFired.add(magazine.shotBullet());
+        attackMode = true;
+        startTime = System.currentTimeMillis();
     }
 
     @Override
@@ -61,5 +91,21 @@ public class Ak47 extends Weapon{
     @Override
     public void addAmmu() {
 
+    }
+
+    private void moveGun(GL2 gl) {
+        if(time <= duration/2){
+            rChange -= (5f/duration)*milliseconds;
+            gl.glRotatef(rChange,0,1,0);
+            //gl.glTranslatef(0.5f,0.5f,-0.5f);
+        }else{
+            if (!shot) {
+                shot = true;
+                bulletsFired.add(magazine.shotBullet());
+            }
+            rChange += (5f/duration)*milliseconds;
+            gl.glRotatef(rChange,0,1,0);
+
+        }
     }
 }

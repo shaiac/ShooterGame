@@ -23,7 +23,7 @@ public class Bullet extends Model {
     @Override
     public void draw(GL2 gl) {
         gl.glPushMatrix();
-        move -= 0.001;
+        move -= 0.1;
         gl.glTranslatef(startPos[0],startPos[1],startPos[2] + move);
         gl.glScalef(0.08f, 0.08f, 0.08f);
         for (ObjData obj:data) {
