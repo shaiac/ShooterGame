@@ -44,15 +44,13 @@ public class Level {
                 } if (data.contains("OldPirate")) {
                     //rooms.get(roomNumber - 1).AddModel(createOldPirate(data));
                 } if (data.contains("AK_47")) {
-                    //rooms.get(roomNumber - 1).AddModel(new Ak_47(data));
+                    //rooms.get(roomNumber - 1).AddModel(new Ak47(data));
                 } if (data.contains("Barrel")) {
                     //rooms.get(roomNumber - 1).AddModel(new Barrel(data));
                 } if (data.contains("Cannon")) {
                     //rooms.get(roomNumber - 1).AddModel(new Cannon(data));
                 } if (data.contains("JackSparrow")) {
                     //rooms.get(roomNumber - 1).AddModel(new JackSparrow(data));
-                } if (data.contains("Rzr")) {
-                    //rooms.get(roomNumber - 1).AddModel(new RzR(data));
                 } if (data.contains("Shotgun")) {
                     //rooms.get(roomNumber - 1).AddModel(new Shotgun(data));
                 } if (data.contains("Sword")) {

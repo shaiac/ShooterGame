@@ -26,7 +26,6 @@ public class Character {
         }
         weapons.add(currentWeapon);
         currentWeapon = weapons.poll();
-
     }
     public void draw(){
         gl.glPushMatrix();
@@ -72,8 +71,10 @@ public class Character {
                 cooSystem.rotate('y', -angle);
                 this.totalRotation +=angle;
                 break;
-
-
         }
+    }
+
+    public void AddWeapon(Weapon newWeapon) {
+        weapons.add(newWeapon);
     }
 }

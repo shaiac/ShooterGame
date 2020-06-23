@@ -18,6 +18,8 @@ import LinearMath.Vector;
 import Models.Cube;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
+import Models.Weapons.Ak47;
+import Models.Weapons.Shotgun;
 import Models.Weapons.Sword;
 import Models.Wall;
 import Models.IModel;
@@ -42,7 +44,6 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
     private PointPolygonIntersection ppi;
     private List<Vector> wall;
     private ArrayList<ObjData> jack;
-    private List<ObjData> AK47;
     private List<ObjData> oldPirate;
     private ObjectLoader loader = new ObjectLoader();
     private List<IModel> models = new ArrayList<>();
@@ -50,8 +51,6 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
     private Sword sword;
 
     public ShooterGame() {
-
-
         this.cooSystem =  new CoordinateSystem();
         glu = new GLU();
         canvas = new GLCanvas();
@@ -140,6 +139,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         //jack = loader.LoadModelToGL("objects/JackSparrow/Jack_Sparrow.obj",gl);
         //AK47 = loader.LoadModelToGL("objects/AK_47/Ak-47.obj",gl);
         //oldPirate = loader.LoadModelToGL("objects/RzR/rzr.obj",gl);
+
         sword = new Sword("objects/RzR/rzr.obj");
         sword.create(loader,gl);
         sword.translate(1f,0f,0f);
@@ -148,10 +148,24 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         sword.rotate(-45,'y');
         sword.rotate(45,'z');
 
+        Ak47 AK_47 = new Ak47("objects/AK_47/Ak-47.obj");
+        AK_47.create(loader, gl);
+        AK_47.translate(0.5f,-1f,0.2f);
+        AK_47.scale(0.01f,0.01f,0.01f);
+        AK_47.rotate(50,'x');
+        AK_47.rotate(-70,'y');
+        AK_47.rotate(45,'z');
 
+        Shotgun shotgun = new Shotgun("objects/Shotgun/GunTwo.obj");
+        shotgun.create(loader, gl);
+        shotgun.translate(0.5f,-1f,-0.1f);
+        shotgun.scale(7f,7f,7f);
+        //shotgun.rotate(30,'x');
+        shotgun.rotate(180,'y');
+        shotgun.rotate(10,'z');
 
         //models.add(sword);
-        this.character = new Character(sword,this.cooSystem,gl);
+        this.character = new Character(shotgun,this.cooSystem,gl);
         //create the room
         models.addAll(createWalls(gl));
         Cube cube1 = new Cube(-20,0,-20,5);
