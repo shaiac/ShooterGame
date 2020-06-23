@@ -7,10 +7,10 @@ import java.util.List;
 
 public class Level {
     private List<Room> rooms;
-    private int numberOfRooms;
+    private int roomNumber;
     public Level() {
         rooms = new ArrayList<>();
-        numberOfRooms = 0;
+        roomNumber = 0;
     }
     //read and build the level
     public void BuildLevel(String levelDefinition) {
@@ -37,11 +37,26 @@ public class Level {
             while ((data = buffer.readLine()) != null) {
                 data = data.trim();
                 if (data.contains("ROOM")) {
-                    rooms.add(numberOfRooms, new Room());
-                    numberOfRooms++;
+                    rooms.add(roomNumber, new Room());
+                    roomNumber++;
                 } if (data.contains("wall")) {
-                    Wall wall = createWall(data);
-                    rooms.get(numberOfRooms - 1).AddModel(createWall(data));
+                    rooms.get(roomNumber - 1).AddModel(createWall(data));
+                } if (data.contains("OldPirate")) {
+                    //rooms.get(roomNumber - 1).AddModel(createOldPirate(data));
+                } if (data.contains("AK_47")) {
+                    //rooms.get(roomNumber - 1).AddModel(new Ak_47(data));
+                } if (data.contains("Barrel")) {
+                    //rooms.get(roomNumber - 1).AddModel(new Barrel(data));
+                } if (data.contains("Cannon")) {
+                    //rooms.get(roomNumber - 1).AddModel(new Cannon(data));
+                } if (data.contains("JackSparrow")) {
+                    //rooms.get(roomNumber - 1).AddModel(new JackSparrow(data));
+                } if (data.contains("Rzr")) {
+                    //rooms.get(roomNumber - 1).AddModel(new RzR(data));
+                } if (data.contains("Shotgun")) {
+                    //rooms.get(roomNumber - 1).AddModel(new Shotgun(data));
+                } if (data.contains("Sword")) {
+                    //rooms.get(roomNumber - 1).AddModel(new Sword(data));
                 }
             }
         } catch (IOException e) {
