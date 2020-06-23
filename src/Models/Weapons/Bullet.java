@@ -15,7 +15,7 @@ public class Bullet extends Model {
     @Override
     public void create(ObjectLoader loader, GL2 gl, float[] startPos) {
         this.data = loader.LoadModelToGL(path, gl);
-        this.translate(1f,0f,0f);
+        //this.translate(0f,0f,0f);
         this.startPos = startPos;
     }
 
@@ -24,7 +24,7 @@ public class Bullet extends Model {
         gl.glPushMatrix();
         move -= 0.001;
         gl.glTranslatef(startPos[0],startPos[1],startPos[2] + move);
-        //gl.glScalef(0.05f, 0.05f, 0.05f);
+        gl.glScalef(0.08f, 0.08f, 0.08f);
         for (ObjData obj:data) {
             obj.draw(gl);
         }
