@@ -49,7 +49,6 @@ public class Wall extends Model {
         if(color != null){
             gl.glColor3f(color[0],color[1],color[2]);
         }
-        //texture2.bind(gl);
         gl.glTexCoord2f(0.0f,0.0f);
         gl.glVertex3f(x,y,z);
         gl.glTexCoord2f(0f,texhieght);
@@ -86,9 +85,6 @@ public class Wall extends Model {
     @Override
     public void draw(GL2 gl){
         data.draw(gl);
-        //tex.bind(gl);
-
-
     }
 
 }

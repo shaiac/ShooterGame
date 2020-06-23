@@ -2,10 +2,27 @@
 
 ROOM_ONE
      //x //y //z //axis //width //length //texture
-wall -20 0 -20 x 10 40 woodenWall.jpg
-wall -20 0 -20 x 10 40 woodenWall.jpg
-wall -20 0 -20 x 10 40 woodenWall.jpg
-wall -20 0 -20 x 10 40 woodenWall.jpg
-// More Models
+wall -60 0 -20 x 10 55 resources/woodenWall.jpg
+wall 5 0 -20 x 10 55 resources/woodenWall.jpg
+wall -20 0 20 x 10 40 resources/woodenWall.jpg
+wall 20 0 -20 z 10 40 resources/woodenWall.jpg
+wall -20 0 -20 z 10 40 resources/woodenWall.jpg
+wall -20 10 -20 y 40 40 resources/woodenWall.jpg
+wall -20 0 -20 y 40 40 resources/woodenWall.jpg
+AK_47 objects/AK_47/Ak-47.obj -15 5 0
+Shotgun objects/Shotgun/GunTwo.obj 15 5 0
+Barrel objects/barrel/barrel_obj.obj -18 0 -18
+Barrel objects/barrel/barrel_obj.obj 18 0 -18
 
 ROOM_TWO
+wall -60 0 -100 z 10 80 resources/woodenWall.jpg
+wall 60 0 -100 z 10 80 resources/woodenWall.jpg
+wall -60 0 -100 x 10 120 resources/woodenWall.jpg
+wall -60 0 -100 y 120 120 resources/woodenWall.jpg
+wall -60 10 -100 y 120 120 resources/woodenWall.jpg
+Barrel objects/barrel/barrel_obj.obj -50 0 -80
+Barrel objects/barrel/barrel_obj.obj 40 0 -70
+Barrel objects/barrel/barrel_obj.obj 50 0 -95
+Barrel objects/barrel/barrel_obj.obj 69 0 62
+
+

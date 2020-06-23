@@ -100,7 +100,6 @@ public class Ak47 extends Weapon {
         if(time <= duration/2){
             rChange -= (5f/duration)*milliseconds;
             gl.glRotatef(rChange,0,1,0);
-            //gl.glTranslatef(0.5f,0.5f,-0.5f);
         }else{
             if (!shot) {
                 shot = true;

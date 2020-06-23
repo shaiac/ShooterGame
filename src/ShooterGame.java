@@ -14,6 +14,8 @@ import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.glu.GLU;
 
 import CollisionDetection.PointPolygonIntersection;
+import Levels.GameLevels;
+import Levels.Level;
 import LinearMath.Vector;
 import Models.Cube;
 import Models.DataAndLoader.ObjData;
@@ -45,7 +47,6 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
     private static Frame frame;
     private static Animator animator;
     private PointPolygonIntersection ppi;
-    private List<Vector> wall;
     private ArrayList<ObjData> jack;
     private List<ObjData> oldPirate;
     private ObjectLoader loader = new ObjectLoader();
@@ -53,7 +54,8 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
     private Character character;
     private Sword sword;
     private TextRenderer renderer;
-
+    private GameLevels gameLevels;
+    private Level level;
     public ShooterGame() {
         this.cooSystem =  new CoordinateSystem();
         glu = new GLU();
@@ -61,14 +63,13 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         frame = new Frame("ThePirateShip");
         animator = new Animator(canvas);
         ppi = new PointPolygonIntersection();
-        initWall();
+        gameLevels = new GameLevels();
     }
 
     public void display(GLAutoDrawable gLDrawable) {
         final GL2 gl = gLDrawable.getGL().getGL2();
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();  // Reset The View
-        //gl.glTranslatef(0.0f, 0.0f, -5.0f);
         gl.glTexParameteri ( GL2.GL_TEXTURE_2D,GL2.GL_TEXTURE_WRAP_S, GL2.GL_LINEAR);
         gl.glTexParameteri( GL2.GL_TEXTURE_2D,GL2.GL_TEXTURE_WRAP_T, GL2.GL_LINEAR);
         Vector origin = cooSystem.getOrigin();
@@ -77,17 +78,11 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         Vector y = cooSystem.getY();
 
         glu.gluLookAt(origin.get(0), origin.get(1), origin.get(2), lookat.get(0), lookat.get(1), lookat.get(2), y.getVec()[0], y.getVec()[1], y.getVec()[2]);
-
-        /*gl.glPushMatrix();
-        gl.glRotatef(90,1,0,0);
-        gl.glTranslatef(0,0,-3);
-
-        sword.draw(gl);
-        gl.glPopMatrix();*/
         gl.glPushMatrix();
         for (IModel model : models) {
             model.draw(gl);
         }
+        level.drawRooms();
         gl.glPopMatrix();
         character.draw();
 
@@ -147,10 +142,11 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         float[] pos = {0f,5f,-10f};
         sword.create(loader,gl,pos);
         models.add(sword);
-        Sword sword1 = new Sword("objects/RzR/rzr.obj");
-        sword1.create(loader,gl,pos);
-        models.add(sword1);
-
+//        Sword sword1 = new Sword("objects/RzR/rzr.obj");
+//        sword1.create(loader,gl,pos);
+        //models.add(sword1);
+        level = new Level(loader, gl);
+        level.BuildLevel(gameLevels.getLevelsList().get(0));
 
 //        Ak47 aK_471 = new Ak47("objects/AK_47/Ak-47.obj");
 //        float[] akPos1 = {-4,4,-10};
@@ -158,12 +154,12 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
 //        //aK_471.scale(0.01f,0.01f,0.01f);
 //        models.add(aK_471);
 
-        Shotgun shotgun1 = new Shotgun("objects/Shotgun/GunTwo.obj");
-        float[] shotgunPos1 = {-4,4,-10};
-        shotgun1.create(loader, gl, shotgunPos1);
-        models.add(shotgun1);
-
-        //barrel
+//        Shotgun shotgun1 = new Shotgun("objects/Shotgun/GunTwo.obj");
+//        float[] shotgunPos1 = {-4,4,-10};
+//        shotgun1.create(loader, gl, shotgunPos1);
+//        models.add(shotgun1);
+//
+//        //barrel
 //        IModel barrel = new Barrel("objects/barrel/barrel_obj.obj");
 //        float[] barrelPos = {10f,0f,-10f};
 //        barrel.create(loader,gl,barrelPos);
@@ -197,16 +193,16 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         character.AddWeapon(sword);
         character.AddWeapon(AK_47);
         //create the room
-        models.addAll(createWalls(gl));
+        //models.addAll(createWalls(gl));
         Cube cube1 = new Cube(-20,0,-20,5);
         cube1.setTexture(cube);
         float[] cubePos = {0,0,0};
         cube1.create(loader,gl,cubePos);
-        models.add(cube1);
+        //models.add(cube1);
         Cube cube2 = new Cube(15,0,-20,5);
         cube2.setTexture(cube);
         cube2.create(loader,gl,cubePos);
-        models.add(cube2);
+        //models.add(cube2);
 
 
         if (drawable instanceof Window) {
@@ -332,22 +328,6 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         models.add(bottom);
 
         return models;
-    }
-
-    private void initWall() {
-        this.wall = new ArrayList<>();
-        double[] arrVec1 = {-20, 40, -20};
-        Vector vec1 = new Vector(arrVec1, 3);
-        wall.add(0, vec1);
-        double[] arrVec2 = {20, 40, -20};
-        Vector vec2 = new Vector(arrVec2, 3);
-        wall.add(1, vec2);
-        double[] arrVec3 = {20, 0, -20};
-        Vector vec3 = new Vector(arrVec3, 3);
-        wall.add(2, vec3);
-        double[] arrVec4 = {-20, 0, -20};
-        Vector vec4 = new Vector(arrVec4, 3);
-        wall.add(3, vec4);
     }
 
 }
