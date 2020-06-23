@@ -4,18 +4,19 @@ import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
 import Models.Model;
 import javax.media.opengl.GL2;
+import java.util.List;
 
 public class Bullet extends Model {
     private String path;
     private float move;
-    public Bullet(String inPath) {
-        this.path = inPath;
+    public Bullet( List<ObjData> objData) {
+        this.data = objData;
+        //this.path = inPath;
         this.move = 0;
     }
     @Override
     public void create(ObjectLoader loader, GL2 gl, float[] startPos) {
-        this.data = loader.LoadModelToGL(path, gl);
-        //this.translate(0f,0f,0f);
+        //this.data = loader.LoadModelToGL(path, gl);
         this.startPos = startPos;
     }
 

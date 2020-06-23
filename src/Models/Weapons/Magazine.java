@@ -11,16 +11,16 @@ public class Magazine {
     private int bullets;
     private ObjectLoader objectLoader;
     private GL2 gl;
-    //private List<ObjData> objData;
+    private List<ObjData> objData;
     public Magazine(ObjectLoader objectLoader, GL2 gl) {
-        //objData = objectLoader.LoadModelToGL("objects/Bullet/lowpolybullet.obj",gl);
+        objData = objectLoader.LoadModelToGL("objects/Bullet/lowpolybullet.obj",gl);
         bullets = 5;
         this.objectLoader = objectLoader;
         this.gl = gl;
     }
 
     public Bullet shotBullet() {
-        Bullet bullet = new Bullet("objects/Bullet/lowpolybullet.obj");
+        Bullet bullet = new Bullet(objData);
         float[] bulletlPos = {0,0f,0f};
         bullet.create(objectLoader,gl,bulletlPos);
         bullets--;
