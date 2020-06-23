@@ -24,7 +24,7 @@ public class Ak47 extends Weapon{
         if(!picked){
             //drawUnpicked();
         }
-
+        //gl.glTranslatef(0,-1f,0);
         for (ObjData obj:data) {
             obj.draw(gl);
         }
