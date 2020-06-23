@@ -30,13 +30,22 @@ public class Sword extends Weapon {
         rChange = 45f/fps;
 
     }
-    public void create(ObjectLoader loader,GL2 gl){
+    public void create(ObjectLoader loader,GL2 gl,float[] startPos){
         data = loader.LoadModelToGL(path,gl);
+        this.translate(1f,0f,0f);
+        this.scale(0.01f,0.01f,0.01f);
+        this.rotate(45,'x');
+        this.rotate(-45,'y');
+        this.rotate(45,'z');
+        this.startPos = startPos;
+
     }
     @Override
     public void draw(GL2 gl) {
+        gl.glPushMatrix();
         if(!picked){
-            //drawUnpicked();
+            gl.glTranslatef(startPos[0],startPos[1],startPos[2]);
+            drawUnpicked(gl);
         }
         if(attackMode){
             endTime = System.currentTimeMillis();
@@ -54,7 +63,7 @@ public class Sword extends Weapon {
             }
             startTime = endTime;
         }
-        gl.glPushMatrix();
+
         for (ObjData obj:data) {
             obj.draw(gl);
         }

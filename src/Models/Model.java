@@ -7,6 +7,7 @@ import java.util.List;
 
 public abstract class Model implements IModel {
     protected List<ObjData> data = new ArrayList<>();
+    protected float[] startPos = {0,0,0};
     @Override
     public void translate(float x, float y, float z) {
         float[] trans = {x,y,z};

@@ -141,12 +141,9 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         //oldPirate = loader.LoadModelToGL("objects/RzR/rzr.obj",gl);
 
         sword = new Sword("objects/RzR/rzr.obj");
-        sword.create(loader,gl);
-        sword.translate(1f,0f,0f);
-        sword.scale(0.01f,0.01f,0.01f);
-        sword.rotate(45,'x');
-        sword.rotate(-45,'y');
-        sword.rotate(45,'z');
+        float[] pos = {0f,5f,-10f};
+        sword.create(loader,gl,pos);
+        //models.add(sword);
 
         Ak47 AK_47 = new Ak47("objects/AK_47/Ak-47.obj");
         AK_47.create(loader, gl);
