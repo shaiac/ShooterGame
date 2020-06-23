@@ -3,7 +3,7 @@ submit:
 Ziv Zaarur 206099913
 Shai Acoca 315314278
  */
-import java.awt.Frame;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,6 +19,7 @@ import Models.Cube;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
 import Models.Weapons.Ak47;
+import Models.Weapons.Bullet;
 import Models.Weapons.Shotgun;
 import Models.Weapons.Sword;
 import Models.Wall;
@@ -29,6 +30,7 @@ import com.jogamp.newt.event.KeyAdapter;
 import com.jogamp.newt.event.KeyEvent;
 import com.jogamp.newt.event.awt.AWTKeyAdapter;
 import com.jogamp.opengl.util.Animator;
+import com.jogamp.opengl.util.awt.TextRenderer;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureIO;
 
@@ -50,6 +52,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
     private List<IModel> models = new ArrayList<>();
     private Character character;
     private Sword sword;
+    private TextRenderer renderer;
 
     public ShooterGame() {
         this.cooSystem =  new CoordinateSystem();
@@ -75,7 +78,6 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
 
         glu.gluLookAt(origin.get(0), origin.get(1), origin.get(2), lookat.get(0), lookat.get(1), lookat.get(2), y.getVec()[0], y.getVec()[1], y.getVec()[2]);
 
-        character.draw();
         /*gl.glPushMatrix();
         gl.glRotatef(90,1,0,0);
         gl.glTranslatef(0,0,-3);
@@ -83,12 +85,12 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         sword.draw(gl);
         gl.glPopMatrix();*/
         gl.glPushMatrix();
-
-
         for (IModel model : models) {
             model.draw(gl);
         }
         gl.glPopMatrix();
+        character.draw();
+
     }
 
     public void init(GLAutoDrawable drawable) {
@@ -147,11 +149,16 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         //models.add(sword);
 
         //barrel
-        IModel barrel = new Barrel("objects/barrel/barrel_obj.obj");
-        float[] barrelPos = {10f,0f,-10f};
-        barrel.create(loader,gl,barrelPos);
-        models.add(barrel);
+//        IModel barrel = new Barrel("objects/barrel/barrel_obj.obj");
+//        float[] barrelPos = {10f,0f,-10f};
+//        barrel.create(loader,gl,barrelPos);
+//        models.add(barrel);
 
+        //Bullet
+        IModel bullet = new Bullet("objects/Bullet/lowpolybullet.mtl");
+        float[] bulletlPos = {10f,0f,-10f};
+        bullet.create(loader,gl,bulletlPos);
+        models.add(bullet);
 
         Ak47 AK_47 = new Ak47("objects/AK_47/Ak-47.obj");
         float[] akPos = {-10,3,8};

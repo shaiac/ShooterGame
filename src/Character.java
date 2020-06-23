@@ -1,3 +1,4 @@
+import Levels.Life;
 import Models.Weapons.Weapon;
 import com.jogamp.newt.event.KeyEvent;
 
@@ -12,12 +13,14 @@ public class Character {
     private Weapon currentWeapon;
     private double totalRotation = 0;
     private float deg;
+    private Life life;
 
     public Character(Weapon startWeapon,CoordinateSystem cooSystem,GL2 gl) {
         this.cooSystem = cooSystem;
         weapons = new ArrayDeque<>();
         currentWeapon = startWeapon;
         this.gl = gl;
+        this.life = new Life();
     }
 
     public void changeWeapon(){
@@ -28,9 +31,9 @@ public class Character {
         currentWeapon = weapons.poll();
     }
     public void draw(){
+        life.draw();
         gl.glPushMatrix();
         deg = (float) Math.toDegrees(totalRotation);
-
         gl.glTranslatef((float) cooSystem.getOrigin().getVec()[0],(float) cooSystem.getOrigin().getVec()[1],(float) cooSystem.getOrigin().getVec()[2]);
         gl.glRotatef(deg,0,1,0);
         gl.glTranslatef(0,0,-1.9f);
@@ -46,6 +49,7 @@ public class Character {
     public void addAmmu(int quantity){
         ammu += quantity;
     }
+
     public void walk(int keyPressed){
         float step = 0.5f;
         double angle = 0.05;
@@ -70,6 +74,8 @@ public class Character {
                 cooSystem.rotate('y', -angle);
                 this.totalRotation +=angle;
                 break;
+            case KeyEvent.VK_P:
+                life.reduceLife(20);
         }
     }
 
