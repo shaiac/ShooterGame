@@ -1,6 +1,7 @@
-package Models;
+package Models.Enemys;
 
 import Models.DataAndLoader.ObjectLoader;
+import Models.Model;
 
 import javax.media.opengl.GL2;
 
