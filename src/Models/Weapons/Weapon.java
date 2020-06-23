@@ -21,7 +21,7 @@ public abstract class Weapon extends Model {
 
     public void drawUnpicked(GL2 gl){
         rotate[2] += 0.3f;
-        gl.glRotatef(rotate[2],1,0,1);
+        gl.glRotatef(rotate[2],0.4f,0f,0f);
 
         /*rotate(0.2f,'x');
         rotate(0.4f,'y');

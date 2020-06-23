@@ -50,7 +50,10 @@ public class Ak47 extends Weapon {
         gl.glPopMatrix();
         gl.glPushMatrix();
         if(!picked){
-            //drawUnpicked();
+            gl.glTranslatef(startPos[0],startPos[1],startPos[2]);
+            gl.glScalef(0.01f, 0.01f, 0.01f);
+            drawUnpicked(gl);
+
         }
         if(attackMode){
             endTime = System.currentTimeMillis();

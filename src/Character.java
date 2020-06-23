@@ -21,6 +21,7 @@ public class Character {
         this.cooSystem = cooSystem;
         weapons = new ArrayDeque<>();
         currentWeapon = startWeapon;
+        currentWeapon.weaponPicked();
         this.gl = gl;
         this.life = new Life();
         this.ammu = new Ammunition(50);

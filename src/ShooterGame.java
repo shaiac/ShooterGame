@@ -146,7 +146,22 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         sword = new Sword("objects/RzR/rzr.obj");
         float[] pos = {0f,5f,-10f};
         sword.create(loader,gl,pos);
-        //models.add(sword);
+        models.add(sword);
+        Sword sword1 = new Sword("objects/RzR/rzr.obj");
+        sword1.create(loader,gl,pos);
+        models.add(sword1);
+
+
+//        Ak47 aK_471 = new Ak47("objects/AK_47/Ak-47.obj");
+//        float[] akPos1 = {-4,4,-10};
+//        aK_471.create(loader, gl,akPos1);
+//        //aK_471.scale(0.01f,0.01f,0.01f);
+//        models.add(aK_471);
+
+        Shotgun shotgun1 = new Shotgun("objects/Shotgun/GunTwo.obj");
+        float[] shotgunPos1 = {-4,4,-10};
+        shotgun1.create(loader, gl, shotgunPos1);
+        models.add(shotgun1);
 
         //barrel
 //        IModel barrel = new Barrel("objects/barrel/barrel_obj.obj");
@@ -177,7 +192,6 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         //shotgun.rotate(30,'x');
         shotgun.rotate(180,'y');
         shotgun.rotate(10,'z');
-
         //models.add(sword);
         this.character = new Character(shotgun,this.cooSystem,gl);
         character.AddWeapon(sword);

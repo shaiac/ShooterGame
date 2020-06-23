@@ -26,8 +26,9 @@ public class Shotgun extends Weapon {
         this.bulletsFired = new ArrayList<>();
     }
 
-    public void create(ObjectLoader loader, GL2 gl,float[] pos){
+    public void create(ObjectLoader loader, GL2 gl,float[] startPos){
         data = loader.LoadModelToGL(path,gl);
+        this.startPos = startPos;
         this.magazine = new Magazine(loader, gl, 8);
     }
 
@@ -46,7 +47,10 @@ public class Shotgun extends Weapon {
         gl.glPopMatrix();
         gl.glPushMatrix();
         if(!picked){
-            //drawUnpicked();
+            gl.glTranslatef(startPos[0],startPos[1],startPos[2]);
+            gl.glScalef(5f, 5f, 5f);
+            gl.glRotatef(90f, 0f, 1f, 0f);
+            drawUnpicked(gl);
         }
         if(attackMode){
             endTime = System.currentTimeMillis();
