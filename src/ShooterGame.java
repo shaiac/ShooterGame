@@ -149,10 +149,10 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         //models.add(sword);
 
         //barrel
-//        IModel barrel = new Barrel("objects/barrel/barrel_obj.obj");
-//        float[] barrelPos = {10f,0f,-10f};
-//        barrel.create(loader,gl,barrelPos);
-//        models.add(barrel);
+        IModel barrel = new Barrel("objects/barrel/barrel_obj.obj");
+        float[] barrelPos = {10f,0f,-10f};
+        barrel.create(loader,gl,barrelPos);
+        models.add(barrel);
 
         //Bullet
         IModel bullet = new Bullet("objects/Bullet/lowpolybullet.mtl");
