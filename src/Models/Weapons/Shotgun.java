@@ -14,7 +14,7 @@ public class Shotgun extends Weapon {
         weapontype = WeaponType.GUN;
     }
 
-    public void create(ObjectLoader loader, GL2 gl){
+    public void create(ObjectLoader loader, GL2 gl,float[] pos){
         data = loader.LoadModelToGL(path,gl);
     }
 

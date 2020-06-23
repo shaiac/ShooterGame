@@ -23,6 +23,7 @@ import Models.Weapons.Shotgun;
 import Models.Weapons.Sword;
 import Models.Wall;
 import Models.IModel;
+import Models.goods.Barrel;
 import com.jogamp.newt.Window;
 import com.jogamp.newt.event.KeyAdapter;
 import com.jogamp.newt.event.KeyEvent;
@@ -145,8 +146,16 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         sword.create(loader,gl,pos);
         //models.add(sword);
 
+        //barrel
+        IModel barrel = new Barrel("objects/barrel/barrel_obj.obj");
+        float[] barrelPos = {10f,0f,-10f};
+        barrel.create(loader,gl,barrelPos);
+        models.add(barrel);
+
+
         Ak47 AK_47 = new Ak47("objects/AK_47/Ak-47.obj");
-        AK_47.create(loader, gl);
+        float[] akPos = {-10,3,8};
+        AK_47.create(loader, gl,akPos);
         AK_47.translate(0.5f,-1f,0.2f);
         AK_47.scale(0.01f,0.01f,0.01f);
         AK_47.rotate(50,'x');
@@ -154,7 +163,8 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         AK_47.rotate(45,'z');
 
         Shotgun shotgun = new Shotgun("objects/Shotgun/GunTwo.obj");
-        shotgun.create(loader, gl);
+        float[] shotgunPos = {0,0,0};
+        shotgun.create(loader, gl, shotgunPos);
         shotgun.translate(0.5f,-1f,-0.1f);
         shotgun.scale(7f,7f,7f);
         //shotgun.rotate(30,'x');
@@ -167,11 +177,12 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         models.addAll(createWalls(gl));
         Cube cube1 = new Cube(-20,0,-20,5);
         cube1.setTexture(cube);
-        cube1.create(gl);
+        float[] cubePos = {0,0,0};
+        cube1.create(loader,gl,cubePos);
         models.add(cube1);
         Cube cube2 = new Cube(15,0,-20,5);
         cube2.setTexture(cube);
-        cube2.create(gl);
+        cube2.create(loader,gl,cubePos);
         models.add(cube2);
 
 
@@ -258,40 +269,40 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
 
     public ArrayList<IModel> createWalls(GL2 gl){
         ArrayList<IModel> models = new ArrayList<>();
-
+        float[] wallPos = {0,0,0};
         Wall front = new Wall(-20,0,-20,'x',10,40);
         front.setTex(walls);
-        front.create(gl);
+        front.create(loader,gl,wallPos);
         models.add(front);
 
 
         Wall back = new Wall(-20.0f,0.0f,20.0f,'x',10,40);
         back.setTex(walls);
-        back.create(gl);
+        back.create(loader,gl,wallPos);
         models.add(back);
 
 
         Wall right = new Wall(20.0f,0.0f,-20.0f,'z',10,40);
         right.setTex(walls);
-        right.create(gl);
+        right.create(loader,gl,wallPos);
         models.add(right);
 
 
         Wall left = new Wall(-20.0f,0.0f,-20.0f,'z',10,40);
         left.setTex(walls);
-        left.create(gl);
+        left.create(loader,gl,wallPos);
         models.add(left);
 
 
         Wall top = new Wall(-20.0f,10.0f,-20.0f,'y',40,40);
         top.setTex(topWall);
-        top.create(gl);
+        top.create(loader,gl,wallPos);
         models.add(top);
 
 
         Wall bottom= new Wall(-20.0f,0.0f,-20.0f,'y',40,40);
         bottom.setTex(bottomWall);
-        bottom.create(gl);
+        bottom.create(loader,gl,wallPos);
         models.add(bottom);
 
         return models;

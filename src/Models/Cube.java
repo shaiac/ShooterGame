@@ -6,6 +6,7 @@ Shai Acoca 315314278
 package Models;
 
 import Models.DataAndLoader.ObjData;
+import Models.DataAndLoader.ObjectLoader;
 import com.jogamp.opengl.util.texture.Texture;
 
 import javax.media.opengl.GL2;
@@ -27,7 +28,7 @@ public class Cube extends Model {
         data.setTexture(texture);
         data.setTextureWrap(GL2.GL_REPEAT);
     }
-    public void create(GL2 gl){
+    public void create(ObjectLoader loader,GL2 gl,float[] pos){
         list = gl.glGenLists(1);
         gl.glNewList(list,GL2.GL_COMPILE);
         gl.glBegin(GL2.GL_QUADS);

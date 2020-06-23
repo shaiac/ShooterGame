@@ -14,15 +14,17 @@ public class Ak47 extends Weapon{
         weapontype = WeaponType.GUN;
     }
 
-    public void create(ObjectLoader loader, GL2 gl){
+    public void create(ObjectLoader loader, GL2 gl,float[] startPos){
         data = loader.LoadModelToGL(path,gl);
+        this.startPos = startPos;
     }
     @Override
     public void draw(GL2 gl) {
+        gl.glPushMatrix();
         if(!picked){
             //drawUnpicked();
         }
-        gl.glPushMatrix();
+
         for (ObjData obj:data) {
             obj.draw(gl);
         }

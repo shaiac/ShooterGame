@@ -6,6 +6,7 @@ Shai Acoca 315314278
 package Models;
 
 import Models.DataAndLoader.ObjData;
+import Models.DataAndLoader.ObjectLoader;
 import com.jogamp.opengl.util.texture.Texture;
 
 import javax.media.opengl.GL2;
@@ -38,7 +39,7 @@ public class Wall extends Model {
         this.color[1] = green;
         this.color[2] = blue;
     }
-    public void create(GL2 gl){
+    public void create(ObjectLoader loader, GL2 gl, float[] pos){
         float texwidth = length/40.f;
         float texhieght = width/10.f;
 

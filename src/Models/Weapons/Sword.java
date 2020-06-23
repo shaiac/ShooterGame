@@ -11,24 +11,18 @@ public class Sword extends Weapon {
     private List<float[]> colPoints= new ArrayList<>();
     private String path;
     private boolean attackMode = false;
-    private float fps;
-    private float duration;
+    private float duration = 1000f;
     private float time;
-    private float change;
-    private float rChange;
-    private long startTime;
-    private long endTime;
+    private float change = 0;
+    private float rChange = 0;
+    private long startTime = 0;
+    private long endTime = 0;
     private long milliseconds;
     public Sword(String inPath){
 
         this.path = inPath;
         ammu = 0;
         weapontype = WeaponType.SWORD;
-        duration = 1000f;
-        fps = 60f;
-        change = 0.5f/fps;
-        rChange = 45f/fps;
-
     }
     public void create(ObjectLoader loader,GL2 gl,float[] startPos){
         data = loader.LoadModelToGL(path,gl);
