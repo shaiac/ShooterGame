@@ -163,7 +163,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         Ak47 AK_47 = new Ak47("objects/AK_47/Ak-47.obj");
         float[] akPos = {-10,3,8};
         AK_47.create(loader, gl,akPos);
-        AK_47.translate(0.5f,-1f,0.2f);
+        AK_47.translate(0.5f,-1.5f,0.2f);
         AK_47.scale(0.01f,0.01f,0.01f);
         AK_47.rotate(50,'x');
         AK_47.rotate(-70,'y');
@@ -213,7 +213,8 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         float h = (float)width / (float)height;
         gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
-        glu.gluPerspective(100.0f, h, 1.0, 1000.0);
+        glu.gluPerspective(60.0f, h, 1.0, 100.0);
+        //gl.glOrtho(-6.0,6.0,-6.0,6.0,-6.0,6.0);
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glLoadIdentity();
     }
