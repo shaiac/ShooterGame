@@ -173,6 +173,8 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
 
         //models.add(sword);
         this.character = new Character(shotgun,this.cooSystem,gl);
+        character.AddWeapon(sword);
+        character.AddWeapon(AK_47);
         //create the room
         models.addAll(createWalls(gl));
         Cube cube1 = new Cube(-20,0,-20,5);
@@ -212,9 +214,11 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
     public void keyPressed(KeyEvent e) {
 
         int keyPressed = e.getKeyCode();
-        if(keyPressed == KeyEvent.VK_Q){
+        if(keyPressed == KeyEvent.VK_SPACE){
             character.attack();
-        }else{
+        }else if (keyPressed == KeyEvent.VK_Q) {
+            character.changeWeapon();
+        } else{
             character.walk(keyPressed);
         }
 

@@ -14,6 +14,11 @@ public abstract class Weapon extends Model {
     public abstract void attack();
     public abstract void reload();
     public abstract void addAmmu();
+
+    public void weaponPicked() {
+        this.picked = true;
+    }
+
     public void drawUnpicked(GL2 gl){
         rotate[2] += 0.3f;
         gl.glRotatef(rotate[2],1,0,1);

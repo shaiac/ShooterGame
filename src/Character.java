@@ -42,7 +42,6 @@ public class Character {
     }
     public void attack(){
         currentWeapon.attack();
-
     }
     public void addAmmu(int quantity){
         ammu += quantity;
@@ -75,6 +74,7 @@ public class Character {
     }
 
     public void AddWeapon(Weapon newWeapon) {
+        newWeapon.weaponPicked();
         weapons.add(newWeapon);
     }
 }
