@@ -3,15 +3,14 @@ package Models.Weapons;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
 import Models.IModel;
+import Models.Model;
 
 import javax.media.opengl.GL2;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Ak47 extends Weapon{
+public class Ak47 extends Weapon {
     private String path;
-    private GL2 gl;
-    private ObjectLoader loader;
     private Magazine magazine;
     private List<Bullet> bulletsFired;
     private boolean attackMode = false;
@@ -25,7 +24,6 @@ public class Ak47 extends Weapon{
     private boolean shot = false;
     public Ak47(String inPath) {
         this.path = inPath;
-        ammu = 20;
         weapontype = WeaponType.GUN;
         this.bulletsFired = new ArrayList<>();
     }
@@ -33,10 +31,10 @@ public class Ak47 extends Weapon{
     public void create(ObjectLoader loader, GL2 gl,float[] startPos){
         data = loader.LoadModelToGL(path,gl);
         this.startPos = startPos;
-        this.magazine = new Magazine(loader, gl);
+        this.magazine = new Magazine(loader, gl, 20);
     }
 
-    public void drawAllBulletsFired(GL2 gl) {
+    private void drawAllBulletsFired(GL2 gl) {
         for (Bullet bullet : bulletsFired) {
             bullet.draw(gl);
         }
@@ -79,13 +77,15 @@ public class Ak47 extends Weapon{
 
     @Override
     public void attack() {
-        attackMode = true;
-        startTime = System.currentTimeMillis();
+        if (!magazine.isEmpty()) {
+            attackMode = true;
+            startTime = System.currentTimeMillis();
+        }
     }
 
     @Override
-    public void reload() {
-
+    public int reload() {
+        return magazine.reload();
     }
 
     @Override

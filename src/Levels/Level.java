@@ -1,6 +1,8 @@
 package Levels;
 
 import Models.Wall;
+import Models.Weapons.Ak47;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,7 @@ public class Level {
 
     private void readFile(BufferedReader buffer) {
         try {
+            String[] splitData;
             String data;
             //while there are still lines in the file.
             while ((data = buffer.readLine()) != null) {
@@ -44,7 +47,8 @@ public class Level {
                 } if (data.contains("OldPirate")) {
                     //rooms.get(roomNumber - 1).AddModel(createOldPirate(data));
                 } if (data.contains("AK_47")) {
-                    //rooms.get(roomNumber - 1).AddModel(new Ak47(data));
+                    splitData = data.split(" ");
+                    rooms.get(roomNumber - 1).AddModel(new Ak47(splitData[1]));
                 } if (data.contains("Barrel")) {
                     //rooms.get(roomNumber - 1).AddModel(new Barrel(data));
                 } if (data.contains("Cannon")) {

@@ -1,4 +1,5 @@
 import Levels.Life;
+import Models.Weapons.Ammunition;
 import Models.Weapons.Weapon;
 import com.jogamp.newt.event.KeyEvent;
 
@@ -9,7 +10,8 @@ public class Character {
     private GL2 gl;
     private CoordinateSystem cooSystem;
     private Queue<Weapon> weapons;
-    private int ammu;
+    //private int ammu;
+    Ammunition ammu;
     private Weapon currentWeapon;
     private double totalRotation = 0;
     private float deg;
@@ -21,6 +23,7 @@ public class Character {
         currentWeapon = startWeapon;
         this.gl = gl;
         this.life = new Life();
+        this.ammu = new Ammunition(50);
     }
 
     public void changeWeapon(){
@@ -31,15 +34,13 @@ public class Character {
         currentWeapon = weapons.poll();
     }
     public void draw(){
+        ammu.draw();
         life.draw();
         gl.glPushMatrix();
         deg = (float) Math.toDegrees(totalRotation);
         gl.glTranslatef((float) cooSystem.getOrigin().getVec()[0],(float) cooSystem.getOrigin().getVec()[1],(float) cooSystem.getOrigin().getVec()[2]);
         gl.glRotatef(deg,0,1,0);
         gl.glTranslatef(0,0,-1.9f);
-
-
-
         currentWeapon.draw(gl);
         gl.glPopMatrix();
     }
@@ -47,7 +48,7 @@ public class Character {
         currentWeapon.attack();
     }
     public void addAmmu(int quantity){
-        ammu += quantity;
+        ammu.addAmmu(quantity);
     }
 
     public void walk(int keyPressed){
@@ -74,13 +75,18 @@ public class Character {
                 cooSystem.rotate('y', -angle);
                 this.totalRotation +=angle;
                 break;
-            case KeyEvent.VK_P:
-                life.reduceLife(20);
+            case KeyEvent.VK_R:
+                reload();
+                break;
         }
     }
 
     public void AddWeapon(Weapon newWeapon) {
         newWeapon.weaponPicked();
         weapons.add(newWeapon);
+    }
+
+    public void reload() {
+        ammu.reduceAmmu(currentWeapon.reload());
     }
 }

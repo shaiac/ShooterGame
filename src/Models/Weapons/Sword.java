@@ -92,8 +92,8 @@ public class Sword extends Weapon {
     }
 
     @Override
-    public void reload() {
-
+    public int reload() {
+        return 0;
     }
 
     @Override

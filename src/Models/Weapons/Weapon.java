@@ -12,7 +12,7 @@ public abstract class Weapon extends Model {
     protected float[] rotate = {0,0,0};
     protected boolean firstDraw = false;
     public abstract void attack();
-    public abstract void reload();
+    public abstract int reload();
     public abstract void addAmmu();
 
     public void weaponPicked() {
