@@ -102,10 +102,6 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         gl.glDepthFunc(GL2.GL_LEQUAL);               // The Type Of Depth Testing To Do
         // Really Nice Perspective Calculations
         gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT, GL2.GL_NICEST);
-        //gl.glMatrixMode(GL2.GL_PROJECTION); //switch to projection matrix
-        //gl.glLoadIdentity(); //init the matrix
-        //glu.gluPerspective(45.0f, frame.getWidth() /frame.getHeight(), 1, 1000);//init the 3D perspective view
-        //gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glEnable(GL2.GL_TEXTURE_2D);
         try {
             String filename="resources/Picture1.jpg"; // the FileName to open
@@ -159,15 +155,15 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         models.add(barrel);
 
         //Bullet
-        IModel bullet = new Bullet("objects/Bullet/lowpolybullet.obj");
-        float[] bulletlPos = {-10f,5f,-10f};
+        IModel bullet = new Bullet("objects/Bullet/lowpolybullet.mtl");
+        float[] bulletlPos = {10f,0f,-10f};
         bullet.create(loader,gl,bulletlPos);
         models.add(bullet);
 
         Ak47 AK_47 = new Ak47("objects/AK_47/Ak-47.obj");
         float[] akPos = {-10,3,8};
         AK_47.create(loader, gl,akPos);
-        AK_47.translate(0.5f,-1.5f,0.2f);
+        AK_47.translate(0.5f,-1f,0.2f);
         AK_47.scale(0.01f,0.01f,0.01f);
         AK_47.rotate(50,'x');
         AK_47.rotate(-70,'y');
@@ -217,8 +213,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         float h = (float)width / (float)height;
         gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
-        glu.gluPerspective(60.0f, h, 1.0, 100.0);
-        //gl.glOrtho(-6.0,6.0,-6.0,6.0,-6.0,6.0);
+        glu.gluPerspective(100.0f, h, 1.0, 1000.0);
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glLoadIdentity();
     }
