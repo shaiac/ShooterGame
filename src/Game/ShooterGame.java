@@ -75,7 +75,8 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         lookat.normal();
         Vector y = cooSystem.getY();
 
-        glu.gluLookAt(origin.get(0), origin.get(1), origin.get(2), lookat.get(0), lookat.get(1), lookat.get(2), y.getVec()[0], y.getVec()[1], y.getVec()[2]);
+        glu.gluLookAt(origin.get(0), origin.get(1), origin.get(2), lookat.get(0), lookat.get(1), lookat.get(2),
+                y.getVec()[0], y.getVec()[1], y.getVec()[2]);
         gl.glPushMatrix();
         for (IModel model : models) {
             model.draw(gl);
@@ -190,6 +191,8 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         this.character = new Character(shotgun,this.cooSystem,gl);
         character.AddWeapon(sword);
         character.AddWeapon(AK_47);
+        character.setCurrentLevel(level);
+
         //create the room
         //models.addAll(createWalls(gl));
         Cube cube1 = new Cube(-20,0,-20,5);

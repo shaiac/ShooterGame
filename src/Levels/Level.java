@@ -17,17 +17,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Level {
+    private List<Wall> levelWalls;
     private List<Room> rooms;
     private int roomNumber;
     private ObjectLoader loader;
     private GL2 gl;
-    private ShooterGame shooterGame;
     public Level(ObjectLoader loader, GL2 gl, ShooterGame shooterGame) {
         rooms = new ArrayList<>();
+        levelWalls = new ArrayList<>();
         roomNumber = 0;
         this.loader = loader;
         this.gl = gl;
-        this.shooterGame = shooterGame;
     }
     //read and build the level
     public void BuildLevel(String levelDefinition) {
@@ -58,7 +58,9 @@ public class Level {
                     rooms.add(roomNumber, new Room());
                     roomNumber++;
                 } if (data.contains("wall")) {
-                    rooms.get(roomNumber - 1).AddModel(createWall(data));
+                    Wall wall = createWall(data);
+                    levelWalls.add(wall);
+                    rooms.get(roomNumber - 1).AddModel(wall);
                 } if (data.contains("OldPirate")) {
                     //rooms.get(roomNumber - 1).AddModel(createOldPirate(data));
                 } if (data.contains("AK_47")) {
@@ -135,5 +137,9 @@ public class Level {
         for (Room room : rooms) {
             room.drawAll(gl);
         }
+    }
+
+    public List<Wall> getLevelWalls(){
+        return levelWalls;
     }
 }

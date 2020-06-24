@@ -25,4 +25,7 @@ public class Ammunition {
         renderer.draw("Ammu: " + String.valueOf(ammu), 0, 50);
         renderer.endRendering();
     }
+    public int getAmmu() {
+        return ammu;
+    }
 }
