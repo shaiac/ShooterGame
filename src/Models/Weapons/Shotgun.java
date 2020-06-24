@@ -1,5 +1,7 @@
 package Models.Weapons;
 
+import Game.CoordinateSystem;
+import Levels.Level;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
 
@@ -10,7 +12,6 @@ import java.util.List;
 public class Shotgun extends Weapon {
     private String path;
     private Magazine magazine;
-    private List<Bullet> bulletsFired;
     private boolean attackMode = false;
     private float duration = 500f;
     private float time;
@@ -20,10 +21,13 @@ public class Shotgun extends Weapon {
     private long endTime = 0;
     private long milliseconds;
     private boolean shot = false;
-    public Shotgun(String inPath) {
+    private float angle;
+    private CoordinateSystem cooSystem;
+
+    public Shotgun(String inPath, Level level) {
         this.path = inPath;
         weapontype = WeaponType.GUN;
-        this.bulletsFired = new ArrayList<>();
+        this.observer = level;
     }
 
     public void create(ObjectLoader loader, GL2 gl,float[] startPos){
@@ -32,19 +36,13 @@ public class Shotgun extends Weapon {
         this.magazine = new Magazine(loader, gl, 8);
     }
 
-    private void drawAllBulletsFired(GL2 gl) {
-        for (Bullet bullet : bulletsFired) {
-            bullet.draw(gl);
-        }
+    private void addAsRoomModel(Bullet bullet) {
+        bullet.setAngle(angle);
+        observer.addModel(bullet);
     }
+
     @Override
     public void draw(GL2 gl) {
-        gl.glPushMatrix();
-        gl.glTranslatef(0.4f, -0.3f ,-2f);
-        if (bulletsFired.size() != 0) {
-            drawAllBulletsFired(gl);
-        }
-        gl.glPopMatrix();
         gl.glPushMatrix();
         if(!picked){
             gl.glTranslatef(startPos[0],startPos[1],startPos[2]);
@@ -89,8 +87,12 @@ public class Shotgun extends Weapon {
     }
 
     @Override
-    public void addAmmu() {
-
+    public void setAngle(float angle) {
+        this.angle = angle;
+    }
+    @Override
+    public void setCoordinateSystem(CoordinateSystem coordinateSystem) {
+        this.cooSystem = coordinateSystem;
     }
 
     private void moveGun(GL2 gl) {
@@ -101,7 +103,12 @@ public class Shotgun extends Weapon {
         }else{
             if (!shot) {
                 shot = true;
-                bulletsFired.add(magazine.shotBullet());
+                float[] pos1 = {(float) cooSystem.getOrigin().getVec()[0] + 0.5f, (float) cooSystem.getOrigin().getVec()[1]
+                        -0.48f, (float) cooSystem.getOrigin().getVec()[2]-3.9f};
+                float[] pos2 = {(float) cooSystem.getOrigin().getVec()[0] + 0.6f, (float) cooSystem.getOrigin().getVec()[1]
+                        -0.48f, (float) cooSystem.getOrigin().getVec()[2]-3.9f};
+                addAsRoomModel(magazine.shotBullet(pos1));
+                addAsRoomModel(magazine.shotBullet(pos2));
             }
             rChange -= (5f/duration)*milliseconds;
             gl.glRotatef(rChange,1,0,0);

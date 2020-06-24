@@ -1,3 +1,5 @@
+package Game;
+
 import Levels.Life;
 import Models.Weapons.Ammunition;
 import Models.Weapons.Weapon;
@@ -22,6 +24,7 @@ public class Character {
         weapons = new ArrayDeque<>();
         currentWeapon = startWeapon;
         currentWeapon.weaponPicked();
+        currentWeapon.setCoordinateSystem(cooSystem);
         this.gl = gl;
         this.life = new Life();
         this.ammu = new Ammunition(50);
@@ -35,11 +38,13 @@ public class Character {
         currentWeapon = weapons.poll();
     }
     public void draw(){
+        currentWeapon.setAngle(deg);
         ammu.draw();
         life.draw();
         gl.glPushMatrix();
         deg = (float) Math.toDegrees(totalRotation);
-        gl.glTranslatef((float) cooSystem.getOrigin().getVec()[0],(float) cooSystem.getOrigin().getVec()[1],(float) cooSystem.getOrigin().getVec()[2]);
+        gl.glTranslatef((float) cooSystem.getOrigin().getVec()[0],(float) cooSystem.getOrigin().getVec()[1],
+                (float) cooSystem.getOrigin().getVec()[2]);
         gl.glRotatef(deg,0,1,0);
         gl.glTranslatef(0,0,-1.9f);
         currentWeapon.draw(gl);
@@ -84,6 +89,7 @@ public class Character {
 
     public void AddWeapon(Weapon newWeapon) {
         newWeapon.weaponPicked();
+        newWeapon.setCoordinateSystem(cooSystem);
         weapons.add(newWeapon);
     }
 

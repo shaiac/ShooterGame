@@ -11,8 +11,8 @@ wall -20 10 -20 y 40 40 resources/woodenWall.jpg
 wall -20 0 -20 y 40 40 resources/woodenWall.jpg
 AK_47 objects/AK_47/Ak-47.obj -15 5 0
 Shotgun objects/Shotgun/GunTwo.obj 15 5 0
-Barrel objects/barrel/barrel_obj.obj -18 0 -18
-Barrel objects/barrel/barrel_obj.obj 18 0 -18
+Barrel objects/barrel/barrel_obj.obj -17 0 -17
+Barrel objects/barrel/barrel_obj.obj 17 0 -17
 
 ROOM_TWO
 wall -60 0 -100 z 10 80 resources/woodenWall.jpg

@@ -6,6 +6,7 @@ Shai Acoca 315314278
 package Models;
 
 import Models.DataAndLoader.ObjectLoader;
+import javafx.beans.Observable;
 
 import javax.media.opengl.GL2;
 

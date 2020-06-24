@@ -1,5 +1,6 @@
 package Levels;
 
+import Game.ShooterGame;
 import Models.DataAndLoader.ObjectLoader;
 import Models.IModel;
 import Models.Wall;
@@ -20,11 +21,13 @@ public class Level {
     private int roomNumber;
     private ObjectLoader loader;
     private GL2 gl;
-    public Level(ObjectLoader loader, GL2 gl) {
+    private ShooterGame shooterGame;
+    public Level(ObjectLoader loader, GL2 gl, ShooterGame shooterGame) {
         rooms = new ArrayList<>();
         roomNumber = 0;
         this.loader = loader;
         this.gl = gl;
+        this.shooterGame = shooterGame;
     }
     //read and build the level
     public void BuildLevel(String levelDefinition) {
@@ -60,7 +63,7 @@ public class Level {
                     //rooms.get(roomNumber - 1).AddModel(createOldPirate(data));
                 } if (data.contains("AK_47")) {
                     splitData = data.split(" ");
-                    Ak47 ak47 = new Ak47(splitData[1]);
+                    Ak47 ak47 = new Ak47(splitData[1], this);
                     float[] akPos = {Float.parseFloat(splitData[2]),Float.parseFloat(splitData[3]),
                             Float.parseFloat(splitData[4])};
                     ak47.create(loader, gl, akPos);
@@ -78,7 +81,7 @@ public class Level {
                     //rooms.get(roomNumber - 1).AddModel(new JackSparrow(data));
                 } if (data.contains("Shotgun")) {
                     splitData = data.split(" ");
-                    Shotgun shotgun = new Shotgun("objects/Shotgun/GunTwo.obj");
+                    Shotgun shotgun = new Shotgun("objects/Shotgun/GunTwo.obj", this);
                     float[] shotgunPos = {Float.parseFloat(splitData[2]),Float.parseFloat(splitData[3]),
                             Float.parseFloat(splitData[4])};
                     shotgun.create(loader, gl, shotgunPos);
@@ -122,6 +125,10 @@ public class Level {
         } catch (IOException e) {
             return null;
         }
+    }
+
+    public void addModel(IModel model) {
+        rooms.get(0).AddModel(model);
     }
 
     public void drawRooms() {

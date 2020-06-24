@@ -1,4 +1,4 @@
-/*
+package Game;/*
 submit:
 Ziv Zaarur 206099913
 Shai Acoca 315314278
@@ -21,12 +21,10 @@ import Models.Cube;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
 import Models.Weapons.Ak47;
-import Models.Weapons.Bullet;
 import Models.Weapons.Shotgun;
 import Models.Weapons.Sword;
 import Models.Wall;
 import Models.IModel;
-import Models.goods.Barrel;
 import com.jogamp.newt.Window;
 import com.jogamp.newt.event.KeyAdapter;
 import com.jogamp.newt.event.KeyEvent;
@@ -82,8 +80,8 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         for (IModel model : models) {
             model.draw(gl);
         }
-        level.drawRooms();
         gl.glPopMatrix();
+        level.drawRooms();
         character.draw();
 
     }
@@ -145,7 +143,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
 //        Sword sword1 = new Sword("objects/RzR/rzr.obj");
 //        sword1.create(loader,gl,pos);
         //models.add(sword1);
-        level = new Level(loader, gl);
+        level = new Level(loader, gl, this);
         level.BuildLevel(gameLevels.getLevelsList().get(0));
 
 //        Ak47 aK_471 = new Ak47("objects/AK_47/Ak-47.obj");
@@ -171,7 +169,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
 //        bullet.create(loader,gl,bulletlPos);
 //        models.add(bullet);
 
-        Ak47 AK_47 = new Ak47("objects/AK_47/Ak-47.obj");
+        Ak47 AK_47 = new Ak47("objects/AK_47/Ak-47.obj", level);
         float[] akPos = {-10,3,8};
         AK_47.create(loader, gl,akPos);
         AK_47.translate(0.5f,-1.5f,0.2f);
@@ -180,7 +178,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         AK_47.rotate(-70,'y');
         AK_47.rotate(45,'z');
 
-        Shotgun shotgun = new Shotgun("objects/Shotgun/GunTwo.obj");
+        Shotgun shotgun = new Shotgun("objects/Shotgun/GunTwo.obj", level);
         float[] shotgunPos = {0,0,0};
         shotgun.create(loader, gl, shotgunPos);
         shotgun.translate(0.5f,-1f,-0.1f);
