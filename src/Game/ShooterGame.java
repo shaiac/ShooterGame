@@ -1,5 +1,4 @@
-package Game;
-/*
+package Game;/*
 submit:
 Ziv Zaarur 206099913
 Shai Acoca 315314278
@@ -22,7 +21,10 @@ import Models.Cube;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
 import Models.PirateShip;
-import Models.Weapons.*;
+import Models.Weapons.Ak47;
+import Models.Weapons.Cannon;
+import Models.Weapons.Shotgun;
+import Models.Weapons.Sword;
 import Models.Wall;
 import Models.IModel;
 import Models.goods.Map;
@@ -200,17 +202,11 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         models.add(map);
 
         //cannon
-        Cannon cannon = new Cannon("objects/cannon/can.obj", level);
-        float[] canPos = {-50f,0f,-24f};
+        Cannon cannon = new Cannon("objects/cannon/can.obj");
+        float[] canPos = {0f,0f,-10f};
         cannon.create(loader,gl,canPos);
         cannon.rotate(270, 'x');
         models.add(cannon);
-
-        //cannonBall
-//        CannonBall ball = new CannonBall("objects/ball/uploads_files_2078589_sphere.obj");
-//        float[] ballPos = {0f,5f,-10f};
-//        ball.create(loader,gl,ballPos);
-//        models.add(ball);
 
         //PirateShip
         pirateShip = new PirateShip("objects/PirateShip/boat.obj");
