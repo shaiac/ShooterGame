@@ -5,6 +5,7 @@ import Models.DataAndLoader.ObjectLoader;
 import Models.IModel;
 import Models.Wall;
 import Models.Weapons.Ak47;
+import Models.Weapons.Cannon;
 import Models.Weapons.Shotgun;
 import Models.Weapons.Sword;
 import Models.goods.Barrel;
@@ -24,6 +25,7 @@ public class Level {
     private int roomNumber;
     private ObjectLoader loader;
     private GL2 gl;
+    private Cannon tmpCannon;
     public Level(ObjectLoader loader, GL2 gl, ShooterGame shooterGame) {
         rooms = new ArrayList<>();
         levelWalls = new ArrayList<>();
@@ -80,7 +82,14 @@ public class Level {
                     barrel.create(loader, gl, barrelPos);
                     rooms.get(roomNumber - 1).AddModel(barrel);
                 } else if (data.contains("Cannon")) {
-                    //rooms.get(roomNumber - 1).AddModel(new Cannon(data));
+                    splitData = data.split(" ");
+                    Cannon cannon = new Cannon(splitData[1], this);
+                    this.tmpCannon = cannon;
+                    float[] cannonPos = {Float.parseFloat(splitData[2]),Float.parseFloat(splitData[3]),
+                            Float.parseFloat(splitData[4])};
+                    cannon.create(loader,gl,cannonPos);
+                    cannon.rotate(Float.parseFloat(splitData[5]), 'x');
+                    rooms.get(roomNumber - 1).AddModel(cannon);
                 } else if (data.contains("JackSparrow")) {
                     //rooms.get(roomNumber - 1).AddModel(new JackSparrow(data));
                 } else if (data.contains("Shotgun")) {
@@ -125,6 +134,10 @@ public class Level {
                 e.printStackTrace();
             }
         }
+    }
+
+    public Cannon getTmpCannon () {
+        return this.tmpCannon;
     }
 
     private Wall createWall(String wallDefinitions) {

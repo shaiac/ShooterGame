@@ -231,7 +231,10 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
             character.attack();
         }else if (keyPressed == KeyEvent.VK_Q) {
             character.changeWeapon();
-        } else{
+        } else if (keyPressed == KeyEvent.VK_CONTROL) {
+            level.getTmpCannon().fire();
+        }
+        else{
             character.walk(keyPressed);
         }
 

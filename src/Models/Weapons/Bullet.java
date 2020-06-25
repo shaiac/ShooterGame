@@ -31,7 +31,7 @@ public class Bullet extends Model {
     @Override
     public void draw(GL2 gl) {
         gl.glPushMatrix();
-        move -= 0.003;
+        move -= 0.3;
         gl.glTranslatef(startPos[0],startPos[1],startPos[2]);
         gl.glRotatef(angle,0,1,0);
         // y = -0.48f ,z = -3.9
