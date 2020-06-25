@@ -23,10 +23,11 @@ public class CannonBall extends Model {
     @Override
     public void draw(GL2 gl) {
         gl.glPushMatrix();
-        move -= 0.3;
+        move -= 0.02;
+        gl.glTranslatef(startPos[0],startPos[1],startPos[2]);
         gl.glRotatef(270,0,1,0);
-        gl.glTranslatef(startPos[0] - 80,startPos[1] + 4,startPos[2] + move);
-        gl.glScalef(6f,6f,6f);
+        gl.glTranslatef(-4f,3.6f,move - 6);
+        gl.glScalef(4f,4f,4f);
         for (ObjData obj:data) {
             obj.draw(gl);
         }

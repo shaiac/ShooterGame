@@ -11,6 +11,7 @@ public class Cannon extends Model {
     private String path;
     private ObjectLoader loader;
     private GL2 gl;
+    boolean fire = false;
     public Cannon(String path, Level level) {
         this.observer = level;
         this.path = path;
@@ -29,19 +30,23 @@ public class Cannon extends Model {
     public void draw(GL2 gl) {
         gl.glPushMatrix();
         gl.glTranslatef(startPos[0],startPos[1],startPos[2]);
-        gl.glScalef(0.04f,0.04f,0.04f);
+        gl.glScalef(0.06f,0.06f,0.06f);
         for (ObjData obj:data) {
             obj.draw(gl);
         }
         gl.glPopMatrix();
-        //fireBall();
+        if (fire) {
+            dofire();
+            fire = false;
+        }
+    }
+    public void fire() {
+        fire = true;
     }
 
-    public void fireBall() {
+    private void dofire() {
         CannonBall ball = new CannonBall("objects/ball/uploads_files_2078589_sphere.obj");
-        //float[] ballPos = {startPos[0],,-10f};
         ball.create(loader,gl,startPos);
-        //ball.rotate(270, 'x');
         observer.addModel(ball);
     }
 }
