@@ -3,6 +3,7 @@ submit:
 Ziv Zaarur 206099913
 Shai Acoca 315314278
  */
+package Game;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -229,7 +230,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         //models.add(ship);
 
         //ak47
-        Ak47 AK_47 = new Ak47("objects/AK_47/Ak-47.obj");
+        Ak47 AK_47 = new Ak47("objects/AK_47/Ak-47.obj",level);
         float[] akPos = {-10,3,8};
         AK_47.create(loader, gl,akPos);
         AK_47.translate(0.5f,-1.5f,0.2f);
@@ -238,7 +239,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         AK_47.rotate(-70,'y');
         AK_47.rotate(45,'z');
         //shotgun
-        Shotgun shotgun = new Shotgun("objects/Shotgun/GunTwo.obj");
+        Shotgun shotgun = new Shotgun("objects/Shotgun/GunTwo.obj",level);
         float[] shotgunPos = {0,0,0};
         shotgun.create(loader, gl, shotgunPos);
         shotgun.translate(0.5f,-1f,-0.1f);
