@@ -116,6 +116,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
             gl.glPopMatrix();*/
             level.drawRooms();
             character.draw();
+            //attack until release left button
             if(attack){
                 character.attack();
             }
