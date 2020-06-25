@@ -7,6 +7,7 @@ public class GameLevels {
     private List<String> levelsList;
     public GameLevels() {
         levelsList = new ArrayList<>();
+        ReadLevels("Levels/level_sets.txt");
     }
     public void ReadLevels(String level) {
         Reader reader = null;

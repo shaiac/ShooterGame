@@ -1,19 +1,20 @@
 package Models.Weapons;
 
+import Game.CoordinateSystem;
+import Game.ShooterGame;
+import Levels.Level;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
 import Models.IModel;
+import Models.Model;
 
 import javax.media.opengl.GL2;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Ak47 extends Weapon{
+public class Ak47 extends Weapon {
     private String path;
-    private GL2 gl;
-    private ObjectLoader loader;
     private Magazine magazine;
-    private List<Bullet> bulletsFired;
     private boolean attackMode = false;
     private float duration = 500f;
     private float time;
@@ -23,36 +24,36 @@ public class Ak47 extends Weapon{
     private long endTime = 0;
     private long milliseconds;
     private boolean shot = false;
-    public Ak47(String inPath) {
+    private CoordinateSystem cooSystem;
+    private float angle;
+    public Ak47(String inPath, Level level) {
+        this.observer = level;
         this.path = inPath;
-        ammu = 20;
         weapontype = WeaponType.GUN;
-        this.bulletsFired = new ArrayList<>();
     }
 
-    public void create(ObjectLoader loader, GL2 gl,float[] startPos){
+    public void setCoordinateSystem(CoordinateSystem cooSystem) {
+        this.cooSystem = cooSystem;
+    }
+
+    public void create(ObjectLoader loader, GL2 gl, float[] startPos){
         data = loader.LoadModelToGL(path,gl);
         this.startPos = startPos;
-        this.magazine = new Magazine(loader, gl);
+        this.magazine = new Magazine(loader, gl, 20);
     }
 
-    public void drawAllBulletsFired(GL2 gl) {
-        for (Bullet bullet : bulletsFired) {
-            bullet.draw(gl);
-        }
+    private void addAsRoomModel(Bullet bullet) {
+            bullet.setAngle(angle);
+            observer.addModel(bullet);
     }
 
     @Override
     public void draw(GL2 gl) {
         gl.glPushMatrix();
-        gl.glTranslatef(0, -0.5f ,-2f);
-        if (bulletsFired.size() != 0) {
-            drawAllBulletsFired(gl);
-        }
-        gl.glPopMatrix();
-        gl.glPushMatrix();
         if(!picked){
-            //drawUnpicked();
+            gl.glTranslatef(startPos[0],startPos[1],startPos[2]);
+            gl.glScalef(0.01f, 0.01f, 0.01f);
+            drawUnpicked(gl);
         }
         if(attackMode){
             endTime = System.currentTimeMillis();
@@ -79,29 +80,32 @@ public class Ak47 extends Weapon{
 
     @Override
     public void attack() {
-        attackMode = true;
-        startTime = System.currentTimeMillis();
+        if (!magazine.isEmpty()) {
+            attackMode = true;
+            startTime = System.currentTimeMillis();
+        }
     }
 
     @Override
-    public void reload() {
-
+    public int reload() {
+        return magazine.reload();
     }
 
     @Override
-    public void addAmmu() {
-
+    public void setAngle(float angle) {
+        this.angle = angle;
     }
 
     private void moveGun(GL2 gl) {
         if(time <= duration/2){
             rChange -= (5f/duration)*milliseconds;
             gl.glRotatef(rChange,0,1,0);
-            //gl.glTranslatef(0.5f,0.5f,-0.5f);
         }else{
             if (!shot) {
                 shot = true;
-                bulletsFired.add(magazine.shotBullet());
+                float[] pos = {(float) cooSystem.getOrigin().getVec()[0], (float) cooSystem.getOrigin().getVec()[1]
+                        -0.48f, (float) cooSystem.getOrigin().getVec()[2]-3.9f};
+               addAsRoomModel(magazine.shotBullet(pos));
             }
             rChange += (5f/duration)*milliseconds;
             gl.glRotatef(rChange,0,1,0);

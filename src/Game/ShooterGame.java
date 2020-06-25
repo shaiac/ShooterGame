@@ -14,19 +14,23 @@ import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.glu.GLU;
 
 import CollisionDetection.PointPolygonIntersection;
+import Levels.GameLevels;
+import Levels.Level;
 import LinearMath.Vector;
 import Models.Cube;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
 import Models.Enemys.Enemy;
 import Models.Enemys.JackSparrow;
+import Models.PirateShip;
 import Models.Weapons.Ak47;
-import Models.Weapons.Bullet;
+import Models.Weapons.Cannon;
 import Models.Weapons.Shotgun;
 import Models.Weapons.Sword;
 import Models.Wall;
 import Models.IModel;
-import Models.goods.Barrel;
+import Models.goods.Map;
+import Models.goods.Treasure;
 import com.jogamp.newt.Window;
 import com.jogamp.newt.event.KeyAdapter;
 import com.jogamp.newt.event.KeyEvent;
@@ -54,55 +58,72 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
     private List<IModel> models = new ArrayList<>();
     private List<Enemy> enemies = new ArrayList<>();
     private Character character;
+    private PirateShip pirateShip;
     private Sword sword;
     private TextRenderer renderer;
-
+    private GameLevels gameLevels;
+    private Level level;
+    private CoordinateSystem pirateShipCoor;
+    private boolean startAnimation = true;
     public ShooterGame() {
         this.cooSystem =  new CoordinateSystem();
+        this.pirateShipCoor = new CoordinateSystem();
         glu = new GLU();
         canvas = new GLCanvas();
         frame = new Frame("ThePirateShip");
         animator = new Animator(canvas);
         ppi = new PointPolygonIntersection();
-        initWall();
+        gameLevels = new GameLevels();
     }
+
+
+    private void pirateShipAnimation(GL2 gl) {
+        Vector origin = pirateShipCoor.getOrigin();
+        Vector lookat = origin.minus(pirateShipCoor.getZ());
+        Vector y = pirateShipCoor.getY();
+        glu.gluLookAt(origin.get(0), origin.get(1), origin.get(2), lookat.get(0), lookat.get(1), lookat.get(2),
+                y.getVec()[0], y.getVec()[1], y.getVec()[2]);
+        pirateShipCoor.moveStep('z', -0.04);
+        pirateShipCoor.moveStep('y', -0.01);
+        pirateShip.draw(gl);
+        if (origin.get(2) < -90) {
+            startAnimation = false;
+        }
+    }
+
 
     public void display(GLAutoDrawable gLDrawable) {
         final GL2 gl = gLDrawable.getGL().getGL2();
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();  // Reset The View
-        //gl.glTranslatef(0.0f, 0.0f, -5.0f);
-        gl.glTexParameteri ( GL2.GL_TEXTURE_2D,GL2.GL_TEXTURE_WRAP_S, GL2.GL_LINEAR);
-        gl.glTexParameteri( GL2.GL_TEXTURE_2D,GL2.GL_TEXTURE_WRAP_T, GL2.GL_LINEAR);
-        Vector origin = cooSystem.getOrigin();
-        Vector lookat = origin.minus(cooSystem.getZ());
-        lookat.normal();
-        Vector y = cooSystem.getY();
-
-        glu.gluLookAt(origin.get(0), origin.get(1), origin.get(2), lookat.get(0), lookat.get(1), lookat.get(2), y.getVec()[0], y.getVec()[1], y.getVec()[2]);
-
-        for (Enemy enemy:enemies) {
-            enemy.updateOrigin(origin);
+        if (startAnimation) {
+            pirateShipAnimation(gl);
+        } else {
+            gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_S, GL2.GL_LINEAR);
+            gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_T, GL2.GL_LINEAR);
+            Vector origin = cooSystem.getOrigin();
+            Vector lookat = origin.minus(cooSystem.getZ());
+            lookat.normal();
+            Vector y = cooSystem.getY();
+            glu.gluLookAt(origin.get(0), origin.get(1), origin.get(2), lookat.get(0), lookat.get(1), lookat.get(2),
+                    y.getVec()[0], y.getVec()[1], y.getVec()[2]);
+            for (Enemy enemy:enemies) {
+                enemy.updateOrigin(origin);
+            }
+            gl.glPushMatrix();
+            for (IModel model : models) {
+                model.draw(gl);
+            }
+            gl.glPopMatrix();
+            level.drawRooms();
+            character.draw();
         }
-        /*gl.glPushMatrix();
-        gl.glRotatef(90,1,0,0);
-        gl.glTranslatef(0,0,-3);
-
-        sword.draw(gl);
-        gl.glPopMatrix();*/
-        gl.glPushMatrix();
-        for (IModel model : models) {
-            model.draw(gl);
-        }
-        gl.glPopMatrix();
-        character.draw();
-
     }
 
     public void init(GLAutoDrawable drawable) {
         final GL2 gl = drawable.getGL().getGL2();
         gl.glShadeModel(GL2.GL_SMOOTH);              // Enable Smooth Shading
-        gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f);    // Black Background
+        gl.glClearColor(0.0f, 0.3f, 1f, 0.5f);    // Black Background
         gl.glClearDepth(1.0f);                      // Depth Buffer Setup
         gl.glEnable(GL2.GL_DEPTH_TEST);              // Enables Depth Testing
         gl.glDepthFunc(GL2.GL_LEQUAL);               // The Type Of Depth Testing To Do
@@ -149,14 +170,26 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         //AK47 = loader.LoadModelToGL("objects/AK_47/Ak-47.obj",gl);
         //oldPirate = loader.LoadModelToGL("objects/RzR/rzr.obj",gl);
 
-
-        //sword
         sword = new Sword("objects/RzR/rzr.obj");
         float[] pos = {0f,5f,-10f};
         sword.create(loader,gl,pos);
         //models.add(sword);
 
-        //barrel
+        level = new Level(loader, gl, this);
+        level.BuildLevel(gameLevels.getLevelsList().get(0));
+
+//        Ak47 aK_471 = new Ak47("objects/AK_47/Ak-47.obj");
+//        float[] akPos1 = {-4,4,-10};
+//        aK_471.create(loader, gl,akPos1);
+//        //aK_471.scale(0.01f,0.01f,0.01f);
+//        models.add(aK_471);
+
+//        Shotgun shotgun1 = new Shotgun("objects/Shotgun/GunTwo.obj");
+//        float[] shotgunPos1 = {-4,4,-10};
+//        shotgun1.create(loader, gl, shotgunPos1);
+//        models.add(shotgun1);
+//
+//        //barrel
 //        IModel barrel = new Barrel("objects/barrel/barrel_obj.obj");
 //        float[] barrelPos = {10f,0f,-10f};
 //        barrel.create(loader,gl,barrelPos);
@@ -167,6 +200,34 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
 //        float[] bulletlPos = {10f,5f,-10f};
 //        bullet.create(loader,gl,bulletlPos);
 //        models.add(bullet);
+
+        //Treasure
+//        IModel treasure = new Treasure("objects/Treasure/treasure_chest.obj");
+//        float[] trasurelPos = {10f,0f,-10f};
+//        treasure.create(loader,gl,trasurelPos);
+//        models.add(treasure);
+
+        IModel map = new Map("objects/Map/14059_Pirate_Treasure_map_Scroll_v1_L1.obj");
+        float[] mapPos = {-20.2f,5f,-10f};
+        map.create(loader,gl,mapPos);
+        map.rotate(90, 'y');
+        models.add(map);
+
+        //cannon
+        Cannon cannon = new Cannon("objects/cannon/can.obj");
+        float[] canPos = {0f,0f,-10f};
+        cannon.create(loader,gl,canPos);
+        cannon.rotate(270, 'x');
+        models.add(cannon);
+
+        //PirateShip
+        pirateShip = new PirateShip("objects/PirateShip/boat.obj");
+        float[] shipPos = {0,-30f,-100f};
+        pirateShip.create(loader,gl,shipPos);
+        pirateShip.scale(200,200,200);
+
+        //models.add(ship);
+
         //ak47
         Ak47 AK_47 = new Ak47("objects/AK_47/Ak-47.obj");
         float[] akPos = {-10,3,8};
@@ -190,17 +251,19 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         this.character = new Character(shotgun,this.cooSystem,gl);
         character.AddWeapon(sword);
         character.AddWeapon(AK_47);
+        character.setCurrentLevel(level);
+
         //create the room
-        models.addAll(createWalls(gl));
+        //models.addAll(createWalls(gl));
         Cube cube1 = new Cube(-20,0,-20,5);
         cube1.setTexture(cube);
         float[] cubePos = {0,0,0};
         cube1.create(loader,gl,cubePos);
-        models.add(cube1);
+        //models.add(cube1);
         Cube cube2 = new Cube(15,0,-20,5);
         cube2.setTexture(cube);
         cube2.create(loader,gl,cubePos);
-        models.add(cube2);
+        //models.add(cube2);
 
         Enemy jack = new JackSparrow("objects/JackSparrow/Jack_Sparrow.obj");
         float[] jackPos = {-7,0,7};

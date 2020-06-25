@@ -1,5 +1,6 @@
 package Models.Weapons;
 
+import Game.CoordinateSystem;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
 
@@ -92,12 +93,16 @@ public class Sword extends Weapon {
     }
 
     @Override
-    public void reload() {
-
+    public int reload() {
+        return 0;
     }
 
     @Override
-    public void addAmmu() {
+    public void setAngle(float angle) {
+
+    }
+    @Override
+    public void setCoordinateSystem(CoordinateSystem coordinateSystem) {
 
     }
 }

@@ -1,13 +1,18 @@
 package Models;
 
+import Game.ShooterGame;
+import Levels.Level;
 import Models.DataAndLoader.ObjData;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Model implements IModel {
     protected List<ObjData> data = new ArrayList<>();
     protected float[] startPos = {0,0,0};
+    protected Level observer;
+//    public Model(ShooterGame shooterGame) {
+//        this.observer = shooterGame;
+//    }
     @Override
     public void translate(float x, float y, float z) {
         float[] trans = {x,y,z};
