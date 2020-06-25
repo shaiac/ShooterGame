@@ -18,6 +18,8 @@ import LinearMath.Vector;
 import Models.Cube;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
+import Models.Enemys.Enemy;
+import Models.Enemys.JackSparrow;
 import Models.Weapons.Ak47;
 import Models.Weapons.Bullet;
 import Models.Weapons.Shotgun;
@@ -50,6 +52,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
     private List<ObjData> oldPirate;
     private ObjectLoader loader = new ObjectLoader();
     private List<IModel> models = new ArrayList<>();
+    private List<Enemy> enemies = new ArrayList<>();
     private Character character;
     private Sword sword;
     private TextRenderer renderer;
@@ -78,6 +81,9 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
 
         glu.gluLookAt(origin.get(0), origin.get(1), origin.get(2), lookat.get(0), lookat.get(1), lookat.get(2), y.getVec()[0], y.getVec()[1], y.getVec()[2]);
 
+        for (Enemy enemy:enemies) {
+            enemy.updateOrigin(origin);
+        }
         /*gl.glPushMatrix();
         gl.glRotatef(90,1,0,0);
         gl.glTranslatef(0,0,-3);
@@ -143,6 +149,8 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         //AK47 = loader.LoadModelToGL("objects/AK_47/Ak-47.obj",gl);
         //oldPirate = loader.LoadModelToGL("objects/RzR/rzr.obj",gl);
 
+
+        //sword
         sword = new Sword("objects/RzR/rzr.obj");
         float[] pos = {0f,5f,-10f};
         sword.create(loader,gl,pos);
@@ -159,7 +167,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
 //        float[] bulletlPos = {10f,5f,-10f};
 //        bullet.create(loader,gl,bulletlPos);
 //        models.add(bullet);
-
+        //ak47
         Ak47 AK_47 = new Ak47("objects/AK_47/Ak-47.obj");
         float[] akPos = {-10,3,8};
         AK_47.create(loader, gl,akPos);
@@ -168,7 +176,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         AK_47.rotate(50,'x');
         AK_47.rotate(-70,'y');
         AK_47.rotate(45,'z');
-
+        //shotgun
         Shotgun shotgun = new Shotgun("objects/Shotgun/GunTwo.obj");
         float[] shotgunPos = {0,0,0};
         shotgun.create(loader, gl, shotgunPos);
@@ -178,7 +186,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         shotgun.rotate(180,'y');
         shotgun.rotate(10,'z');
 
-        //models.add(sword);
+        //create the character
         this.character = new Character(shotgun,this.cooSystem,gl);
         character.AddWeapon(sword);
         character.AddWeapon(AK_47);
@@ -193,6 +201,13 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         cube2.setTexture(cube);
         cube2.create(loader,gl,cubePos);
         models.add(cube2);
+
+        Enemy jack = new JackSparrow("objects/JackSparrow/Jack_Sparrow.obj");
+        float[] jackPos = {-7,0,7};
+        jack.create(loader,gl,jackPos);
+
+        models.add(jack);
+        enemies.add(jack);
 
 
         if (drawable instanceof Window) {
