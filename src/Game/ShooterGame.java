@@ -30,6 +30,7 @@ import Models.Weapons.Sword;
 import Models.Wall;
 import Models.IModel;
 import Models.goods.Map;
+import Models.goods.Skull;
 import Models.goods.Treasure;
 import com.jogamp.newt.Window;
 import com.jogamp.newt.event.KeyAdapter;
@@ -164,6 +165,13 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         cannon.create(loader,gl,canPos);
         cannon.rotate(270, 'x');
         models.add(cannon);
+
+        //skull
+        Skull skull = new Skull("objects/skull/Skull.obj");
+        float[] skullPos = {0f,5f,0f};
+        skull.create(loader,gl,skullPos);
+        skull.scale(20, 20 ,20);
+        models.add(skull);
 
         //PirateShip
         pirateShip = new PirateShip("objects/PirateShip/boat.obj");
