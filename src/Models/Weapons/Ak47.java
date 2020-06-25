@@ -16,7 +16,7 @@ public class Ak47 extends Weapon {
     private String path;
     private Magazine magazine;
     private boolean attackMode = false;
-    private float duration = 500f;
+    private float duration = 250f;
     private float time;
     private float change = 0;
     private float rChange = 0;

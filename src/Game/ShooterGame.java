@@ -66,6 +66,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
     private CoordinateSystem pirateShipCoor;
     private boolean startAnimation = true;
     private double[] mousePos = {0,0,1};
+    private boolean attack = false;
     public ShooterGame() {
         this.cooSystem =  new CoordinateSystem();
         this.pirateShipCoor = new CoordinateSystem();
@@ -97,9 +98,9 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         final GL2 gl = gLDrawable.getGL().getGL2();
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();  // Reset The View
-        if (startAnimation) {
+        /*if (startAnimation) {
             pirateShipAnimation(gl);
-        } else {
+        } else {*/
             gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_S, GL2.GL_LINEAR);
             gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_T, GL2.GL_LINEAR);
             Vector origin = cooSystem.getOrigin();
@@ -115,7 +116,10 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
             gl.glPopMatrix();*/
             level.drawRooms();
             character.draw();
-        }
+            if(attack){
+                character.attack();
+            }
+        //}
     }
 
     public void init(GLAutoDrawable drawable) {
@@ -305,60 +309,105 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
-        if(mouseEvent.getButton() == MouseEvent.BUTTON1){
-            character.attack();
-        }
-
 
     }
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-        System.out.println("Mouse entered" + mouseEvent.getX() + "  " + mouseEvent.getY());
         mousePos[0] = mouseEvent.getX();
         mousePos[1] = mouseEvent.getY();
+        if(mousePos[0] > frame.getWidth()){
+            mousePos[0] = frame.getWidth();
+        }
+        if(mousePos[1] > frame.getHeight()){
+            mousePos[1] = frame.getHeight();
+        }
+
     }
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
 
+        mousePos[0] = mouseEvent.getX();
+        mousePos[1] = mouseEvent.getY();
+        if(mousePos[0] > frame.getWidth()){
+            mousePos[0] = frame.getWidth();
+        }
+        if(mousePos[1] > frame.getHeight()){
+            mousePos[1] = frame.getHeight();
+        }
+
     }
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
-        /*if(mouseEvent.getButton() == MouseEvent.BUTTON1){
-            character.attack();
-        }*/
+        if(mouseEvent.getButton() == MouseEvent.BUTTON1){
+            this.attack = true;
+        }
+        if(mouseEvent.getButton() == MouseEvent.BUTTON3){
+            character.reload();
+        }
+
     }
 
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
-
+        if(mouseEvent.getButton() == MouseEvent.BUTTON1){
+            this.attack = false;
+        }
     }
 
     @Override
     public void mouseMoved(MouseEvent mouseEvent) {
-        System.out.println("Mouse moved" + mouseEvent.getX() + "  " + mouseEvent.getY());
-        double angle = (double) 720/(double) frame.getWidth();
         double[] mPos = {mouseEvent.getX(), mouseEvent.getY(),1};
-        double diff = mousePos[0] - mPos[0];
-        if(diff > 0){
-            character.rotate('y',Math.toRadians(-diff*angle));
-        }else {
-            character.rotate('y',Math.toRadians(-diff*angle));
+        if(mPos[0] > frame.getWidth()){
+            mPos[0] = frame.getWidth();
         }
+        if(mPos[1] > frame.getHeight()){
+            mPos[1] = frame.getHeight();
+        }
+        if(mPos[0] < 0){
+            mPos[0] = 0;
+        }
+        if(mPos[1] < 0){
+            mPos[1] = 0;
+        }
+        double angle = Math.PI*4/(double) frame.getWidth();
+        double diff = mPos[0] - mousePos[0];
+        character.rotate('y',diff*angle);
         mousePos = mPos;
+
+
+
+
+
 
     }
 
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
-
+        double[] mPos = {mouseEvent.getX(), mouseEvent.getY(),1};
+        if(mPos[0] > frame.getWidth()){
+            mPos[0] = frame.getWidth();
+        }
+        if(mPos[1] > frame.getHeight()){
+            mPos[1] = frame.getHeight();
+        }
+        if(mPos[0] < 0){
+            mPos[0] = 0;
+        }
+        if(mPos[1] < 0){
+            mPos[1] = 0;
+        }
+        double angle = Math.PI*4/(double) frame.getWidth();
+        double diff = mPos[0] - mousePos[0];
+        character.rotate('y',diff*angle);
+        mousePos = mPos;
     }
 
     @Override
     public void mouseWheelMoved(MouseEvent mouseEvent) {
-
+        character.changeWeapon();
     }
 
     /**

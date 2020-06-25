@@ -49,15 +49,15 @@ public class Character {
         currentWeapon = weapons.poll();
     }
     public void draw(){
+        deg = (float) Math.toDegrees(totalRotation);
         currentWeapon.setAngle(deg);
         ammu.draw();
         life.draw();
         gl.glPushMatrix();
-        deg = (float) Math.toDegrees(totalRotation);
         gl.glTranslatef((float) cooSystem.getOrigin().getVec()[0],(float) cooSystem.getOrigin().getVec()[1],
                 (float) cooSystem.getOrigin().getVec()[2]);
         gl.glRotatef(deg,0,1,0);
-        gl.glTranslatef(0,0,-1.9f);
+        gl.glTranslatef(0,0,-1.8f);
         currentWeapon.draw(gl);
         gl.glPopMatrix();
     }
@@ -90,7 +90,7 @@ public class Character {
 //        lastTimeInter = false;
 //        keyPressedWhileInter = -1;
         float step = 0.5f;
-        double angle = 0.05;
+        double angle = Math.PI/36;
         switch (keyPressed) {
             case KeyEvent.VK_UP:
                 cooSystem.moveStep('z', -step);
@@ -119,7 +119,7 @@ public class Character {
     }
     public void rotate(char axis, double angle){
         cooSystem.rotate(axis,angle);
-        this.totalRotation -= angle;
+        this.totalRotation = (this.totalRotation -angle);
     }
 
     public void AddWeapon(Weapon newWeapon) {

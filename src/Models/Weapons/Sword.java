@@ -12,7 +12,7 @@ public class Sword extends Weapon {
     private List<float[]> colPoints= new ArrayList<>();
     private String path;
     private boolean attackMode = false;
-    private float duration = 1000f;
+    private float duration = 250f;
     private float time;
     private float change = 0;
     private float rChange = 0;
@@ -45,7 +45,7 @@ public class Sword extends Weapon {
         if(attackMode){
             endTime = System.currentTimeMillis();
             milliseconds = endTime- startTime;
-            change = (1f/2000f)*milliseconds;
+            change = (0.5f/duration)*milliseconds;
 
             for (ObjData obj:data) {
                 moveSword(gl);
@@ -67,7 +67,7 @@ public class Sword extends Weapon {
     }
     private void moveSword(GL2 gl) {
         if(time <= duration/2){
-            rChange += (60f/2000f)*milliseconds;
+            rChange += (30f/duration)*milliseconds;
             //translate(-change,-change,0f);
             gl.glTranslatef(-0.5f,-0.5f,0.5f);
             gl.glRotatef(-rChange,1,0,0);
@@ -76,7 +76,7 @@ public class Sword extends Weapon {
             //rotate(-rChange,'x');
             //rotate(rChange,'y');
         }else{
-            rChange -= (60f/2000f)*milliseconds;
+            rChange -= (30f/duration)*milliseconds;
             //translate(change, change,0f);
             gl.glTranslatef(-0.5f,-0.5f,0.5f);
             gl.glRotatef(-rChange,1,0,0);
