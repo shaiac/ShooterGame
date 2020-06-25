@@ -8,6 +8,8 @@ import Models.Weapons.Ak47;
 import Models.Weapons.Shotgun;
 import Models.Weapons.Sword;
 import Models.goods.Barrel;
+import Models.goods.Map;
+import Models.goods.Treasure;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureIO;
 
@@ -57,44 +59,60 @@ public class Level {
                 if (data.contains("ROOM")) {
                     rooms.add(roomNumber, new Room());
                     roomNumber++;
-                } if (data.contains("wall")) {
+                } else if (data.contains("wall")) {
                     Wall wall = createWall(data);
                     levelWalls.add(wall);
                     rooms.get(roomNumber - 1).AddModel(wall);
-                } if (data.contains("OldPirate")) {
+                } else if (data.contains("OldPirate")) {
                     //rooms.get(roomNumber - 1).AddModel(createOldPirate(data));
-                } if (data.contains("AK_47")) {
+                } else if (data.contains("AK_47")) {
                     splitData = data.split(" ");
                     Ak47 ak47 = new Ak47(splitData[1], this);
                     float[] akPos = {Float.parseFloat(splitData[2]),Float.parseFloat(splitData[3]),
                             Float.parseFloat(splitData[4])};
                     ak47.create(loader, gl, akPos);
                     rooms.get(roomNumber - 1).AddModel(ak47);
-                } if (data.contains("Barrel")) {
+                } else if (data.contains("Barrel")) {
                     splitData = data.split(" ");
                     Barrel barrel = new Barrel("objects/barrel/barrel_obj.obj");
                     float[] barrelPos = {Float.parseFloat(splitData[2]),Float.parseFloat(splitData[3]),
                             Float.parseFloat(splitData[4])};
                     barrel.create(loader, gl, barrelPos);
                     rooms.get(roomNumber - 1).AddModel(barrel);
-                } if (data.contains("Cannon")) {
+                } else if (data.contains("Cannon")) {
                     //rooms.get(roomNumber - 1).AddModel(new Cannon(data));
-                } if (data.contains("JackSparrow")) {
+                } else if (data.contains("JackSparrow")) {
                     //rooms.get(roomNumber - 1).AddModel(new JackSparrow(data));
-                } if (data.contains("Shotgun")) {
+                } else if (data.contains("Shotgun")) {
                     splitData = data.split(" ");
                     Shotgun shotgun = new Shotgun("objects/Shotgun/GunTwo.obj", this);
                     float[] shotgunPos = {Float.parseFloat(splitData[2]),Float.parseFloat(splitData[3]),
                             Float.parseFloat(splitData[4])};
                     shotgun.create(loader, gl, shotgunPos);
                     rooms.get(roomNumber - 1).AddModel(shotgun);
-                } if (data.contains("Sword")) {
+                } else if (data.contains("Sword")) {
                     splitData = data.split(" ");
                     Sword sword = new Sword("objects/RzR/rzr.obj");
                     float[] swordPos = {Float.parseFloat(splitData[2]),Float.parseFloat(splitData[3]),
                             Float.parseFloat(splitData[4])};
                     sword.create(loader,gl,swordPos);
                     rooms.get(roomNumber - 1).AddModel(sword);
+                } else if (data.contains("Treasure")) {
+                    splitData = data.split(" ");
+                    Treasure treasure = new Treasure(splitData[1]);
+                    float[] treasurePos = {Float.parseFloat(splitData[2]),Float.parseFloat(splitData[3]),
+                            Float.parseFloat(splitData[4])};
+                    treasure.create(loader,gl,treasurePos);
+                    treasure.rotate(Float.parseFloat(splitData[5]), 'y');
+                    rooms.get(roomNumber - 1).AddModel(treasure);
+                } else if (data.contains("Map")) {
+                    splitData = data.split(" ");
+                    Map map = new Map(splitData[1]);
+                    float[] mapPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
+                            Float.parseFloat(splitData[4])};
+                    map.create(loader, gl, mapPos);
+                    map.rotate(Float.parseFloat(splitData[5]), 'y');
+                    rooms.get(roomNumber - 1).AddModel(map);
                 }
             }
         } catch (IOException e) {

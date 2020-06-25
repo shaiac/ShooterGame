@@ -20,11 +20,15 @@ import LinearMath.Vector;
 import Models.Cube;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
+import Models.PirateShip;
 import Models.Weapons.Ak47;
+import Models.Weapons.Cannon;
 import Models.Weapons.Shotgun;
 import Models.Weapons.Sword;
 import Models.Wall;
 import Models.IModel;
+import Models.goods.Map;
+import Models.goods.Treasure;
 import com.jogamp.newt.Window;
 import com.jogamp.newt.event.KeyAdapter;
 import com.jogamp.newt.event.KeyEvent;
@@ -45,17 +49,19 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
     private static Frame frame;
     private static Animator animator;
     private PointPolygonIntersection ppi;
-    private ArrayList<ObjData> jack;
-    private List<ObjData> oldPirate;
     private ObjectLoader loader = new ObjectLoader();
     private List<IModel> models = new ArrayList<>();
     private Character character;
+    private PirateShip pirateShip;
     private Sword sword;
     private TextRenderer renderer;
     private GameLevels gameLevels;
     private Level level;
+    private CoordinateSystem pirateShipCoor;
+    private boolean startAnimation = true;
     public ShooterGame() {
         this.cooSystem =  new CoordinateSystem();
+        this.pirateShipCoor = new CoordinateSystem();
         glu = new GLU();
         canvas = new GLCanvas();
         frame = new Frame("ThePirateShip");
@@ -64,33 +70,51 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         gameLevels = new GameLevels();
     }
 
+
+    private void pirateShipAnimation(GL2 gl) {
+        Vector origin = pirateShipCoor.getOrigin();
+        Vector lookat = origin.minus(pirateShipCoor.getZ());
+        Vector y = pirateShipCoor.getY();
+        glu.gluLookAt(origin.get(0), origin.get(1), origin.get(2), lookat.get(0), lookat.get(1), lookat.get(2),
+                y.getVec()[0], y.getVec()[1], y.getVec()[2]);
+        pirateShipCoor.moveStep('z', -0.04);
+        pirateShipCoor.moveStep('y', -0.01);
+        pirateShip.draw(gl);
+        if (origin.get(2) < -90) {
+            startAnimation = false;
+        }
+    }
+
+
     public void display(GLAutoDrawable gLDrawable) {
         final GL2 gl = gLDrawable.getGL().getGL2();
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();  // Reset The View
-        gl.glTexParameteri ( GL2.GL_TEXTURE_2D,GL2.GL_TEXTURE_WRAP_S, GL2.GL_LINEAR);
-        gl.glTexParameteri( GL2.GL_TEXTURE_2D,GL2.GL_TEXTURE_WRAP_T, GL2.GL_LINEAR);
-        Vector origin = cooSystem.getOrigin();
-        Vector lookat = origin.minus(cooSystem.getZ());
-        lookat.normal();
-        Vector y = cooSystem.getY();
-
-        glu.gluLookAt(origin.get(0), origin.get(1), origin.get(2), lookat.get(0), lookat.get(1), lookat.get(2),
-                y.getVec()[0], y.getVec()[1], y.getVec()[2]);
-        gl.glPushMatrix();
-        for (IModel model : models) {
-            model.draw(gl);
+        if (startAnimation) {
+            pirateShipAnimation(gl);
+        } else {
+            gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_S, GL2.GL_LINEAR);
+            gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_T, GL2.GL_LINEAR);
+            Vector origin = cooSystem.getOrigin();
+            Vector lookat = origin.minus(cooSystem.getZ());
+            lookat.normal();
+            Vector y = cooSystem.getY();
+            glu.gluLookAt(origin.get(0), origin.get(1), origin.get(2), lookat.get(0), lookat.get(1), lookat.get(2),
+                    y.getVec()[0], y.getVec()[1], y.getVec()[2]);
+            gl.glPushMatrix();
+            for (IModel model : models) {
+                model.draw(gl);
+            }
+            gl.glPopMatrix();
+            level.drawRooms();
+            character.draw();
         }
-        gl.glPopMatrix();
-        level.drawRooms();
-        character.draw();
-
     }
 
     public void init(GLAutoDrawable drawable) {
         final GL2 gl = drawable.getGL().getGL2();
         gl.glShadeModel(GL2.GL_SMOOTH);              // Enable Smooth Shading
-        gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f);    // Black Background
+        gl.glClearColor(0.0f, 0.3f, 1f, 0.5f);    // Black Background
         gl.glClearDepth(1.0f);                      // Depth Buffer Setup
         gl.glEnable(GL2.GL_DEPTH_TEST);              // Enables Depth Testing
         gl.glDepthFunc(GL2.GL_LEQUAL);               // The Type Of Depth Testing To Do
@@ -133,17 +157,12 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         gl.glEnable(GL2.GL_LIGHT1);
 
         gl.glEnable(GL2.GL_LIGHTING);
-        //jack = loader.LoadModelToGL("objects/JackSparrow/Jack_Sparrow.obj",gl);
-        //AK47 = loader.LoadModelToGL("objects/AK_47/Ak-47.obj",gl);
-        //oldPirate = loader.LoadModelToGL("objects/RzR/rzr.obj",gl);
 
         sword = new Sword("objects/RzR/rzr.obj");
         float[] pos = {0f,5f,-10f};
         sword.create(loader,gl,pos);
-        models.add(sword);
-//        Sword sword1 = new Sword("objects/RzR/rzr.obj");
-//        sword1.create(loader,gl,pos);
-        //models.add(sword1);
+//        models.add(sword);
+
         level = new Level(loader, gl, this);
         level.BuildLevel(gameLevels.getLevelsList().get(0));
 
@@ -169,6 +188,33 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
 //        float[] bulletlPos = {10f,5f,-10f};
 //        bullet.create(loader,gl,bulletlPos);
 //        models.add(bullet);
+
+        //Treasure
+//        IModel treasure = new Treasure("objects/Treasure/treasure_chest.obj");
+//        float[] trasurelPos = {10f,0f,-10f};
+//        treasure.create(loader,gl,trasurelPos);
+//        models.add(treasure);
+
+        IModel map = new Map("objects/Map/14059_Pirate_Treasure_map_Scroll_v1_L1.obj");
+        float[] mapPos = {-20.2f,5f,-10f};
+        map.create(loader,gl,mapPos);
+        map.rotate(90, 'y');
+        models.add(map);
+
+        //cannon
+        Cannon cannon = new Cannon("objects/cannon/can.obj");
+        float[] canPos = {0f,0f,-10f};
+        cannon.create(loader,gl,canPos);
+        cannon.rotate(270, 'x');
+        models.add(cannon);
+
+        //PirateShip
+        pirateShip = new PirateShip("objects/PirateShip/boat.obj");
+        float[] shipPos = {0,-30f,-100f};
+        pirateShip.create(loader,gl,shipPos);
+        pirateShip.scale(200,200,200);
+
+        //models.add(ship);
 
         Ak47 AK_47 = new Ak47("objects/AK_47/Ak-47.obj", level);
         float[] akPos = {-10,3,8};
