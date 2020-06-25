@@ -1,5 +1,6 @@
 package Models.Weapons;
 
+import Levels.Level;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
 import Models.Model;
@@ -8,7 +9,10 @@ import javax.media.opengl.GL2;
 
 public class Cannon extends Model {
     private String path;
-    public Cannon(String path) {
+    private ObjectLoader loader;
+    private GL2 gl;
+    public Cannon(String path, Level level) {
+        this.observer = level;
         this.path = path;
     }
 
@@ -17,6 +21,8 @@ public class Cannon extends Model {
         data = loader.LoadModelToGL(path,gl);
         this.translate(1f,0f,0f);
         this.startPos = startPos;
+        this.loader = loader;
+        this.gl = gl;
     }
 
     @Override
@@ -28,5 +34,14 @@ public class Cannon extends Model {
             obj.draw(gl);
         }
         gl.glPopMatrix();
+        fireBall();
+    }
+
+    public void fireBall() {
+        CannonBall ball = new CannonBall("objects/ball/uploads_files_2078589_sphere.obj");
+        //float[] ballPos = {startPos[0],,-10f};
+        ball.create(loader,gl,startPos);
+        //ball.rotate(270, 'x');
+        observer.addModel(ball);
     }
 }
