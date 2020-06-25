@@ -4,6 +4,8 @@ Ziv Zaarur 206099913
 Shai Acoca 315314278
  */
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseMotionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,13 +34,16 @@ import Models.goods.Treasure;
 import com.jogamp.newt.Window;
 import com.jogamp.newt.event.KeyAdapter;
 import com.jogamp.newt.event.KeyEvent;
+import com.jogamp.newt.event.MouseEvent;
+import com.jogamp.newt.event.MouseListener;
 import com.jogamp.newt.event.awt.AWTKeyAdapter;
+import com.jogamp.newt.event.awt.AWTMouseAdapter;
 import com.jogamp.opengl.util.Animator;
 import com.jogamp.opengl.util.awt.TextRenderer;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureIO;
 
-public class ShooterGame extends KeyAdapter implements GLEventListener {
+public class ShooterGame extends KeyAdapter implements GLEventListener, MouseListener, MouseMotionListener {
     private Texture cube;
     private Texture walls;
     private Texture topWall;
@@ -59,6 +64,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
     private Level level;
     private CoordinateSystem pirateShipCoor;
     private boolean startAnimation = true;
+    private double[] mousePos = {0,0,1};
     public ShooterGame() {
         this.cooSystem =  new CoordinateSystem();
         this.pirateShipCoor = new CoordinateSystem();
@@ -204,9 +210,11 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         if (drawable instanceof Window) {
             Window window = (Window) drawable;
             window.addKeyListener(this);
+            window.addMouseListener(this);
         } else if (GLProfile.isAWTAvailable() && drawable instanceof java.awt.Component) {
             java.awt.Component comp = (java.awt.Component) drawable;
             new AWTKeyAdapter(this, drawable).addTo(comp);
+            new AWTMouseAdapter(this,drawable).addTo(comp);
         }
     }
 
@@ -285,6 +293,93 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
 
     public void displayChanged(GLAutoDrawable gLDrawable,
                                boolean modeChanged, boolean deviceChanged) {
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent mouseEvent) {
+        if(mouseEvent.getButton() == MouseEvent.BUTTON1){
+            character.attack();
+        }
+
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent mouseEvent) {
+        System.out.println("Mouse entered" + mouseEvent.getX() + "  " + mouseEvent.getY());
+        mousePos[0] = mouseEvent.getX();
+        mousePos[1] = mouseEvent.getY();
+    }
+
+    @Override
+    public void mouseExited(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent mouseEvent) {
+        /*if(mouseEvent.getButton() == MouseEvent.BUTTON1){
+            character.attack();
+        }*/
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent mouseEvent) {
+        System.out.println("Mouse moved" + mouseEvent.getX() + "  " + mouseEvent.getY());
+        double angle = (double) 720/(double) frame.getWidth();
+        double[] mPos = {mouseEvent.getX(), mouseEvent.getY(),1};
+        double diff = mousePos[0] - mPos[0];
+        if(diff > 0){
+            character.rotate('y',Math.toRadians(-diff*angle));
+        }else {
+            character.rotate('y',Math.toRadians(-diff*angle));
+        }
+        mousePos = mPos;
+
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseWheelMoved(MouseEvent mouseEvent) {
+
+    }
+
+    /**
+     * Invoked when a mouse button is pressed on a component and then
+     * dragged.  <code>MOUSE_DRAGGED</code> events will continue to be
+     * delivered to the component where the drag originated until the
+     * mouse button is released (regardless of whether the mouse position
+     * is within the bounds of the component).
+     * <p>
+     * Due to platform-dependent Drag&amp;Drop implementations,
+     * <code>MOUSE_DRAGGED</code> events may not be delivered during a native
+     * Drag&amp;Drop operation.
+     *
+     * @param e
+     */
+    @Override
+    public void mouseDragged(java.awt.event.MouseEvent e) {
+
+    }
+
+    /**
+     * Invoked when the mouse cursor has been moved onto a component
+     * but no buttons have been pushed.
+     *
+     * @param e
+     */
+    @Override
+    public void mouseMoved(java.awt.event.MouseEvent e) {
+
     }
 
     /*public ArrayList<IModel> createWalls(GL2 gl){

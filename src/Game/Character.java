@@ -117,6 +117,10 @@ public class Character {
                 break;
         }
     }
+    public void rotate(char axis, double angle){
+        cooSystem.rotate(axis,angle);
+        this.totalRotation -= angle;
+    }
 
     public void AddWeapon(Weapon newWeapon) {
         newWeapon.weaponPicked();
