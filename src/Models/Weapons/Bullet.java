@@ -9,9 +9,14 @@ import java.util.List;
 public class Bullet extends Model {
     private float angle;
     private float move;
+    private float[] bulletPos = {0,0,0};
     public Bullet( List<ObjData> objData) {
         this.data = objData;
         this.move = 0;
+    }
+
+    public void setBulletPos(float[] bulletPos) {
+        this.bulletPos = bulletPos;
     }
 
     public void setAngle(float angle) {
@@ -27,8 +32,11 @@ public class Bullet extends Model {
     public void draw(GL2 gl) {
         gl.glPushMatrix();
         move -= 0.003;
+        gl.glTranslatef(startPos[0],startPos[1],startPos[2]);
         gl.glRotatef(angle,0,1,0);
-        gl.glTranslatef(startPos[0],startPos[1],startPos[2] + move);
+        // y = -0.48f ,z = -3.9
+        gl.glTranslatef(bulletPos[0],bulletPos[1],bulletPos[2]+ move);
+
         gl.glRotatef(180, 0, 1, 0);
         gl.glScalef(0.08f, 0.08f, 0.08f);
         for (ObjData obj:data) {

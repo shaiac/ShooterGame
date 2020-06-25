@@ -139,9 +139,11 @@ public class Level {
 
     private Texture getTextureFromPath(String texturePath) {
         try {
-            //String data[] = texturePath.split("\\.");
-            Texture texture = TextureIO.newTexture(new File( texturePath ),true);
-            return texture;
+            InputStream myis = ClassLoader.getSystemClassLoader().getResourceAsStream(texturePath);
+            String data[] = texturePath.split("\\.");
+            return TextureIO.newTexture(myis, true, data[1]);
+            //Texture texture = TextureIO.newTexture(new File( texturePath ),true);
+            //return texture;
         } catch (IOException e) {
             return null;
         }

@@ -103,13 +103,15 @@ public class Ak47 extends Weapon {
         }else{
             if (!shot) {
                 shot = true;
-                float[] pos = {(float) cooSystem.getOrigin().getVec()[0], (float) cooSystem.getOrigin().getVec()[1]
-                        -0.48f, (float) cooSystem.getOrigin().getVec()[2]-3.9f};
-               addAsRoomModel(magazine.shotBullet(pos));
+                float[] pos1 = {(float) cooSystem.getOrigin().getVec()[0], (float) cooSystem.getOrigin().getVec()[1]
+                        , (float) cooSystem.getOrigin().getVec()[2]};
+                float[] pos2 = {0f,-0.48f,-3.9f};
+               addAsRoomModel(magazine.shotBullet(pos1,pos2));
             }
             rChange += (5f/duration)*milliseconds;
             gl.glRotatef(rChange,0,1,0);
 
         }
+        // y = -0.48f ,z = -3.9
     }
 }

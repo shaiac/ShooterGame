@@ -101,11 +101,11 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
             Vector y = cooSystem.getY();
             glu.gluLookAt(origin.get(0), origin.get(1), origin.get(2), lookat.get(0), lookat.get(1), lookat.get(2),
                     y.getVec()[0], y.getVec()[1], y.getVec()[2]);
-            gl.glPushMatrix();
-            for (IModel model : models) {
+            /*gl.glPushMatrix();
+            /*for (IModel model : models) {
                 model.draw(gl);
             }
-            gl.glPopMatrix();
+            gl.glPopMatrix();*/
             level.drawRooms();
             character.draw();
         }
@@ -121,21 +121,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         // Really Nice Perspective Calculations
         gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT, GL2.GL_NICEST);
         gl.glEnable(GL2.GL_TEXTURE_2D);
-        try {
-            String filename="resources/Picture1.jpg"; // the FileName to open
-            cube=TextureIO.newTexture(new File( filename ),true);
-            //filename="resources/Picture2.jpg";
-            filename="resources/woodenWall.jpg";
-            walls=TextureIO.newTexture(new File( filename ),true);
-            filename="resources/woodenWall.jpg";
-            topWall=TextureIO.newTexture(new File( filename ),true);
-            filename="resources/woodenWall.jpg";
-            bottomWall=TextureIO.newTexture(new File( filename ),true);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
         gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR);
         gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR);
         gl.glEnable(GL2.GL_LIGHTING);
@@ -157,49 +143,14 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         gl.glEnable(GL2.GL_LIGHT1);
 
         gl.glEnable(GL2.GL_LIGHTING);
+        //end of lightning
 
         sword = new Sword("objects/RzR/rzr.obj");
         float[] pos = {0f,5f,-10f};
         sword.create(loader,gl,pos);
-//        models.add(sword);
 
         level = new Level(loader, gl, this);
         level.BuildLevel(gameLevels.getLevelsList().get(0));
-
-//        Ak47 aK_471 = new Ak47("objects/AK_47/Ak-47.obj");
-//        float[] akPos1 = {-4,4,-10};
-//        aK_471.create(loader, gl,akPos1);
-//        //aK_471.scale(0.01f,0.01f,0.01f);
-//        models.add(aK_471);
-
-//        Shotgun shotgun1 = new Shotgun("objects/Shotgun/GunTwo.obj");
-//        float[] shotgunPos1 = {-4,4,-10};
-//        shotgun1.create(loader, gl, shotgunPos1);
-//        models.add(shotgun1);
-//
-//        //barrel
-//        IModel barrel = new Barrel("objects/barrel/barrel_obj.obj");
-//        float[] barrelPos = {10f,0f,-10f};
-//        barrel.create(loader,gl,barrelPos);
-//        models.add(barrel);
-
-        //Bullet
-//        IModel bullet = new Bullet("objects/Bullet/lowpolybullet.obj");
-//        float[] bulletlPos = {10f,5f,-10f};
-//        bullet.create(loader,gl,bulletlPos);
-//        models.add(bullet);
-
-        //Treasure
-//        IModel treasure = new Treasure("objects/Treasure/treasure_chest.obj");
-//        float[] trasurelPos = {10f,0f,-10f};
-//        treasure.create(loader,gl,trasurelPos);
-//        models.add(treasure);
-
-        IModel map = new Map("objects/Map/14059_Pirate_Treasure_map_Scroll_v1_L1.obj");
-        float[] mapPos = {-20.2f,5f,-10f};
-        map.create(loader,gl,mapPos);
-        map.rotate(90, 'y');
-        models.add(map);
 
         //cannon
         Cannon cannon = new Cannon("objects/cannon/can.obj", level);
@@ -210,11 +161,9 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
 
         //PirateShip
         pirateShip = new PirateShip("objects/PirateShip/boat.obj");
-        float[] shipPos = {0,-30f,-100f};
+        float[] shipPos = {0,-20f,-100f};
         pirateShip.create(loader,gl,shipPos);
         pirateShip.scale(200,200,200);
-
-        //models.add(ship);
 
         Ak47 AK_47 = new Ak47("objects/AK_47/Ak-47.obj", level);
         float[] akPos = {-10,3,8};
@@ -239,7 +188,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         character.AddWeapon(AK_47);
         character.setCurrentLevel(level);
 
-        //create the room
+        /*//create the room
         //models.addAll(createWalls(gl));
         Cube cube1 = new Cube(-20,0,-20,5);
         cube1.setTexture(cube);
@@ -249,7 +198,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         Cube cube2 = new Cube(15,0,-20,5);
         cube2.setTexture(cube);
         cube2.create(loader,gl,cubePos);
-        //models.add(cube2);
+        //models.add(cube2);*/
 
 
         if (drawable instanceof Window) {
@@ -270,8 +219,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         float h = (float)width / (float)height;
         gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
-        glu.gluPerspective(60.0f, h, 1.0, 100.0);
-        //gl.glOrtho(-6.0,6.0,-6.0,6.0,-6.0,6.0);
+        glu.gluPerspective(80.0f, h, 1.0, 160.0);
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glLoadIdentity();
     }
@@ -336,7 +284,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
                                boolean modeChanged, boolean deviceChanged) {
     }
 
-    public ArrayList<IModel> createWalls(GL2 gl){
+    /*public ArrayList<IModel> createWalls(GL2 gl){
         ArrayList<IModel> models = new ArrayList<>();
         float[] wallPos = {0,0,0};
         Wall front = new Wall(-20,0,-20,'x',10,40);
@@ -375,6 +323,6 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         models.add(bottom);
 
         return models;
-    }
+    }*/
 
 }

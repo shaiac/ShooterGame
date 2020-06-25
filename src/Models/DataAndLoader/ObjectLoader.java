@@ -254,6 +254,7 @@ public class ObjectLoader {
 
     private void SetFaceRenderType() {
         final int temp[] = (int[]) fv.get(0);
+
         if (temp.length == 3) {
             FaceFormat = GL2.GL_TRIANGLES; //the faces come in sets of 3 so we have triangular faces
         } else if (temp.length == 4) {

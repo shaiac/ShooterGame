@@ -2,25 +2,28 @@
 
 ROOM_ONE
      //x //y //z //axis //width //length //texture
-wall -60 0 -20 x 10 55 resources/woodenWall.jpg
-wall 5 0 -20 x 10 55 resources/woodenWall.jpg
-wall -20 0 20 x 10 40 resources/woodenWall.jpg
-wall 20 0 -20 z 10 40 resources/woodenWall.jpg
-wall -20 0 -20 z 10 40 resources/woodenWall.jpg
-wall -20 10 -20 y 40 40 resources/woodenWall.jpg
-wall -20 0 -20 y 40 40 resources/woodenWall.jpg
+wall -60 0 -20 x 20 55 woodenWall.jpg
+wall -5 10 -20 x 10 10 woodenWall.jpg
+wall 5 0 -20 x 20 55 woodenWall.jpg
+wall -20 0 20 x 10 40 woodenWall.jpg
+wall 20 0 -20 z 10 40 woodenWall.jpg
+wall -20 0 -20 z 10 40 woodenWall.jpg
+wall -20 10 -20 y 40 40 woodenWall.jpg
+wall -20 0 -20 y 40 40 woodenWall.jpg
 AK_47 objects/AK_47/Ak-47.obj -15 5 0
 Shotgun objects/Shotgun/GunTwo.obj 15 5 0
+Map objects/Map/14059_Pirate_map_Scroll_v1_L1.obj -20.2 5 -10 90
 Barrel objects/barrel/barrel_obj.obj -17 0 -17
 Barrel objects/barrel/barrel_obj.obj 17 0 -17
 Treasure objects/Treasure/treasure_chest.obj 14 0 -8 90
 
+
 ROOM_TWO
-wall -60 0 -100 z 10 80 resources/woodenWall.jpg
-wall 60 0 -100 z 10 80 resources/woodenWall.jpg
-wall -60 0 -100 x 10 120 resources/woodenWall.jpg
-wall -60 0 -100 y 120 120 resources/woodenWall.jpg
-wall -60 10 -100 y 120 120 resources/woodenWall.jpg
+wall -60 0 -100 z 20 80 woodenWall.jpg
+wall 60 0 -100 z 20 80 woodenWall.jpg
+wall -60 0 -100 x 20 120 woodenWall.jpg
+wall -60 0 -100 y 80 120 woodenWall.jpg
+wall -60 20 -100 y 80 120 woodenWall.jpg
 Barrel objects/barrel/barrel_obj.obj -50 0 -80
 Barrel objects/barrel/barrel_obj.obj 40 0 -70
 Barrel objects/barrel/barrel_obj.obj 50 0 -95

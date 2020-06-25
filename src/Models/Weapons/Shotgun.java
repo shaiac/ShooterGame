@@ -103,12 +103,15 @@ public class Shotgun extends Weapon {
         }else{
             if (!shot) {
                 shot = true;
-                float[] pos1 = {(float) cooSystem.getOrigin().getVec()[0] + 0.5f, (float) cooSystem.getOrigin().getVec()[1]
-                        -0.48f, (float) cooSystem.getOrigin().getVec()[2]-3.9f};
-                float[] pos2 = {(float) cooSystem.getOrigin().getVec()[0] + 0.6f, (float) cooSystem.getOrigin().getVec()[1]
-                        -0.48f, (float) cooSystem.getOrigin().getVec()[2]-3.9f};
-                addAsRoomModel(magazine.shotBullet(pos1));
-                addAsRoomModel(magazine.shotBullet(pos2));
+                float[] pos1 = {(float) cooSystem.getOrigin().getVec()[0], (float) cooSystem.getOrigin().getVec()[1]
+                        , (float) cooSystem.getOrigin().getVec()[2]};
+                float[] bulletPos1 = {0.5f,-0.38f,-3.9f};
+                float[] pos2 = {(float) cooSystem.getOrigin().getVec()[0], (float) cooSystem.getOrigin().getVec()[1]
+                        , (float) cooSystem.getOrigin().getVec()[2]};
+
+                float[] bulletPos2 = {0.6f,-0.38f,-3.9f};
+                addAsRoomModel(magazine.shotBullet(pos1,bulletPos1));
+                addAsRoomModel(magazine.shotBullet(pos2,bulletPos2));
             }
             rChange -= (5f/duration)*milliseconds;
             gl.glRotatef(rChange,1,0,0);

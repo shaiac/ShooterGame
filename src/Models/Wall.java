@@ -47,7 +47,9 @@ public class Wall extends Model {
     }
     public void create(ObjectLoader loader, GL2 gl, float[] pos){
         float texwidth = length/40.f;
-        float texhieght = width/10.f;
+        float texhieght = width/40.f;
+        texhieght = 1;
+        texwidth = 1;
         list = gl.glGenLists(1);
         gl.glNewList(list,GL2.GL_COMPILE);
         gl.glBegin(GL2.GL_QUADS);

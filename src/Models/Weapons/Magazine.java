@@ -21,10 +21,11 @@ public class Magazine {
         this.maxBulletsNum = maxBulletsNum;
     }
 
-    public Bullet shotBullet(float[] pos) {
+    public Bullet shotBullet(float[] pos1,float[] pos2) {
         Bullet bullet = new Bullet(objData);
         //float[] bulletlPos = {0,5f,0f};
-        bullet.create(objectLoader,gl,pos);
+        bullet.create(objectLoader,gl,pos1);
+        bullet.setBulletPos(pos2);
         bullets--;
         return bullet;
     }

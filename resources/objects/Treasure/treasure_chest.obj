@@ -6,7 +6,7 @@ mtllib treasure_chest.mtl
 #
 # object treasure_chest
 #
-
+o treasure_chest
 v  -0.774382 0.000000 -0.480865
 v  -0.774382 0.000000 0.480865
 v  -0.774382 1.016869 0.390045
