@@ -202,7 +202,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener {
         models.add(map);
 
         //cannon
-        Cannon cannon = new Cannon("objects/cannon/can.obj");
+        Cannon cannon = new Cannon("objects/cannon/can.obj", level);
         float[] canPos = {0f,0f,-10f};
         cannon.create(loader,gl,canPos);
         cannon.rotate(270, 'x');

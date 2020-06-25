@@ -34,7 +34,7 @@ public class Cannon extends Model {
             obj.draw(gl);
         }
         gl.glPopMatrix();
-        fireBall();
+        //fireBall();
     }
 
     public void fireBall() {
