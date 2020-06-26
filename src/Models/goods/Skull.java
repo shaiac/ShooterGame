@@ -23,7 +23,7 @@ public class Skull extends Model {
     public void draw(GL2 gl) {
         gl.glPushMatrix();
         gl.glTranslatef(startPos[0],startPos[1],startPos[2]);
-        gl.glScalef(3f,3f,3f);
+        //gl.glScalef(3f,3f,3f);
         for (ObjData obj:data) {
             obj.draw(gl);
         }

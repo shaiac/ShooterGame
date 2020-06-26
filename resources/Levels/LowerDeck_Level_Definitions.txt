@@ -16,6 +16,12 @@ Map objects/Map/14059_Pirate_map_Scroll_v1_L1.obj -20.2 5 -10 90
 Barrel objects/barrel/barrel_obj.obj -17 0 -17
 Barrel objects/barrel/barrel_obj.obj 17 0 -17
 Treasure objects/Treasure/treasure_chest.obj 14 0 -8 90
+Skull objects/skull/Skull.obj -17.5 5 -17 30 5
+Skull objects/skull/Skull.obj -18.7 5 -17.3 0 5
+Skull objects/skull/Skull1.obj -18 5.2 -16 0 0.5
+Skellington objects/Skellington/Jack_Skellington.obj -20 0 0 90 0.03
+Heart objects/Heart/love_heart.obj 17 3 5 90
+AmmoBox objects/AmmoBox/AmmoBox.obj -16 2 5
 
 
 ROOM_TWO
@@ -29,5 +35,6 @@ Barrel objects/barrel/barrel_obj.obj 40 0 -70
 Barrel objects/barrel/barrel_obj.obj 50 0 -95
 Barrel objects/barrel/barrel_obj.obj 0 0 -62
 Cannon objects/cannon/can.obj -50 0 -30 270
+Skellington objects/Skellington/Jack_Skellington.obj -60 0 -70 90 0.03
 
 

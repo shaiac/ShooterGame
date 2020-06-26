@@ -8,9 +8,7 @@ import Models.Weapons.Ak47;
 import Models.Weapons.Cannon;
 import Models.Weapons.Shotgun;
 import Models.Weapons.Sword;
-import Models.goods.Barrel;
-import Models.goods.Map;
-import Models.goods.Treasure;
+import Models.goods.*;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureIO;
 
@@ -122,6 +120,42 @@ public class Level {
                     map.create(loader, gl, mapPos);
                     map.rotate(Float.parseFloat(splitData[5]), 'y');
                     rooms.get(roomNumber - 1).AddModel(map);
+                } else if (data.contains("Skull")) {
+                    splitData = data.split(" ");
+                    Skull skull = new Skull(splitData[1]);
+                    float[] skullPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
+                            Float.parseFloat(splitData[4])};
+                    skull.create(loader, gl, skullPos);
+                    skull.rotate(Float.parseFloat(splitData[5]), 'y');
+                    skull.scale(Float.parseFloat(splitData[6]), Float.parseFloat(splitData[6]),
+                            Float.parseFloat(splitData[6]));
+                    rooms.get(roomNumber - 1).AddModel(skull);
+                } else if (data.contains("Skellington")) {
+                    splitData = data.split(" ");
+                    Skellington skellington = new Skellington(splitData[1]);
+                    float[] skellingtonPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
+                            Float.parseFloat(splitData[4])};
+                    skellington.create(loader, gl, skellingtonPos);
+                    skellington.rotate(Float.parseFloat(splitData[5]), 'y');
+                    skellington.scale(Float.parseFloat(splitData[6]), Float.parseFloat(splitData[6]),
+                            Float.parseFloat(splitData[6]));
+                    rooms.get(roomNumber - 1).AddModel(skellington);
+                } else if (data.contains("Heart")) {
+                    splitData = data.split(" ");
+                    Heart heart = new Heart(splitData[1]);
+                    float[] heartPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
+                            Float.parseFloat(splitData[4])};
+                    heart.create(loader, gl, heartPos);
+                    heart.rotate(Float.parseFloat(splitData[5]), 'y');
+                    rooms.get(roomNumber - 1).AddModel(heart);
+                } else if (data.contains("AmmoBox")) {
+                    splitData = data.split(" ");
+                    AmmoBox ammoBox = new AmmoBox(splitData[1]);
+                    float[] ammoPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
+                            Float.parseFloat(splitData[4])};
+                    ammoBox.create(loader, gl, ammoPos);
+                    //ammoBox.rotate(Float.parseFloat(splitData[5]), 'y');
+                    rooms.get(roomNumber - 1).AddModel(ammoBox);
                 }
             }
         } catch (IOException e) {
