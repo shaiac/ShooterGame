@@ -8,6 +8,7 @@ import javax.media.opengl.GL2;
 
 public class Gold extends Model {
     private String path;
+    //Constructor
     public Gold(String path) {
         this.path = path;
     }
