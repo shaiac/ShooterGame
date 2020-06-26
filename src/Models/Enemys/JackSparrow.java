@@ -11,8 +11,7 @@ import javax.media.opengl.GL2;
 public class JackSparrow extends Enemy {
     private String path;
 
-    public JackSparrow(String path, Weapon weapon) {
-        this.weapon = weapon;
+    public JackSparrow(String path) {
         this.path = path;
     }
 
@@ -40,6 +39,10 @@ public class JackSparrow extends Enemy {
         for (ObjData obj:data) {
             obj.draw(gl);
         }
+        gl.glPushMatrix();
+        gl.glTranslatef(4f,0,0);
+        this.weapon.draw(gl);
+        gl.glPopMatrix();
         gl.glPopMatrix();
     }
 

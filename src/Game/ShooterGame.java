@@ -17,6 +17,7 @@ import Levels.GameLevels;
 import Levels.Level;
 import LinearMath.Vector;
 import Models.DataAndLoader.ObjectLoader;
+import Models.Enemys.Enemy;
 import Models.PirateShip;
 import Models.Weapons.Ak47;
 import Models.Weapons.Cannon;
@@ -53,6 +54,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
     private boolean startAnimation = true;
     private double[] mousePos = {0,0,1};
     private boolean attack = false;
+    private List<Enemy> enemies;
     public ShooterGame() {
         this.cooSystem =  new CoordinateSystem();
         this.pirateShipCoor = new CoordinateSystem();
@@ -99,7 +101,9 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
 //                model.draw(gl);
 //            }
 //            gl.glPopMatrix();
+            level.updatePos(origin);
             level.drawRooms();
+            level.drawEnemies();
             character.draw();
             //attack until release left button
             if(attack){
@@ -226,9 +230,9 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         if (keyPressed == KeyEvent.VK_Q) {
             character.changeWeapon();
         }
-        if (keyPressed == KeyEvent.VK_CONTROL) {
+        /*if (keyPressed == KeyEvent.VK_CONTROL) {
             level.getTmpCannon().fire();
-        }
+        }*/
         else{
             character.walk(keyPressed);
         }

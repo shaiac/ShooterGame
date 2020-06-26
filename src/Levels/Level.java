@@ -1,7 +1,10 @@
 package Levels;
 
 import Game.ShooterGame;
+import LinearMath.Vector;
 import Models.DataAndLoader.ObjectLoader;
+import Models.Enemys.Enemy;
+import Models.Enemys.JackSparrow;
 import Models.IModel;
 import Models.Wall;
 import Models.Weapons.Ak47;
@@ -24,12 +27,14 @@ public class Level {
     private ObjectLoader loader;
     private GL2 gl;
     private Cannon tmpCannon;
+    private List<Enemy> enemies;
     public Level(ObjectLoader loader, GL2 gl, ShooterGame shooterGame) {
         rooms = new ArrayList<>();
         levelWalls = new ArrayList<>();
         roomNumber = 0;
         this.loader = loader;
         this.gl = gl;
+        this.enemies = new ArrayList<>();
     }
     //read and build the level
     public void BuildLevel(String levelDefinition) {
@@ -179,6 +184,7 @@ public class Level {
 //    }
 
     private void readFile(BufferedReader buffer) {
+        Enemy enemy = null;
         try {
             String[] splitData;
             String data;
@@ -220,10 +226,23 @@ public class Level {
                                 Float.parseFloat(splitData[4])};
                         cannon.create(loader, gl, cannonPos);
                         cannon.rotate(Float.parseFloat(splitData[5]), 'x');
-                        rooms.get(roomNumber - 1).AddModel(cannon);
+                        if(enemy != null){
+                            enemy.addWeapon(cannon);
+                            enemy = null;
+                        } else {
+                            rooms.get(roomNumber - 1).AddModel(cannon);
+                        }
                         break;
                     case "JackSparrow":
-                        //
+                        JackSparrow jack = new JackSparrow(splitData[1]);
+                        float[] jackPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
+                                Float.parseFloat(splitData[4])};
+                        jack.create(loader, gl, jackPos);
+                        //jack.rotate(Float.parseFloat(splitData[5]), 'y');
+                        rooms.get(roomNumber - 1).AddModel(jack);
+                        enemies.add(jack);
+                        enemy = jack;
+
                         break;
                     case "Shotgun":
                         Shotgun shotgun = new Shotgun("objects/Shotgun/GunTwo.obj", this);
@@ -347,7 +366,16 @@ public class Level {
             room.drawAll(gl);
         }
     }
-
+    public void updatePos(Vector origin){
+        for (Enemy enemy:enemies) {
+            enemy.updateOrigin(origin);
+        }
+    }
+    public void drawEnemies(){
+        for (Enemy enemy:enemies) {
+            enemy.draw(gl);
+        }
+    }
     public List<Wall> getLevelWalls(){
         return levelWalls;
     }
