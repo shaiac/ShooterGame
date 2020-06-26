@@ -1,5 +1,6 @@
 package Models.Weapons;
 
+import Game.CoordinateSystem;
 import Levels.Level;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
@@ -7,7 +8,7 @@ import Models.Model;
 
 import javax.media.opengl.GL2;
 
-public class Cannon extends Model {
+public class Cannon extends Weapon {
     private String path;
     private ObjectLoader loader;
     private GL2 gl;
@@ -40,8 +41,25 @@ public class Cannon extends Model {
             fire = false;
         }
     }
-    public void fire() {
+
+    @Override
+    public void setCoordinateSystem(CoordinateSystem coordinateSystem) {
+
+    }
+
+    @Override
+    public void setAngle(float angle) {
+
+    }
+
+    @Override
+    public void attack() {
         fire = true;
+    }
+
+    @Override
+    public int reload() {
+        return 0;
     }
 
     private void dofire() {
