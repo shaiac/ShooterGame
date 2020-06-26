@@ -10,6 +10,7 @@ public class Bullet extends Model {
     private float angle;
     private float move;
     private float[] bulletPos = {0,0,0};
+    private long startTime = System.currentTimeMillis();
     public Bullet( List<ObjData> objData) {
         this.data = objData;
         this.move = 0;
@@ -31,7 +32,10 @@ public class Bullet extends Model {
     @Override
     public void draw(GL2 gl) {
         gl.glPushMatrix();
-        move -= 0.3;
+        long endTime = System.currentTimeMillis();
+        long timePassed = endTime- startTime;
+        move -= 0.03f*(float)timePassed;
+        startTime = System.currentTimeMillis();
         gl.glTranslatef(startPos[0],startPos[1],startPos[2]);
         gl.glRotatef(angle,0,1,0);
         // y = -0.48f ,z = -3.9

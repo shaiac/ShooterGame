@@ -4,13 +4,15 @@ import LinearMath.Vector;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
 import Models.Model;
+import Models.Weapons.Weapon;
 
 import javax.media.opengl.GL2;
 
 public class JackSparrow extends Enemy {
     private String path;
 
-    public JackSparrow(String path) {
+    public JackSparrow(String path, Weapon weapon) {
+        this.weapon = weapon;
         this.path = path;
     }
 

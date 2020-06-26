@@ -222,9 +222,11 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         int keyPressed = e.getKeyCode();
         if(keyPressed == KeyEvent.VK_SPACE){
             character.attack();
-        }else if (keyPressed == KeyEvent.VK_Q) {
+        }
+        if (keyPressed == KeyEvent.VK_Q) {
             character.changeWeapon();
-        } else if (keyPressed == KeyEvent.VK_CONTROL) {
+        }
+        if (keyPressed == KeyEvent.VK_CONTROL) {
             level.getTmpCannon().fire();
         }
         else{
