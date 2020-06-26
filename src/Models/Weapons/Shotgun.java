@@ -115,7 +115,6 @@ public class Shotgun extends Weapon {
             }
             rChange -= (5f/duration)*milliseconds;
             gl.glRotatef(rChange,1,0,0);
-
         }
     }
 }

@@ -4,10 +4,7 @@ Ziv Zaarur 206099913
 Shai Acoca 315314278
  */
 import java.awt.*;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseMotionListener;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,19 +16,14 @@ import CollisionDetection.PointPolygonIntersection;
 import Levels.GameLevels;
 import Levels.Level;
 import LinearMath.Vector;
-import Models.Cube;
-import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
 import Models.PirateShip;
 import Models.Weapons.Ak47;
 import Models.Weapons.Cannon;
 import Models.Weapons.Shotgun;
 import Models.Weapons.Sword;
-import Models.Wall;
 import Models.IModel;
-import Models.goods.Map;
-import Models.goods.Skull;
-import Models.goods.Treasure;
+import Models.goods.SkullSymbol;
 import com.jogamp.newt.Window;
 import com.jogamp.newt.event.KeyAdapter;
 import com.jogamp.newt.event.KeyEvent;
@@ -42,13 +34,8 @@ import com.jogamp.newt.event.awt.AWTMouseAdapter;
 import com.jogamp.opengl.util.Animator;
 import com.jogamp.opengl.util.awt.TextRenderer;
 import com.jogamp.opengl.util.texture.Texture;
-import com.jogamp.opengl.util.texture.TextureIO;
 
 public class ShooterGame extends KeyAdapter implements GLEventListener, MouseListener, MouseMotionListener {
-    private Texture cube;
-    private Texture walls;
-    private Texture topWall;
-    private Texture bottomWall;
     private CoordinateSystem cooSystem;
     private static GLU glu;
     private static GLCanvas canvas;
@@ -60,7 +47,6 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
     private Character character;
     private PirateShip pirateShip;
     private Sword sword;
-    private TextRenderer renderer;
     private GameLevels gameLevels;
     private Level level;
     private CoordinateSystem pirateShipCoor;
@@ -93,7 +79,6 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         }
     }
 
-
     public void display(GLAutoDrawable gLDrawable) {
         final GL2 gl = gLDrawable.getGL().getGL2();
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
@@ -109,11 +94,11 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
             Vector y = cooSystem.getY();
             glu.gluLookAt(origin.get(0), origin.get(1), origin.get(2), lookat.get(0), lookat.get(1), lookat.get(2),
                     y.getVec()[0], y.getVec()[1], y.getVec()[2]);
-            /*gl.glPushMatrix();
-            /*for (IModel model : models) {
-                model.draw(gl);
-            }
-            gl.glPopMatrix();*/
+//            gl.glPushMatrix();
+//            for (IModel model : models) {
+//                model.draw(gl);
+//            }
+//            gl.glPopMatrix();
             level.drawRooms();
             character.draw();
             //attack until release left button
@@ -164,19 +149,6 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         level = new Level(loader, gl, this);
         level.BuildLevel(gameLevels.getLevelsList().get(0));
 
-        //cannon
-        Cannon cannon = new Cannon("objects/cannon/can.obj", level);
-        float[] canPos = {0f,0f,-10f};
-        cannon.create(loader,gl,canPos);
-        cannon.rotate(270, 'x');
-        models.add(cannon);
-
-        //skull
-        Skull skull = new Skull("objects/skull/Skull.obj");
-        float[] skullPos = {0f,5f,0f};
-        skull.create(loader,gl,skullPos);
-        skull.scale(20, 20 ,20);
-        models.add(skull);
 
         //PirateShip
         pirateShip = new PirateShip("objects/PirateShip/boat.obj");

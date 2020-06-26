@@ -22,6 +22,7 @@ Skull objects/skull/Skull1.obj -18 5.2 -16 0 0.5
 Skellington objects/Skellington/Jack_Skellington.obj -20 0 0 90 0.03
 Heart objects/Heart/love_heart.obj 17 3 5 90
 AmmoBox objects/AmmoBox/AmmoBox.obj -16 2 5
+SkullSymbol objects/SkullSymbol/Skull_Low.obj 10 5 -19.8 90
 
 
 ROOM_TWO
