@@ -7,8 +7,10 @@ import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
 import Models.IModel;
 import Models.Model;
+import com.jogamp.opengl.util.awt.TextRenderer;
 
 import javax.media.opengl.GL2;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +28,12 @@ public class Ak47 extends Weapon {
     private boolean shot = false;
     private CoordinateSystem cooSystem;
     private float angle;
+    private TargetSymbol targetSymbol;
     public Ak47(String inPath, Level level) {
         this.observer = level;
         this.path = inPath;
         weapontype = WeaponType.GUN;
+        targetSymbol = new TargetSymbol("objects/TargetSymbol/TargetSymbol.obj");
     }
 
     public void setCoordinateSystem(CoordinateSystem cooSystem) {
@@ -40,6 +44,10 @@ public class Ak47 extends Weapon {
         data = loader.LoadModelToGL(path,gl);
         this.startPos = startPos;
         this.magazine = new Magazine(loader, gl, 20);
+        float[] targerpos = {startPos[0] + 10,startPos[1] - 3.4f, startPos[2] - 15};
+        this.targetSymbol.create(loader,gl, targerpos);
+        targetSymbol.scale(2, 2, 2);
+        targetSymbol.rotate(90, 'x');
     }
 
     private void addAsRoomModel(Bullet bullet) {
@@ -59,7 +67,6 @@ public class Ak47 extends Weapon {
             endTime = System.currentTimeMillis();
             milliseconds = endTime- startTime;
             change = (1f/duration)*milliseconds;
-
             for (ObjData obj:data) {
                 moveGun(gl);
             }
@@ -72,10 +79,14 @@ public class Ak47 extends Weapon {
             }
             startTime = endTime;
         }
+        //drawTarget(startPos[0], startPos[1]);
         for (ObjData obj:data) {
             obj.draw(gl);
         }
         gl.glPopMatrix();
+        if (picked) {
+            targetSymbol.draw(gl);
+        }
     }
 
     @Override
