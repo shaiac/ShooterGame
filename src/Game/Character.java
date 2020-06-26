@@ -17,7 +17,7 @@ public class Character {
     private GL2 gl;
     private CoordinateSystem cooSystem;
     private Queue<Weapon> weapons;
-    private Ammunition ammu;
+    private Ammunition ammo;
     private Weapon currentWeapon;
     private double totalRotation = 0;
     private float deg;
@@ -33,7 +33,7 @@ public class Character {
         currentWeapon.setCoordinateSystem(cooSystem);
         this.gl = gl;
         this.life = new Life();
-        this.ammu = new Ammunition(50);
+        this.ammo = new Ammunition(50);
         ppi = new PointPolygonIntersection();
     }
 
@@ -51,7 +51,7 @@ public class Character {
     public void draw(){
         deg = (float) Math.toDegrees(totalRotation);
         currentWeapon.setAngle(deg);
-        ammu.draw();
+        ammo.draw();
         life.draw();
         gl.glPushMatrix();
         gl.glTranslatef((float) cooSystem.getOrigin().getVec()[0],(float) cooSystem.getOrigin().getVec()[1],
@@ -65,7 +65,7 @@ public class Character {
         currentWeapon.attack();
     }
     public void addAmmu(int quantity){
-        ammu.addAmmu(quantity);
+        ammo.addAmmu(quantity);
     }
 
     private boolean checkIntersectionWithLevelWalls() {
@@ -129,12 +129,12 @@ public class Character {
     }
 
     public void reload() {
-        if (ammu.getAmmu() != 0) {
+        if (ammo.getAmmu() != 0) {
             int ammuReloaded = currentWeapon.reload();
-            if (ammu.getAmmu() < ammuReloaded) {
-                ammu.reduceAmmu(ammu.getAmmu());
+            if (ammo.getAmmu() < ammuReloaded) {
+                ammo.reduceAmmu(ammo.getAmmu());
             } else {
-                ammu.reduceAmmu(ammuReloaded);
+                ammo.reduceAmmu(ammuReloaded);
             }
         }
     }
