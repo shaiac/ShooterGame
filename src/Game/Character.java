@@ -92,23 +92,23 @@ public class Character {
         float step = 0.5f;
         double angle = Math.PI/36;
         switch (keyPressed) {
-            case KeyEvent.VK_UP:
+            case KeyEvent.VK_W:
                 cooSystem.moveStep('z', -step);
                 break;
-            case KeyEvent.VK_LEFT:
+            case KeyEvent.VK_A:
                 cooSystem.moveStep('x', -step);
                 break;
-            case KeyEvent.VK_RIGHT:
+            case KeyEvent.VK_D:
                 cooSystem.moveStep('x', step);
                 break;
-            case KeyEvent.VK_DOWN:
+            case KeyEvent.VK_S:
                 cooSystem.moveStep('z', step);
                 break;
-            case KeyEvent.VK_D:
+            case KeyEvent.VK_RIGHT:
                 cooSystem.rotate('y', angle);
                 this.totalRotation -= angle;
                 break;
-            case KeyEvent.VK_A:
+            case KeyEvent.VK_LEFT:
                 cooSystem.rotate('y', -angle);
                 this.totalRotation +=angle;
                 break;
@@ -129,11 +129,13 @@ public class Character {
     }
 
     public void reload() {
-        int ammuReloaded = currentWeapon.reload();
-        if (ammu.getAmmu() < ammuReloaded) {
-            ammu.reduceAmmu(ammu.getAmmu());
-        } else {
-            ammu.reduceAmmu(ammuReloaded);
+        if (ammu.getAmmu() != 0) {
+            int ammuReloaded = currentWeapon.reload();
+            if (ammu.getAmmu() < ammuReloaded) {
+                ammu.reduceAmmu(ammu.getAmmu());
+            } else {
+                ammu.reduceAmmu(ammuReloaded);
+            }
         }
     }
 }
