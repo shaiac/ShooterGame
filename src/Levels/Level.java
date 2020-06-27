@@ -5,12 +5,10 @@ import LinearMath.Vector;
 import Models.DataAndLoader.ObjectLoader;
 import Models.Enemys.Enemy;
 import Models.Enemys.JackSparrow;
+import Models.Enemys.OldPirate;
 import Models.IModel;
 import Models.Wall;
-import Models.Weapons.Ak47;
-import Models.Weapons.Cannon;
-import Models.Weapons.Shotgun;
-import Models.Weapons.Sword;
+import Models.Weapons.*;
 import Models.goods.*;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureIO;
@@ -26,7 +24,7 @@ public class Level {
     private int roomNumber;
     private ObjectLoader loader;
     private GL2 gl;
-    private Cannon tmpCannon;
+    //private Cannon tmpCannon;
     private List<Enemy> enemies;
     public Level(ObjectLoader loader, GL2 gl, ShooterGame shooterGame) {
         rooms = new ArrayList<>();
@@ -202,9 +200,6 @@ public class Level {
                         levelWalls.add(wall);
                         rooms.get(roomNumber - 1).AddModel(wall);
                         break;
-                    case "OldPirate":
-                        //rooms.get(roomNumber - 1).AddModel(createOldPirate(data));
-                        break;
                     case "AK_47":
                         Ak47 ak47 = new Ak47(splitData[1], this);
                         float[] akPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
@@ -219,9 +214,23 @@ public class Level {
                         barrel.create(loader, gl, barrelPos);
                         rooms.get(roomNumber - 1).AddModel(barrel);
                         break;
+                    //enemies weapons
+                    case "Gun":
+                        Gun gun = new Gun(splitData[1], this);
+                        float[] gunPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
+                                Float.parseFloat(splitData[4])};
+                        gun.create(loader, gl, gunPos);
+                        gun.rotate(Float.parseFloat(splitData[5]), 'x');
+                        if(enemy != null){
+                            enemy.addWeapon(gun);
+                            enemy = null;
+                        } else {
+                            rooms.get(roomNumber - 1).AddModel(gun);
+                        }
+                        break;
                     case "Cannon":
                         Cannon cannon = new Cannon(splitData[1], this);
-                        this.tmpCannon = cannon;
+                        //this.tmpCannon = cannon;
                         float[] cannonPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
                         cannon.create(loader, gl, cannonPos);
@@ -233,6 +242,7 @@ public class Level {
                             rooms.get(roomNumber - 1).AddModel(cannon);
                         }
                         break;
+                    // enemies
                     case "JackSparrow":
                         JackSparrow jack = new JackSparrow(splitData[1]);
                         float[] jackPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
@@ -243,6 +253,16 @@ public class Level {
                         enemies.add(jack);
                         enemy = jack;
 
+                        break;
+                    case "OldPirate":
+                        OldPirate pirate = new OldPirate(splitData[1]);
+                        float[] piratePos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
+                                Float.parseFloat(splitData[4])};
+                        pirate.create(loader, gl, piratePos);
+                        //pirate.rotate(Float.parseFloat(splitData[5]), 'z');
+                        rooms.get(roomNumber - 1).AddModel(pirate);
+                        enemies.add(pirate);
+                        enemy = pirate;
                         break;
                     case "Shotgun":
                         Shotgun shotgun = new Shotgun("objects/Shotgun/GunTwo.obj", this);
@@ -317,6 +337,9 @@ public class Level {
                         skullSymbol.rotate(Float.parseFloat(splitData[5]), 'x');
                         rooms.get(roomNumber - 1).AddModel(skullSymbol);
                         break;
+
+
+
                 }
             }
         } catch (IOException e) {
@@ -331,9 +354,9 @@ public class Level {
         }
     }
 
-    public Cannon getTmpCannon () {
+    /*public Cannon getTmpCannon () {
         return this.tmpCannon;
-    }
+    }*/
 
     private Wall createWall(String wallDefinitions) {
         String[] splitData = wallDefinitions.split(" ");

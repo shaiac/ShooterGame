@@ -37,6 +37,8 @@ Barrel objects/barrel/barrel_obj.obj 50 0 -95
 Barrel objects/barrel/barrel_obj.obj 0 0 -62
 JackSparrow objects/JackSparrow/Jack_Sparrow.obj -55 0 -30
 Cannon objects/cannon/can.obj 0 0 0 270
+OldPirate objects/OldPirate/oldPirate.obj 0 0 -80
+Gun objects/Gun/pistol.obj 0 0 0 0
 Skellington objects/Skellington/Jack_Skellington.obj -60 0 -70 90 0.03
 
 

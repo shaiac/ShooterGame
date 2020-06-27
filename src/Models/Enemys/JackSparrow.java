@@ -9,6 +9,10 @@ import Models.Weapons.Weapon;
 import javax.media.opengl.GL2;
 
 public class JackSparrow extends Enemy {
+    private long rotDuration = 100;
+    private long attackDuration = 2500;
+    private long startTimeRot = System.currentTimeMillis();
+    private long startTimeAtt = System.currentTimeMillis();
     private String path;
 
     public JackSparrow(String path) {
@@ -31,8 +35,16 @@ public class JackSparrow extends Enemy {
         if(charOrigin.getVec()[0]-startPos[0]   <0){
             angle += 180;
         }
-
-
+        weapon.setAngle(angle);
+        // calculate when to attack.
+        long currentTime = System.currentTimeMillis();
+        long diff = currentTime - startTimeAtt;
+        if(diff > attackDuration){
+            startTimeAtt = currentTime;
+            attack();
+        }
+        float[] pos = {startPos[0],startPos[1],startPos[2]};
+        weapon.setPos(pos);
         gl.glPushMatrix();
         gl.glTranslatef(startPos[0],startPos[1],startPos[2]);
         gl.glRotatef(angle,0,1,0);

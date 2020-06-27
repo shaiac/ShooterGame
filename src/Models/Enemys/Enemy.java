@@ -7,8 +7,9 @@ import Models.Weapons.Weapon;
 
 public abstract class Enemy extends Model {
     protected Life life;
-    protected Weapon weapon;
+    protected Weapon weapon = null;
     protected Vector charOrigin;
+    protected boolean hit;
     public void addWeapon(Weapon weapon){
         this.weapon = weapon;
     }
@@ -20,8 +21,11 @@ public abstract class Enemy extends Model {
     public void attack(){
         weapon.attack();
     }
-    public void Hit(){
-        life.reduceLife(10);
+    public void Hit(int reduceLife){
+        life.reduceLife(reduceLife);
+        hit = true;
         //kill if life=0
+    }
+    public void dead(){
     }
 }

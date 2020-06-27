@@ -12,7 +12,9 @@ public class Cannon extends Weapon {
     private String path;
     private ObjectLoader loader;
     private GL2 gl;
+    private float[] pos = {0,0,0};
     boolean fire = false;
+    private float angle;
     public Cannon(String path, Level level) {
         this.observer = level;
         this.path = path;
@@ -49,7 +51,7 @@ public class Cannon extends Weapon {
 
     @Override
     public void setAngle(float angle) {
-
+        this.angle = angle;
     }
 
     @Override
@@ -62,9 +64,15 @@ public class Cannon extends Weapon {
         return 0;
     }
 
+    public void setPos(float[] pos){
+        this.pos = pos;
+    }
     private void dofire() {
         CannonBall ball = new CannonBall("objects/ball/uploads_files_2078589_sphere.obj");
-        ball.create(loader,gl,startPos);
+        ball.create(loader,gl,pos);
+        ball.setRot(angle);
+        float[] afterPos = {-4f,3.6f,-6f};
+        ball.setPosAfterRot(afterPos);
         observer.addModel(ball);
     }
 }
