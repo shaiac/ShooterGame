@@ -4,10 +4,7 @@ import Game.CoordinateSystem;
 import Levels.Level;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
-
 import javax.media.opengl.GL2;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Shotgun extends Weapon {
     private String path;
@@ -22,18 +19,24 @@ public class Shotgun extends Weapon {
     private long milliseconds;
     private boolean shot = false;
     private float angle;
+    private TargetSymbol targetSymbol;
     private CoordinateSystem cooSystem;
 
     public Shotgun(String inPath, Level level) {
         this.path = inPath;
         weapontype = WeaponType.GUN;
         this.observer = level;
+        targetSymbol = new TargetSymbol("objects/TargetSymbol/TargetSymbol.obj");
     }
 
     public void create(ObjectLoader loader, GL2 gl,float[] startPos){
         data = loader.LoadModelToGL(path,gl);
         this.startPos = startPos;
         this.magazine = new Magazine(loader, gl, 8);
+        float[] targerpos = {startPos[0] + 0.4f,startPos[1] - 0.4f, startPos[2] - 10};
+        this.targetSymbol.create(loader,gl, targerpos);
+        targetSymbol.scale(2, 2, 2);
+        targetSymbol.rotate(90, 'x');
     }
 
     private void addAsRoomModel(Bullet bullet) {
@@ -71,6 +74,9 @@ public class Shotgun extends Weapon {
             obj.draw(gl);
         }
         gl.glPopMatrix();
+        if (picked) {
+            targetSymbol.draw(gl);
+        }
     }
 
     @Override
