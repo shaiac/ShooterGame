@@ -85,9 +85,9 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         final GL2 gl = gLDrawable.getGL().getGL2();
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();  // Reset The View
-        /*if (startAnimation) {
+        if (startAnimation) {
             pirateShipAnimation(gl);
-        } else {*/
+        } else {
             gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_S, GL2.GL_LINEAR);
             gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_T, GL2.GL_LINEAR);
             Vector origin = cooSystem.getOrigin();
@@ -109,7 +109,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
             if(attack){
                 character.attack();
             }
-        //}
+        }
     }
 
     public void init(GLAutoDrawable drawable) {
