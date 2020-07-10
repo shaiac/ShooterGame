@@ -1,0 +1,26 @@
+# Levels.Level 1
+
+ROOM_ONE
+AK_47 objects/AK_47/Ak-47.obj -15 5 0
+Shotgun objects/Shotgun/GunTwo.obj 15 5 0
+Map objects/Map/14059_Pirate_map_Scroll_v1_L1.obj -20.2 5 -10 90
+Barrel objects/barrel/barrel_obj.obj -17 0 -17
+Barrel objects/barrel/barrel_obj.obj 17 0 -17
+Treasure objects/Treasure/treasure_chest.obj 14 0 -8 90
+Skull objects/skull/Skull.obj -17.5 5 -17 30 5
+Skull objects/skull/Skull.obj -18.7 5 -17.3 0 5
+Skull objects/skull/Skull1.obj -18 5.2 -16 0 0.5
+Skellington objects/Skellington/Jack_Skellington.obj -20 0 0 90 0.03
+
+ROOM_TWO
+Barrel objects/barrel/barrel_obj.obj -50 0 -80
+Barrel objects/barrel/barrel_obj.obj 40 0 -70
+Barrel objects/barrel/barrel_obj.obj 50 0 -95
+Barrel objects/barrel/barrel_obj.obj 0 0 -62
+JackSparrow objects/JackSparrow/Jack_Sparrow.obj -55 0 -30
+Cannon objects/cannon/can.obj 0 0 0 270
+OldPirate objects/OldPirate/oldPirate.obj 0 0 -80
+Gun objects/Gun/pistol.obj 0 0 0 0
+Skellington objects/Skellington/Jack_Skellington.obj -60 0 -70 90 0.03
+
+

@@ -50,14 +50,14 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
     private Sword sword;
     private GameLevels gameLevels;
     private Level level;
-    private CoordinateSystem pirateShipCoor;
-    private boolean startAnimation = true;
     private double[] mousePos = {0,0,1};
     private boolean attack = false;
     private List<Enemy> enemies;
+    private StartAnimation startAnimation;
+    private int levelNum = 0;
+
     public ShooterGame() {
         this.cooSystem =  new CoordinateSystem();
-        this.pirateShipCoor = new CoordinateSystem();
         glu = new GLU();
         canvas = new GLCanvas();
         frame = new Frame("ThePirateShip");
@@ -66,28 +66,11 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         gameLevels = new GameLevels();
     }
 
-
-    private void pirateShipAnimation(GL2 gl) {
-        Vector origin = pirateShipCoor.getOrigin();
-        Vector lookat = origin.minus(pirateShipCoor.getZ());
-        Vector y = pirateShipCoor.getY();
-        glu.gluLookAt(origin.get(0), origin.get(1), origin.get(2), lookat.get(0), lookat.get(1), lookat.get(2),
-                y.getVec()[0], y.getVec()[1], y.getVec()[2]);
-        pirateShipCoor.moveStep('z', -0.04);
-        pirateShipCoor.moveStep('y', -0.01);
-        pirateShip.draw(gl);
-        if (origin.get(2) < -90) {
-            startAnimation = false;
-        }
-    }
-
     public void display(GLAutoDrawable gLDrawable) {
         final GL2 gl = gLDrawable.getGL().getGL2();
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();  // Reset The View
-        if (startAnimation) {
-            pirateShipAnimation(gl);
-        } else {
+        if (startAnimation.toStop()) {
             gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_S, GL2.GL_LINEAR);
             gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_T, GL2.GL_LINEAR);
             Vector origin = cooSystem.getOrigin();
@@ -106,9 +89,11 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
             level.drawEnemies();
             character.draw();
             //attack until release left button
-            if(attack){
+            if (attack) {
                 character.attack();
             }
+        } else {
+            startAnimation.pirateShipAnimation(glu);
         }
     }
 
@@ -146,20 +131,12 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         gl.glEnable(GL2.GL_LIGHTING);
         //end of lightning
 
-        sword = new Sword("objects/RzR/rzr.obj");
-        float[] pos = {0f,5f,-10f};
-        sword.create(loader,gl,pos);
-
         level = new Level(loader, gl, this);
-        level.BuildLevel(gameLevels.getLevelsList().get(0));
+        level.BuildLevel(gameLevels.getLevelsList().get(levelNum));
 
+        startAnimation = new StartAnimation(gl, loader);
 
-        //PirateShip
-        pirateShip = new PirateShip("objects/PirateShip/boat.obj");
-        float[] shipPos = {0,-20f,-100f};
-        pirateShip.create(loader,gl,shipPos);
-        pirateShip.scale(200,200,200);
-
+        //character starting weapons
         Ak47 AK_47 = new Ak47("objects/AK_47/Ak-47.obj", level);
         float[] akPos = {-10,3,8};
         AK_47.create(loader, gl,akPos);
@@ -174,27 +151,17 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         shotgun.create(loader, gl, shotgunPos);
         shotgun.translate(0.5f,-1f,-0.1f);
         shotgun.scale(7f,7f,7f);
-        //shotgun.rotate(30,'x');
         shotgun.rotate(180,'y');
         shotgun.rotate(10,'z');
-        //models.add(sword);
+
+        sword = new Sword("objects/RzR/rzr.obj");
+        float[] pos = {0f,5f,-10f};
+        sword.create(loader,gl,pos);
+
         this.character = new Character(shotgun,this.cooSystem,gl);
         character.AddWeapon(sword);
         character.AddWeapon(AK_47);
         character.setCurrentLevel(level);
-
-        /*//create the room
-        //models.addAll(createWalls(gl));
-        Cube cube1 = new Cube(-20,0,-20,5);
-        cube1.setTexture(cube);
-        float[] cubePos = {0,0,0};
-        cube1.create(loader,gl,cubePos);
-        //models.add(cube1);
-        Cube cube2 = new Cube(15,0,-20,5);
-        cube2.setTexture(cube);
-        cube2.create(loader,gl,cubePos);
-        //models.add(cube2);*/
-
 
         if (drawable instanceof Window) {
             Window window = (Window) drawable;
@@ -204,7 +171,14 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
             java.awt.Component comp = (java.awt.Component) drawable;
             new AWTKeyAdapter(this, drawable).addTo(comp);
             new AWTMouseAdapter(this,drawable).addTo(comp);
+            character.setCurrentLevel(level);
         }
+    }
+
+    public void currentLevelEnded(GL2 gl) {
+        levelNum++;
+        level = new Level(loader, gl, this);
+        level.BuildLevel(gameLevels.getLevelsList().get(levelNum));
     }
 
     public void reshape(GLAutoDrawable drawable, int x,
@@ -355,12 +329,6 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         double diff = mPos[0] - mousePos[0];
         character.rotate('y',diff*angle);
         mousePos = mPos;
-
-
-
-
-
-
     }
 
     @Override
@@ -417,46 +385,5 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
     public void mouseMoved(java.awt.event.MouseEvent e) {
 
     }
-
-    /*public ArrayList<IModel> createWalls(GL2 gl){
-        ArrayList<IModel> models = new ArrayList<>();
-        float[] wallPos = {0,0,0};
-        Wall front = new Wall(-20,0,-20,'x',10,40);
-        front.setTex(walls);
-        front.create(loader,gl,wallPos);
-        models.add(front);
-
-
-        Wall back = new Wall(-20.0f,0.0f,20.0f,'x',10,40);
-        back.setTex(walls);
-        back.create(loader,gl,wallPos);
-        models.add(back);
-
-
-        Wall right = new Wall(20.0f,0.0f,-20.0f,'z',10,40);
-        right.setTex(walls);
-        right.create(loader,gl,wallPos);
-        models.add(right);
-
-
-        Wall left = new Wall(-20.0f,0.0f,-20.0f,'z',10,40);
-        left.setTex(walls);
-        left.create(loader,gl,wallPos);
-        models.add(left);
-
-
-        Wall top = new Wall(-20.0f,10.0f,-20.0f,'y',40,40);
-        top.setTex(topWall);
-        top.create(loader,gl,wallPos);
-        models.add(top);
-
-
-        Wall bottom= new Wall(-20.0f,0.0f,-20.0f,'y',40,40);
-        bottom.setTex(bottomWall);
-        bottom.create(loader,gl,wallPos);
-        models.add(bottom);
-
-        return models;
-    }*/
 
 }

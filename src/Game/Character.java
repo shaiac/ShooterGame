@@ -115,6 +115,8 @@ public class Character {
             case KeyEvent.VK_R:
                 reload();
                 break;
+            case KeyEvent.VK_L:
+                currentLevel.levelEnded();
         }
     }
     public void rotate(char axis, double angle){
