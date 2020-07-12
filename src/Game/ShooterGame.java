@@ -55,6 +55,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
     private List<Enemy> enemies;
     private StartAnimation startAnimation;
     private int levelNum = 0;
+    private boolean nextLevel = false;
 
     public ShooterGame() {
         this.cooSystem =  new CoordinateSystem();
@@ -71,6 +72,11 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();  // Reset The View
         if (startAnimation.toStop()) {
+            if(nextLevel){
+                level = new Level(loader, gl, this);
+                level.BuildLevel(gameLevels.getLevelsList().get(levelNum));
+                nextLevel = false;
+            }
             gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_S, GL2.GL_LINEAR);
             gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_T, GL2.GL_LINEAR);
             Vector origin = cooSystem.getOrigin();
@@ -177,8 +183,8 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
 
     public void currentLevelEnded(GL2 gl) {
         levelNum++;
-        level = new Level(loader, gl, this);
-        level.BuildLevel(gameLevels.getLevelsList().get(levelNum));
+        this.nextLevel = true;
+
     }
 
     public void reshape(GLAutoDrawable drawable, int x,
