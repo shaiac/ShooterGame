@@ -6,13 +6,17 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import javax.media.opengl.GL2;
 
+import CollisionDetection.*;
+import LinearMath.Vector;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureIO;
+import com.sun.javafx.geom.Vec3f;
 
 public class ObjectLoader {
 
@@ -29,6 +33,8 @@ public class ObjectLoader {
     private HashMap<String,ArrayList<String>> mtlToObj = new HashMap<>();
     private HashMap<String,Texture> mtlToTex = new HashMap<>();
     private Material material;
+    private String collisionType;
+    private CollisionData collisionData;
 
     public ObjectLoader(){
 
@@ -48,6 +54,9 @@ public class ObjectLoader {
         ArrayList<ObjData> objects = new ArrayList<ObjData>();
         objects.addAll(objectsData.values());
         return objects;
+    }
+    public CollisionData getCollisionData(){
+        return this.collisionData;
     }
 
     private void LoadOBJModel(String ModelPath,GL2 gl) {
@@ -108,6 +117,7 @@ public class ObjectLoader {
             }
             br.close();
             AddToObjects(gl);
+            createCollisionObject(vData);
             vData.clear();
             vtData.clear();
             vnData.clear();
@@ -251,7 +261,6 @@ public class ObjectLoader {
         ft.add(vtdata);
         fn.add(vndata);
     }
-
     private void SetFaceRenderType() {
         final int temp[] = (int[]) fv.get(0);
 
@@ -263,7 +272,6 @@ public class ObjectLoader {
             FaceFormat = GL2.GL_POLYGON; //fall back to render as free form polygons
         }
     }
-
     private int ConstructInterleavedArray(GL2 gl) {
         int list = 0;
         final int tv[] = (int[]) fv.get(0);
@@ -281,7 +289,6 @@ public class ObjectLoader {
         }
         return list;
     }
-
     private int ConstructTNV(GL2 gl) {
         int[] v, t, n;
         float tcoords[] = new float[2];
@@ -412,6 +419,62 @@ public class ObjectLoader {
         mtlToTex.clear();
         mtllib = null;
         material = null;
+    }
+    private void createCollisionObject(ArrayList<float[]> vertex){
+        if(collisionType == "AABB"){
+            float[] min =vertex.get(0);
+            float[] max = vertex.get(0);
+            for (float[] v:vertex) {
+                for(int i=0; i<3; i++){
+                    if(v[i] > max[i]){
+                        max[i] = v[i];
+                    } else if(v[i] <min[i]){
+                        min[i] = v[i];
+                    }
+                }
+            }
+            double[] minD = {min[0],min[1],min[2],1};
+            Vector Min = new Vector(minD,4);
+            double[] maxD = {max[0],max[1],max[2],1};
+            Vector Max = new Vector(maxD,4);
+            Vec3f vec = new Vec3f(0,0,0);
+            collisionData = new AABB(Min,Max);
+        }
+        else if(collisionType == "BS"){
+            double maxD = 0;
+            float[] vStart = {0,0,0};
+            float[] vEnd = {0,0,0};
+            for (float[] v:vertex) {
+                for (float[] v1:vertex) {
+                    double dx = v[0] - v1[0];
+                    double dy = v[1] -v1[1];
+                    double dz = v[2] -v1[2];
+                    double distance = Math.sqrt(dx*dx + dy*dy + dz+dz);
+                    if (distance >= maxD){
+                        vStart = v;
+                        vEnd = v1;
+                    }
+                }
+            }
+            double[] centerArr = {(vStart[0]-vEnd[0])/2,
+                    (vStart[1]-vEnd[1])/2,
+                    (vStart[2]-vEnd[2])/2, 1};
+            Vector center = new Vector(centerArr,4);
+            collisionData = new BoundingSphere(center,maxD/2);
+        }
+        else if(collisionType == "CollisionPoint"){
+            double[] p = {vertex.get(0)[0],vertex.get(0)[1],vertex.get(0)[2],1};
+            Vector point = new Vector(p,4);
+            collisionData = new CollisionPoint(point);
+        }else if(collisionType == "CollisionPolygon"){
+            List<Vector> poly = new ArrayList<>();
+            for (float[] v:vertex) {
+                double[] p = {v[0],v[1],v[2],1};
+                Vector point = new Vector(p,4);
+                poly.add(point);
+            }
+            collisionData = new CollisionPolygon(poly);
+        }
     }
 
 }

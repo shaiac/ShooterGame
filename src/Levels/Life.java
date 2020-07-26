@@ -22,5 +22,11 @@ public class Life {
         renderer.draw("Life:" + String.valueOf(life), 0, 0);
         renderer.endRendering();
     }
+    public void addLife(int amount){
+        this.life += amount;
+        if(life > 100){
+            life = 100;
+        }
+    }
 
 }

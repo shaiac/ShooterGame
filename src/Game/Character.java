@@ -3,9 +3,13 @@ package Game;
 import CollisionDetection.PointPolygonIntersection;
 import Levels.Level;
 import Levels.Life;
+import Models.IModel;
+import Models.Model;
 import Models.Wall;
 import Models.Weapons.Ammunition;
 import Models.Weapons.Weapon;
+import Models.goods.AmmoBox;
+import Models.goods.Heart;
 import com.jogamp.newt.event.KeyEvent;
 
 import javax.media.opengl.GL2;
@@ -139,5 +143,21 @@ public class Character {
                 ammo.reduceAmmu(ammuReloaded);
             }
         }
+    }
+    public void collide(IModel obj){
+        if (obj instanceof AmmoBox){
+            this.ammo.addAmmu(50);
+        }
+        else if (obj instanceof Heart){
+            this.life.addLife(50);
+        }
+        else if (obj instanceof Weapon){
+            //check if weapon not picked
+            this.AddWeapon((Weapon)obj);
+        }
+        else{
+
+        }
+
     }
 }
