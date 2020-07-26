@@ -22,7 +22,7 @@ public class Ammunition {
     public void draw() {
         renderer.beginRendering(800, 600);
         renderer.setColor(1f, 1f, 0f, 0.8f);
-        renderer.draw("Ammu: " + String.valueOf(ammu), 0, 50);
+        renderer.draw("Ammo: " + String.valueOf(ammu), 0, 50);
         renderer.endRendering();
     }
     public int getAmmu() {

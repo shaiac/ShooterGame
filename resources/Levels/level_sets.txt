@@ -1,4 +1,4 @@
 1:LowerDeck
-Levels/LowerDeck_Level_Definitions.txt
-2:MiddleDeck
 Levels/MiddleDeck_Level_Definitions.txt
+2:MiddleDeck
+Levels/LowerDeck_Level_Definitions.txt

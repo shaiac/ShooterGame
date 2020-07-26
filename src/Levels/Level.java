@@ -63,6 +63,8 @@ public class Level {
             while ((data = buffer.readLine()) != null) {
                 data = data.trim();
                 splitData = data.split(" ");
+                if (splitData[0].contains("#"))
+                    continue;
                 if (data.contains("ROOM")) {
                     rooms.add(roomNumber, new Room());
                     roomNumber++;
