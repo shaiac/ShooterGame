@@ -34,6 +34,7 @@ wall -100 0 -20 y 40 40 woodenWall.jpg
 #AmmoBox objects/AmmoBox/AmmoBox.obj -70 2 -5
 OldPirate objects/OldPirate/oldPirate.obj -97 0 0
 Gun objects/Gun/pistol.obj 0 0 0 0
+Barrel objects/barrel/barrel_obj.obj -17 0 -17
 
 ROOM_TWO
 #front
