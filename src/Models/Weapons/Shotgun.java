@@ -1,12 +1,14 @@
 package Models.Weapons;
 
+import CollisionDetection.CollisionData;
+import CollisionDetection.ICollisionObj;
 import Game.CoordinateSystem;
 import Levels.Level;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
 import javax.media.opengl.GL2;
 
-public class Shotgun extends Weapon {
+public class Shotgun extends Weapon implements ICollisionObj {
     private String path;
     private Magazine magazine;
     private boolean attackMode = false;
@@ -21,6 +23,7 @@ public class Shotgun extends Weapon {
     private float angle;
     private TargetSymbol targetSymbol;
     private CoordinateSystem cooSystem;
+    private CollisionData collisionData;
 
     public Shotgun(String inPath, Level level) {
         this.path = inPath;
@@ -30,13 +33,20 @@ public class Shotgun extends Weapon {
     }
 
     public void create(ObjectLoader loader, GL2 gl,float[] startPos){
-        data = loader.LoadModelToGL(path,gl);
+        data = loader.LoadModelToGL(path,gl,"AABB");
+        this.collisionData = loader.getCollisionData();
         this.startPos = startPos;
         this.magazine = new Magazine(loader, gl, 8);
         float[] targerpos = {startPos[0] + 0.4f,startPos[1] - 0.4f, startPos[2] - 10};
         this.targetSymbol.create(loader,gl, targerpos);
         targetSymbol.scale(2, 2, 2);
         targetSymbol.rotate(90, 'x');
+
+        this.collisionData.setStartPos(startPos);
+        float[] scale = {10f,10f,10f};
+        this.collisionData.setScale(scale);
+        float[] rotate = {0,90f,0};
+        this.collisionData.setRotate(rotate);
     }
 
     private void addAsRoomModel(Bullet bullet) {
@@ -48,6 +58,7 @@ public class Shotgun extends Weapon {
     public void draw(GL2 gl) {
         gl.glPushMatrix();
         if(!picked){
+            this.collisionData.draw(gl);
             gl.glTranslatef(startPos[0],startPos[1],startPos[2]);
             gl.glScalef(5f, 5f, 5f);
             gl.glRotatef(90f, 0f, 1f, 0f);
@@ -122,5 +133,15 @@ public class Shotgun extends Weapon {
             rChange -= (5f/duration)*milliseconds;
             gl.glRotatef(rChange,1,0,0);
         }
+    }
+
+    @Override
+    public void collide() {
+
+    }
+
+    @Override
+    public CollisionData getCollisionData() {
+        return this.collisionData;
     }
 }

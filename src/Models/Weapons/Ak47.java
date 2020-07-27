@@ -1,5 +1,7 @@
 package Models.Weapons;
 
+import CollisionDetection.CollisionData;
+import CollisionDetection.ICollisionObj;
 import Game.CoordinateSystem;
 import Game.ShooterGame;
 import Levels.Level;
@@ -14,7 +16,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Ak47 extends Weapon {
+public class Ak47 extends Weapon implements ICollisionObj {
     private String path;
     private Magazine magazine;
     private boolean attackMode = false;
@@ -29,6 +31,7 @@ public class Ak47 extends Weapon {
     private CoordinateSystem cooSystem;
     private float angle;
     private TargetSymbol targetSymbol;
+    private CollisionData collisionData;
     public Ak47(String inPath, Level level) {
         this.observer = level;
         this.path = inPath;
@@ -41,13 +44,19 @@ public class Ak47 extends Weapon {
     }
 
     public void create(ObjectLoader loader, GL2 gl, float[] startPos){
-        data = loader.LoadModelToGL(path,gl);
+        data = loader.LoadModelToGL(path,gl,"AABB");
+        this.collisionData = loader.getCollisionData();
+
         this.startPos = startPos;
         this.magazine = new Magazine(loader, gl, 20);
         float[] targerpos = {startPos[0] + 10,startPos[1] - 3.4f, startPos[2] - 15};
         this.targetSymbol.create(loader,gl, targerpos);
         targetSymbol.scale(2, 2, 2);
         targetSymbol.rotate(90, 'x');
+
+        this.collisionData.setStartPos(startPos);
+        float[] scale = {0.01f,0.01f,0.01f};
+        this.collisionData.setScale(scale);
     }
 
     private void addAsRoomModel(Bullet bullet) {
@@ -57,11 +66,14 @@ public class Ak47 extends Weapon {
 
     @Override
     public void draw(GL2 gl) {
+
         gl.glPushMatrix();
         if(!picked){
+            this.collisionData.draw(gl);
             gl.glTranslatef(startPos[0],startPos[1],startPos[2]);
             gl.glScalef(0.01f, 0.01f, 0.01f);
             drawUnpicked(gl);
+
         }
         if(attackMode){
             endTime = System.currentTimeMillis();
@@ -124,5 +136,15 @@ public class Ak47 extends Weapon {
 
         }
         // y = -0.48f ,z = -3.9
+    }
+
+    @Override
+    public void collide() {
+
+    }
+
+    @Override
+    public CollisionData getCollisionData() {
+        return this.collisionData;
     }
 }

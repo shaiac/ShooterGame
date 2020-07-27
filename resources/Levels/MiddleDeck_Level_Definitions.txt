@@ -19,6 +19,7 @@ wall -60 0 -60 y 80 120 woodenWall.jpg
 #top
 wall -60 20 -60 y 80 120 woodenWall.jpg
 
+
 ROOM_AMMO
 #front & back
 wall -100 0 -20 x 10 40 woodenWall.jpg

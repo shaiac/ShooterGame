@@ -36,17 +36,21 @@ public class AABB extends CollisionData {
     @Override
     public void draw(GL2 gl){
         if (flag) {
-            //rotate
-            this.min = this.min.Multiply(this.rotate);
-            this.max = this.max.Multiply(this.rotate);
-            //scale
-            this.min = this.min.Multiply(this.scale);
-            this.max = this.max.Multiply(this.scale);
-
-            //translate
-            this.min = this.min.Add(this.startPos);
-            this.max = this.max.Add(this.startPos);
-
+            if(this.rotate != null){
+                //rotate
+                this.min = this.min.Multiply(this.rotate);
+                this.max = this.max.Multiply(this.rotate);
+            }
+            if(this.scale != null){
+                //scale
+                this.min = this.min.Multiply(this.scale);
+                this.max = this.max.Multiply(this.scale);
+            }
+            if(this.startPos != null){
+                //translate
+                this.min = this.min.Add(this.startPos);
+                this.max = this.max.Add(this.startPos);
+            }
             flag = false;
         }
 
