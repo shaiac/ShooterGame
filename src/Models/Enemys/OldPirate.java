@@ -81,6 +81,6 @@ public class OldPirate extends Enemy implements ICollisionObj {
 
     @Override
     public CollisionData getCollisionData() {
-        return null;
+        return collisionData;
     }
 }
