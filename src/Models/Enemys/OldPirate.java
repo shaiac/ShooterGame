@@ -25,13 +25,19 @@ public class OldPirate extends Enemy implements ICollisionObj {
         this.data = loader.LoadModelToGL(path,gl,"AABB");
         this.collisionData = loader.getCollisionData();
         this.startPos = startPos;
+        this.collisionData.setStartPos(startPos);
         this.scale(0.1f,0.1f,0.1f);
+        float[] scale = {0.1f,0.1f,0.1f};
+        this.collisionData.setScale(scale);
         this.rotate(-90,'x');
         this.rotate(90,'z');
+        float[] angle = {90,0,0};
+        this.collisionData.setRotate(angle);
     }
 
     @Override
     public void draw(GL2 gl) {
+        collisionData.draw(gl);
         double m = ((-startPos[2] + charOrigin.getVec()[2])/(startPos[0] - charOrigin.getVec()[0]));
         float angle = (float) Math.toDegrees( Math.atan(m));
         if(charOrigin.getVec()[0]-startPos[0]   <0){
@@ -55,7 +61,7 @@ public class OldPirate extends Enemy implements ICollisionObj {
         for (ObjData obj:data) {
             obj.draw(gl);
         }
-        collisionData.draw(gl);
+
         gl.glPushMatrix();
         //gl.glScalef(0.07f,0.07f,0.07f);
         gl.glTranslatef(2.5f,2.8f,-2.3f);

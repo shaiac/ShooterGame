@@ -51,6 +51,19 @@ public class Vector {
         retval = new Vector(vecArr,size);
         return retval;
     }
+    public Vector Multiply(Matrix m){
+        Vector ans;
+        double[] ans2Arr = new double[size];
+        for( int i = 0; i<m.size; i++){
+            double sum = 0;
+            for(int j=0;j<m.size;j++){
+                sum+= this.get(j)*m.mat[j][i];
+            }
+            ans2Arr[i] = sum;
+        }
+        ans = new Vector(ans2Arr,size);
+        return ans;
+    }
     public Vector normal(){
         Vector retval;
         retval = this.Multiply(1/this.GetLength());

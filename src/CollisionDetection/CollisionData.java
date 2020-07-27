@@ -11,4 +11,8 @@ public abstract class CollisionData{
     public void draw(GL2 gl){
 
     }
+    public void setStartPos(float[] startPos){}
+    public void setRotate(float[] angle){}
+    public void setScale(float[] sf){}
+
 }
