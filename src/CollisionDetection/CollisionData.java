@@ -1,10 +1,14 @@
 package CollisionDetection;
 
+import javax.media.opengl.GL2;
 import java.lang.reflect.Type;
 
 public abstract class CollisionData{
     public String type;
-    public CollisionData(){
+    public CollisionData() {
         type = getClass().getTypeName();
+    }
+    public void draw(GL2 gl){
+
     }
 }

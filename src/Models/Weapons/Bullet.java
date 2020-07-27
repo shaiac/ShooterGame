@@ -37,6 +37,7 @@ public class Bullet extends Model {
         move -= 0.03f*(float)timePassed;
         startTime = System.currentTimeMillis();
         gl.glTranslatef(startPos[0],startPos[1],startPos[2]);
+
         gl.glRotatef(angle,0,1,0);
         // y = -0.48f ,z = -3.9
         gl.glTranslatef(bulletPos[0],bulletPos[1],bulletPos[2]+ move);

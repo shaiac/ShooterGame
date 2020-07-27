@@ -1,18 +1,20 @@
 package Models.Enemys;
 
+import CollisionDetection.CollisionData;
+import CollisionDetection.ICollisionObj;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
 import Models.Model;
 
 import javax.media.opengl.GL2;
 
-public class OldPirate extends Enemy {
+public class OldPirate extends Enemy implements ICollisionObj {
     private String path;
     private long rotDuration = 100;
     private long attackDuration = 2500;
     private long startTimeRot = System.currentTimeMillis();
     private long startTimeAtt = System.currentTimeMillis();
-
+    private CollisionData collisionData;
 
     public OldPirate(String path) {
         this.path = path;
@@ -20,7 +22,8 @@ public class OldPirate extends Enemy {
 
     @Override
     public void create(ObjectLoader loader, GL2 gl, float[] startPos) {
-        this.data = loader.LoadModelToGL(path,gl);
+        this.data = loader.LoadModelToGL(path,gl,"AABB");
+        this.collisionData = loader.getCollisionData();
         this.startPos = startPos;
         this.scale(0.1f,0.1f,0.1f);
         this.rotate(-90,'x');
@@ -52,6 +55,7 @@ public class OldPirate extends Enemy {
         for (ObjData obj:data) {
             obj.draw(gl);
         }
+        collisionData.draw(gl);
         gl.glPushMatrix();
         //gl.glScalef(0.07f,0.07f,0.07f);
         gl.glTranslatef(2.5f,2.8f,-2.3f);
@@ -62,5 +66,15 @@ public class OldPirate extends Enemy {
         }
         gl.glPopMatrix();
         gl.glPopMatrix();
+    }
+
+    @Override
+    public void collide() {
+
+    }
+
+    @Override
+    public CollisionData getCollisionData() {
+        return null;
     }
 }

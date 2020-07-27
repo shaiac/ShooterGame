@@ -50,6 +50,17 @@ public class ObjectLoader {
         cleanAll();
         return objectList;
     }
+    public ArrayList<ObjData> LoadModelToGL(String inModelPath,GL2 gl,String collisionType){
+        this.collisionType = collisionType;
+        //OBJModelPath = inModelPath;
+        LoadOBJModel(inModelPath,gl);
+        if(mtllib != null){
+            LoadMTLModel(mtllib,gl);
+        }
+        ArrayList<ObjData> objectList = getObjects();
+        cleanAll();
+        return objectList;
+    }
     public ArrayList<ObjData> getObjects(){
         ArrayList<ObjData> objects = new ArrayList<ObjData>();
         objects.addAll(objectsData.values());
@@ -422,8 +433,8 @@ public class ObjectLoader {
     }
     private void createCollisionObject(ArrayList<float[]> vertex){
         if(collisionType == "AABB"){
-            float[] min =vertex.get(0);
-            float[] max = vertex.get(0);
+            float[] min ={vertex.get(0)[0],vertex.get(0)[1],vertex.get(0)[2]};
+            float[] max = {vertex.get(0)[0],vertex.get(0)[1],vertex.get(0)[2]};
             for (float[] v:vertex) {
                 for(int i=0; i<3; i++){
                     if(v[i] > max[i]){
