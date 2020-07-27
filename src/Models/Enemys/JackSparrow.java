@@ -25,7 +25,7 @@ public class JackSparrow extends Enemy implements ICollisionObj {
 
     @Override
     public void create(ObjectLoader loader, GL2 gl, float[] startPos) {
-        this.data = loader.LoadModelToGL(path,gl);
+        this.data = loader.LoadModelToGL(path,gl, "AABB");
         this.collisionData = loader.getCollisionData();
         this.startPos = startPos;
         this.collisionData.setStartPos(startPos);
