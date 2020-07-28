@@ -38,6 +38,10 @@ public class CannonBall extends Model {
         long endTime = System.currentTimeMillis();
         long timePassed = endTime- startTime;
         move -= 0.02f*(float)timePassed;
+        //update collision data
+        float[] moveArr = {0,0, -0.02f*(float)timePassed};
+        this.collisionData.move(moveArr);
+        this.collisionData.draw(gl);
         startTime = System.currentTimeMillis();
         gl.glTranslatef(startPos[0],startPos[1],startPos[2]);
         gl.glRotatef(270+rot,0,1,0);
@@ -48,6 +52,7 @@ public class CannonBall extends Model {
             obj.draw(gl);
         }
         gl.glPopMatrix();
+
     }
     public void setRot(float angle){
         rot = angle;

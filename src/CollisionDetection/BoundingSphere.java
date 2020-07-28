@@ -24,6 +24,12 @@ public class BoundingSphere extends CollisionData {
     public void setScale(float[] sf){
         this.radius *= sf[0];
     }
+    public void move(float[] step){
+        double[] moveD = {step[0],step[1],step[2],0};
+        Vector moveVec = new Vector(moveD,4);
+        this.center = this.center.Add(moveVec);
+
+    }
     public void draw(GL2 gl){
         float[] cen = {(float)this.center.getVec()[0],(float)this.center.getVec()[0],(float)this.center.getVec()[0]};
         float rad = (float) this.radius;
@@ -36,11 +42,6 @@ public class BoundingSphere extends CollisionData {
         gl.glVertex3f(cen[0] ,cen[1] + rad,cen[2]);
         gl.glEnd();
     }
-    public void move(float[] step){
-        double[] moveD = {step[0],step[1],step[2],0};
-        Vector moveVec = new Vector(moveD,4);
-        this.center = this.center.Add(moveVec);
 
-    }
 
 }
