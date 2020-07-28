@@ -1,5 +1,7 @@
 package CollisionDetection;
 
+import LinearMath.Vector;
+
 import javax.media.opengl.GL2;
 import java.lang.reflect.Type;
 
@@ -14,5 +16,5 @@ public abstract class CollisionData{
     public void setStartPos(float[] startPos){}
     public void setRotate(float[] angle){}
     public void setScale(float[] sf){}
-
+    public void setMinMax(Vector move) {}
 }

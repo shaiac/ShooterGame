@@ -15,7 +15,6 @@ public class Skull extends Model {
     @Override
     public void create(ObjectLoader loader, GL2 gl, float[] startPos) {
         data = loader.LoadModelToGL(path,gl);
-        this.translate(1f,0f,0f);
         this.startPos = startPos;
     }
 
