@@ -8,6 +8,7 @@ import javax.media.opengl.GL2;
 
 public class AABB extends CollisionData {
     public Vector min,max;
+    public Vector startMin, startMax;
     public Vector startPos;
     public Matrix rotate;
     public Matrix scale;
@@ -16,6 +17,8 @@ public class AABB extends CollisionData {
         super();
         this.min = min;
         this.max = max;
+        this.startMin = min;
+        this.startMax = max;
     }
     @Override
     public void setStartPos(float[] startPos){
@@ -53,8 +56,6 @@ public class AABB extends CollisionData {
             }
             flag = false;
         }
-
-
 
         float[] minf = {(float)min.get(0),(float)min.get(1),(float)min.get(2)};
         float[] maxf = {(float)max.get(0),(float)max.get(1),(float)max.get(2)};
@@ -99,5 +100,12 @@ public class AABB extends CollisionData {
         gl.glVertex3f(minf[0],minf[1],maxf[2]);
         gl.glEnd();
     }
+
+    @Override
+    public void setMinMax(Vector move) {
+        this.min = this.startMin.Add(move);
+        this.max = this.startMax.Add(move);
+    }
+
 
 }

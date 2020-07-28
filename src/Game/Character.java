@@ -1,8 +1,12 @@
 package Game;
 
+import CollisionDetection.AABB;
+import CollisionDetection.CollisionData;
+import CollisionDetection.ICollisionObj;
 import CollisionDetection.PointPolygonIntersection;
 import Levels.Level;
 import Levels.Life;
+import LinearMath.Vector;
 import Models.IModel;
 import Models.Model;
 import Models.Wall;
@@ -11,11 +15,12 @@ import Models.Weapons.Weapon;
 import Models.goods.AmmoBox;
 import Models.goods.Heart;
 import com.jogamp.newt.event.KeyEvent;
+import com.sun.javafx.geom.Vec3f;
 
 import javax.media.opengl.GL2;
 import java.util.*;
 
-public class Character {
+public class Character implements ICollisionObj {
     private int keyPressedWhileInter = -1;
     private boolean lastTimeInter = false;
     private GL2 gl;
@@ -28,6 +33,10 @@ public class Character {
     private Life life;
     private Level currentLevel;
     private PointPolygonIntersection ppi;
+    private CollisionData collisionData;
+    private float[] pos = {-1, 0, 1};
+    private Vector toMove;
+
 
     public Character(Weapon startWeapon,CoordinateSystem cooSystem,GL2 gl) {
         this.cooSystem = cooSystem;
@@ -39,6 +48,21 @@ public class Character {
         this.life = new Life();
         this.ammo = new Ammunition(50);
         ppi = new PointPolygonIntersection();
+        createAABB();
+    }
+
+    private void createAABB() {
+        float[] min ={0, 0, 0};
+        float[] max = {5, 10, 5};
+        double[] minD = {min[0],min[1],min[2],1};
+        LinearMath.Vector minVec = new LinearMath.Vector(minD,4);
+        double[] maxD = {max[0],max[1],max[2],1};
+        LinearMath.Vector maxVec = new Vector(maxD,4);
+        Vec3f vec = new Vec3f(0,0,0);
+        collisionData = new AABB(minVec,maxVec);
+        collisionData.setStartPos(pos);
+        double[] move = {0, 0, 0, 0};
+        toMove = new Vector(move, 4);
     }
 
     public void setCurrentLevel(Level level) {
@@ -53,6 +77,11 @@ public class Character {
         currentWeapon = weapons.poll();
     }
     public void draw(){
+        Vector currnetPos = cooSystem.getOrigin();
+        double[] move = {currnetPos.get(0), currnetPos.get(1) - 5, currnetPos.get(2) -7, 0};
+        toMove = new Vector(move, 4);
+        collisionData.setMinMax(toMove);
+        collisionData.draw(gl);
         deg = (float) Math.toDegrees(totalRotation);
         currentWeapon.setAngle(deg);
         ammo.draw();
@@ -81,6 +110,19 @@ public class Character {
         return false;
     }
 
+    private void updatePos(float step, char axis) {
+        if (axis == 'x') {
+            double[] move = {step, 0, 0, 0};
+            toMove = new Vector(move, 4);
+        } else if (axis == 'y') {
+            double[] move = {0, step, 0, 0};
+            toMove = new Vector(move, 4);
+        } else {
+            double[] move = {0, 0, step, 0};
+            toMove = new Vector(move, 4);
+        }
+    }
+
     public void walk(int keyPressed){
 //        if (lastTimeInter && keyPressed == keyPressedWhileInter) {
 //            return;
@@ -98,15 +140,19 @@ public class Character {
         switch (keyPressed) {
             case KeyEvent.VK_W:
                 cooSystem.moveStep('z', -step);
+                updatePos(-step, 'z');
                 break;
             case KeyEvent.VK_A:
                 cooSystem.moveStep('x', -step);
+                updatePos(-step, 'x');
                 break;
             case KeyEvent.VK_D:
                 cooSystem.moveStep('x', step);
+                updatePos(step, 'x');
                 break;
             case KeyEvent.VK_S:
                 cooSystem.moveStep('z', step);
+                updatePos(step, 'z');
                 break;
             case KeyEvent.VK_RIGHT:
                 cooSystem.rotate('y', angle);
@@ -159,5 +205,14 @@ public class Character {
 
         }
 
+    }
+    @Override
+    public void collide() {
+
+    }
+
+    @Override
+    public CollisionData getCollisionData() {
+        return collisionData;
     }
 }
