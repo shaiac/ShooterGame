@@ -5,17 +5,22 @@ Shai Acoca 315314278
  */
 package Models;
 
+import CollisionDetection.AABB;
+import CollisionDetection.CollisionData;
+import CollisionDetection.ICollisionObj;
+import LinearMath.Vector;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
 import com.jogamp.opengl.util.texture.Texture;
 
 import javax.media.opengl.GL2;
 
-public class Cube extends Model {
+public class Cube extends Model implements ICollisionObj {
     private float x,y,z;
     private float width;
     private int list;
     private ObjData data = new ObjData();
+    private CollisionData collisionData;
 
     public Cube(float x, float y,float z,float width){
         this.x = x;
@@ -88,9 +93,26 @@ public class Cube extends Model {
         gl.glEnd();
         gl.glEndList();
         data.setList(list);
+
+        double[] min = {Math.min(x,x+width),Math.min(y,y+width),Math.min(z,z+width),1};
+        Vector minVec = new Vector(min,4);
+        double[] max = {Math.max(x,x+width),Math.max(y,y+width),Math.max(z,z+width),1};
+        Vector maxVec = new Vector(max,4);
+        this.collisionData = new AABB(minVec,maxVec);
     }
     @Override
     public void draw(GL2 gl) {
+        this.collisionData.draw(gl);
         data.draw(gl);
+    }
+
+    @Override
+    public void collide() {
+
+    }
+
+    @Override
+    public CollisionData getCollisionData() {
+        return this.collisionData;
     }
 }
