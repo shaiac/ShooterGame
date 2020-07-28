@@ -20,7 +20,6 @@ public class Barrel extends Model implements ICollisionObj {
     public void create(ObjectLoader loader, GL2 gl, float[] startPos) {
         data = loader.LoadModelToGL(path,gl, "AABB");
         this.collisionData = loader.getCollisionData();
-        this.translate(1f,0f,0f);
         this.startPos = startPos;
         this.collisionData.setStartPos(startPos);
         float[] scale = {0.05f,0.05f,0.05f};

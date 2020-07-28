@@ -68,8 +68,8 @@ public class Character {
     public void attack(){
         currentWeapon.attack();
     }
-    public void addAmmu(int quantity){
-        ammo.addAmmu(quantity);
+    public void addAmmo(int quantity){
+        ammo.addAmmo(quantity);
     }
 
     private boolean checkIntersectionWithLevelWalls() {
@@ -135,18 +135,18 @@ public class Character {
     }
 
     public void reload() {
-        if (ammo.getAmmu() != 0) {
-            int ammuReloaded = currentWeapon.reload();
-            if (ammo.getAmmu() < ammuReloaded) {
-                ammo.reduceAmmu(ammo.getAmmu());
+        if (ammo.getAmmo() != 0) {
+            int ammoReloaded = currentWeapon.reload();
+            if (ammo.getAmmo() < ammoReloaded) {
+                ammo.reduceAmmo(ammo.getAmmo());
             } else {
-                ammo.reduceAmmu(ammuReloaded);
+                ammo.reduceAmmo(ammoReloaded);
             }
         }
     }
     public void collide(IModel obj){
         if (obj instanceof AmmoBox){
-            this.ammo.addAmmu(50);
+            this.ammo.addAmmo(50);
         }
         else if (obj instanceof Heart){
             this.life.addLife(50);

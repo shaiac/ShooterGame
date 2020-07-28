@@ -201,7 +201,6 @@ public class Level {
                         float[] ammoPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
                         ammoBox.create(loader, gl, ammoPos);
-                        //ammoBox.rotate(Float.parseFloat(splitData[5]), 'y');
                         rooms.get(roomNumber - 1).AddModel(ammoBox);
                         break;
                     case "SkullSymbol":

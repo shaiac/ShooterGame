@@ -10,9 +10,7 @@ import javax.media.opengl.GL2;
 
 public class OldPirate extends Enemy implements ICollisionObj {
     private String path;
-    private long rotDuration = 100;
     private long attackDuration = 2500;
-    private long startTimeRot = System.currentTimeMillis();
     private long startTimeAtt = System.currentTimeMillis();
     private CollisionData collisionData;
 
