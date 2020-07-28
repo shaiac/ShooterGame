@@ -102,7 +102,7 @@ public class AABB extends CollisionData {
     }
 
     @Override
-    public void setMinMax(Vector move) {
+    public void move(Vector move) {
         this.min = this.startMin.Add(move);
         this.max = this.startMax.Add(move);
     }

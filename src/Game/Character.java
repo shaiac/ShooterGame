@@ -58,7 +58,6 @@ public class Character implements ICollisionObj {
         LinearMath.Vector minVec = new LinearMath.Vector(minD,4);
         double[] maxD = {max[0],max[1],max[2],1};
         LinearMath.Vector maxVec = new Vector(maxD,4);
-        Vec3f vec = new Vec3f(0,0,0);
         collisionData = new AABB(minVec,maxVec);
         collisionData.setStartPos(pos);
         double[] move = {0, 0, 0, 0};
@@ -80,7 +79,7 @@ public class Character implements ICollisionObj {
         Vector currnetPos = cooSystem.getOrigin();
         double[] move = {currnetPos.get(0), currnetPos.get(1) - 5, currnetPos.get(2) -7, 0};
         toMove = new Vector(move, 4);
-        collisionData.setMinMax(toMove);
+        collisionData.move(toMove);
         collisionData.draw(gl);
         deg = (float) Math.toDegrees(totalRotation);
         currentWeapon.setAngle(deg);
@@ -110,19 +109,6 @@ public class Character implements ICollisionObj {
         return false;
     }
 
-    private void updatePos(float step, char axis) {
-        if (axis == 'x') {
-            double[] move = {step, 0, 0, 0};
-            toMove = new Vector(move, 4);
-        } else if (axis == 'y') {
-            double[] move = {0, step, 0, 0};
-            toMove = new Vector(move, 4);
-        } else {
-            double[] move = {0, 0, step, 0};
-            toMove = new Vector(move, 4);
-        }
-    }
-
     public void walk(int keyPressed){
 //        if (lastTimeInter && keyPressed == keyPressedWhileInter) {
 //            return;
@@ -140,19 +126,15 @@ public class Character implements ICollisionObj {
         switch (keyPressed) {
             case KeyEvent.VK_W:
                 cooSystem.moveStep('z', -step);
-                updatePos(-step, 'z');
                 break;
             case KeyEvent.VK_A:
                 cooSystem.moveStep('x', -step);
-                updatePos(-step, 'x');
                 break;
             case KeyEvent.VK_D:
                 cooSystem.moveStep('x', step);
-                updatePos(step, 'x');
                 break;
             case KeyEvent.VK_S:
                 cooSystem.moveStep('z', step);
-                updatePos(step, 'z');
                 break;
             case KeyEvent.VK_RIGHT:
                 cooSystem.rotate('y', angle);

@@ -17,4 +17,5 @@ public abstract class CollisionData{
     public void setRotate(float[] angle){}
     public void setScale(float[] sf){}
     public void move(float[] move) {}
+    public void move(Vector move) {}
 }
