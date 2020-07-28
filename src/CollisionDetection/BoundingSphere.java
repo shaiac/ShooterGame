@@ -1,6 +1,10 @@
 package CollisionDetection;
 
+import LinearMath.Matrix;
+import LinearMath.Transformation3D;
 import LinearMath.Vector;
+
+import javax.media.opengl.GL2;
 
 public class BoundingSphere extends CollisionData {
     public Vector center;
@@ -10,21 +14,33 @@ public class BoundingSphere extends CollisionData {
         this.center = center;
         this.radius = radius;
     }
-    /*//Checking collision of Point and BS
-    public boolean checkIntersectionWithPoint(Vector point) {
-        double distance = Math.pow((center.get(0) - point.get(0)), 2) + Math.pow((center.get(1) - point.get(1)), 2) +
-                Math.pow((center.get(2) - point.get(2)), 2);
-        return distance < Math.pow(radius, 2);
+
+    public void setStartPos(float[] startPos){
+        double[] posD= {startPos[0],startPos[1],startPos[2],0};
+        Vector startPosition = new Vector(posD,4);
+        this.center = this.center.Add(startPosition);
+
     }
+    public void setScale(float[] sf){
+        this.radius *= sf[0];
+    }
+    public void draw(GL2 gl){
+        float[] cen = {(float)this.center.getVec()[0],(float)this.center.getVec()[0],(float)this.center.getVec()[0]};
+        float rad = (float) this.radius;
+        gl.glBegin(GL2.GL_LINE);
+        gl.glVertex3f(cen[0] - rad,cen[1],cen[2]);
+        gl.glVertex3f(cen[0] + rad,cen[1],cen[2]);
+        gl.glVertex3f(cen[0] ,cen[1],cen[2] - rad);
+        gl.glVertex3f(cen[0] ,cen[1],cen[2] + rad);
+        gl.glVertex3f(cen[0] ,cen[1] - rad,cen[2]);
+        gl.glVertex3f(cen[0] ,cen[1] + rad,cen[2]);
+        gl.glEnd();
+    }
+    public void move(float[] step){
+        double[] moveD = {step[0],step[1],step[2],0};
+        Vector moveVec = new Vector(moveD,4);
+        this.center = this.center.Add(moveVec);
 
-    public boolean checkIntersectionWithBS(BoundingSphere bs) {
-        double distance = Math.pow((center.get(0) - bs.getCenter().get(0)), 2) + Math.pow((center.get(1) -
-                getCenter().get(1)), 2) + Math.pow((center.get(2) - getCenter().get(2)), 2);
-        return distance < (Math.pow(radius, 2) + Math.pow(bs.getRadius(), 2));
-    }*/
-
-//    public boolean checkIntersectionWithPlane(BoundingSphere bs) {
-//
-//    }
+    }
 
 }

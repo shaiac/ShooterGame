@@ -1,5 +1,6 @@
 package Models.Weapons;
 
+import CollisionDetection.CollisionData;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
 import Models.Model;
@@ -13,18 +14,23 @@ public class CannonBall extends Model {
     private float rot = 0;
     private float scaleFactor = 1;
     private float[] posAfterRot = {0,0,0};
+    private CollisionData collisionData;
     public CannonBall(String path) {
         this.path = path;
     }
 
     @Override
     public void create(ObjectLoader loader, GL2 gl, float[] startPos) {
-        data = loader.LoadModelToGL(path,gl);
+        data = loader.LoadModelToGL(path,gl,"BS");
+        this.collisionData = loader.getCollisionData();
         this.translate(1f,0f,0f);
         this.startPos = startPos;
+        this.collisionData.setStartPos(startPos);
     }
     public void setScaleFactor(float sf){
         this.scaleFactor = sf;
+        float[] scale = {sf,sf,sf};
+        this.collisionData.setScale(scale);
     }
     @Override
     public void draw(GL2 gl) {

@@ -16,5 +16,5 @@ public abstract class CollisionData{
     public void setStartPos(float[] startPos){}
     public void setRotate(float[] angle){}
     public void setScale(float[] sf){}
-    public void setMinMax(Vector move) {}
+    public void move(float[] move) {}
 }
