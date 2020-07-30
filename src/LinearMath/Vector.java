@@ -121,6 +121,15 @@ public class Vector {
         Vector newVec = new Vector(vecArr,size-1);
         return newVec;
     }
+    public Vector fixLast(){
+        double[] vecArr = new double[size];
+        for(int i=0; i<size - 1; i++){
+            vecArr[i] = this.vec[i];
+        }
+        vecArr[size-1] = 1;
+        Vector newVec = new Vector(vecArr,size);
+        return newVec;
+    }
 
     public Vector minus(Vector v) {
         double[] vecArr = new double[size];

@@ -14,6 +14,7 @@ public class Gun extends Weapon{
     private float[] pos = {0,0,0};
     boolean fire = false;
     private float angle;
+    private CannonBall ball = null;
 
     public Gun(String path, Level level) {
         this.observer = level;
@@ -69,12 +70,15 @@ public class Gun extends Weapon{
         this.pos = pos;
     }
     private void dofire() {
-        CannonBall ball = new CannonBall("objects/ball/uploads_files_2078589_sphere.obj");
-        ball.create(loader,gl,pos);
-        ball.setRot(angle-2f);
-        ball.setScaleFactor(0.5f);
+        if(ball == null){
+            this.ball = new CannonBall("objects/ball/uploads_files_2078589_sphere.obj");
+            this.ball.create(loader,gl,pos);
+        }
+        CannonBall newBall = this.ball.create(pos);
+        newBall.setRot(angle-2f);
+        newBall.setScaleFactor(0.5f);
         float[] afterPos = {-3.5f,4.5f,-4f};
-        ball.setPosAfterRot(afterPos);
-        observer.addModel(ball);
+        newBall.setPosAfterRot(afterPos);
+        observer.addModel(newBall);
     }
 }

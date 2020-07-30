@@ -15,7 +15,7 @@ public class JackSparrow extends Enemy implements ICollisionObj {
     private long attackDuration = 2500;
     private long startTimeRot = System.currentTimeMillis();
     private long startTimeAtt = System.currentTimeMillis();
-    private String path;
+    public String path;
     private CollisionData collisionData;
 
 
