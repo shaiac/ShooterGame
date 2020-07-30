@@ -158,4 +158,7 @@ public class Vector {
         Vector newVec = new Vector(vecArr,size);
         return newVec;
     }
+    public Vector clone(){
+        return new Vector(this.getVec(),this.size);
+    }
 }

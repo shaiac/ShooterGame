@@ -1,17 +1,30 @@
 package Models.Weapons;
 
+import CollisionDetection.CollisionData;
+import CollisionDetection.CollisionType;
+import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
 import Models.Model;
+import javafx.util.Pair;
 
 import javax.media.opengl.GL2;
+import java.util.List;
 
 public class TargetSymbol extends Model {
     private String path;
     public TargetSymbol(String path) {
         this.path = path;
     }
-
+    public TargetSymbol(String path, LoaderFactory factory){
+        Pair<List<ObjData>, CollisionData> data = factory.create(path, null);
+        this.data = data.getKey();
+        this.translate(1,0,0);
+    }
+    public void setStartPos(float[] startPos){
+        this.startPos = startPos;
+    }
+    //old
     @Override
     public void create(ObjectLoader loader, GL2 gl, float[] startPos) {
         data = loader.LoadModelToGL(path,gl);

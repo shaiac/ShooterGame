@@ -5,8 +5,12 @@ import LinearMath.Vector;
 public class CollisionPoint extends CollisionData {
     public Vector point;
     public CollisionPoint(Vector point){
-        super();
+        this.type = CollisionType.POINT;
         this.point = point;
+    }
+    @Override
+    public CollisionData clone(){
+        return new CollisionPoint(point.clone());
     }
 
     @Override

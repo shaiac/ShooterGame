@@ -1,12 +1,17 @@
 package Models.Weapons;
 
 import CollisionDetection.CollisionData;
+import CollisionDetection.CollisionType;
 import CollisionDetection.ICollisionObj;
 import Game.CoordinateSystem;
 import Levels.Level;
+import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
+import javafx.util.Pair;
+
 import javax.media.opengl.GL2;
+import java.util.List;
 
 public class Shotgun extends Weapon implements ICollisionObj {
     private String path;
@@ -24,16 +29,43 @@ public class Shotgun extends Weapon implements ICollisionObj {
     private TargetSymbol targetSymbol;
     private CoordinateSystem cooSystem;
     private CollisionData collisionData;
-
+    private LoaderFactory factory;
+    private String bulletPath;
     public Shotgun(String inPath, Level level) {
         this.path = inPath;
         weapontype = WeaponType.GUN;
         this.observer = level;
         targetSymbol = new TargetSymbol("objects/TargetSymbol/TargetSymbol.obj");
     }
+    public Shotgun(String path, Level level, LoaderFactory factory){
+        this.factory = factory;
+        Pair<List<ObjData>,CollisionData> data = factory.create(path,CollisionType.AABB);
+        this.data = data.getKey();
+        this.collisionData = data.getValue();
+        this.observer = level;
+        this.weapontype = WeaponType.GUN;
+        this.magazine = new Magazine(factory);
+        this.bulletPath = "objects/Bullet/lowpolybullet.obj";
+        this.targetSymbol = new TargetSymbol("objects/TargetSymbol/TargetSymbol.obj",factory);
+        this.targetSymbol.scale(2,2,2);
+        this.targetSymbol.rotate(90,'x');
+    }
 
+    public void setStartPos(float[] startPos){
+        //pos of weapon
+        this.startPos = startPos;
+        //pos of target
+        float[] targerpos = {startPos[0] + 10,startPos[1] - 3.4f, startPos[2] - 15};
+        this.targetSymbol.setStartPos(startPos);
+        //pos of collisionData
+        this.collisionData.setStartPos(startPos);
+        float[] scale = {10f,10f,10f};
+        this.collisionData.setScale(scale);
+        float[] rotate = {0,90f,0};
+        this.collisionData.setRotate(rotate);
+    }
     public void create(ObjectLoader loader, GL2 gl,float[] startPos){
-        data = loader.LoadModelToGL(path,gl,"AABB");
+        data = loader.LoadModelToGL(path,gl, CollisionType.AABB);
         this.collisionData = loader.getCollisionData();
         this.startPos = startPos;
         this.magazine = new Magazine(loader, gl, 8);

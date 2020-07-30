@@ -16,6 +16,7 @@ import CollisionDetection.PointPolygonIntersection;
 import Levels.GameLevels;
 import Levels.Level;
 import LinearMath.Vector;
+import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjectLoader;
 import Models.Enemys.Enemy;
 import Models.PirateShip;
@@ -56,6 +57,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
     private StartAnimation startAnimation;
     private int levelNum = 0;
     private boolean nextLevel = false;
+    private LoaderFactory factory;
 
     public ShooterGame() {
         this.cooSystem =  new CoordinateSystem();
@@ -137,13 +139,14 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         gl.glEnable(GL2.GL_LIGHTING);
         //end of lightning
 
-        level = new Level(loader, gl, this);
+        this.factory = new LoaderFactory(this.loader,gl);
+        level = new Level(this.factory,this,loader,gl);
         level.BuildLevel(gameLevels.getLevelsList().get(levelNum));
 
         startAnimation = new StartAnimation(gl, loader);
 
         //character starting weapons
-        Ak47 AK_47 = new Ak47("objects/AK_47/Ak-47.obj", level);
+        /*Ak47 AK_47 = new Ak47("objects/AK_47/Ak-47.obj", level);
         float[] akPos = {-10,3,8};
         AK_47.create(loader, gl,akPos);
         AK_47.translate(0.5f,-1.5f,0.2f);
@@ -158,15 +161,15 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         shotgun.translate(0.5f,-1f,-0.1f);
         shotgun.scale(7f,7f,7f);
         shotgun.rotate(180,'y');
-        shotgun.rotate(10,'z');
+        shotgun.rotate(10,'z');*/
 
         sword = new Sword("objects/RzR/rzr.obj");
         float[] pos = {0f,5f,-10f};
         sword.create(loader,gl,pos);
 
-        this.character = new Character(shotgun,this.cooSystem,gl);
-        character.AddWeapon(sword);
-        character.AddWeapon(AK_47);
+        this.character = new Character(sword,this.cooSystem,gl);
+        //character.AddWeapon(sword);
+        //character.AddWeapon(AK_47);
         character.setCurrentLevel(level);
 
         if (drawable instanceof Window) {

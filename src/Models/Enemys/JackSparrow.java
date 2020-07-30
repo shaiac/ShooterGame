@@ -1,14 +1,18 @@
 package Models.Enemys;
 
 import CollisionDetection.CollisionData;
+import CollisionDetection.CollisionType;
 import CollisionDetection.ICollisionObj;
 import LinearMath.Vector;
+import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
 import Models.Model;
 import Models.Weapons.Weapon;
+import javafx.util.Pair;
 
 import javax.media.opengl.GL2;
+import java.util.List;
 
 public class JackSparrow extends Enemy implements ICollisionObj {
     private long rotDuration = 100;
@@ -22,10 +26,24 @@ public class JackSparrow extends Enemy implements ICollisionObj {
     public JackSparrow(String path) {
         this.path = path;
     }
-
+    public JackSparrow(String path, LoaderFactory factory){
+        Pair<List<ObjData>,CollisionData> data = factory.create(path,CollisionType.AABB);
+        this.data = data.getKey();
+        this.collisionData = data.getValue();
+        this.scale(0.03f,0.03f,0.03f);
+        this.rotate(90,'y');
+        float[] scale = {0.03f,0.03f,0.03f};
+        this.collisionData.setScale(scale);
+        float[] angle = {0,90,0};
+        this.collisionData.setRotate(angle);
+    }
+    public void setStartPos(float[] startPos){
+        this.startPos = startPos;
+        this.collisionData.setStartPos(startPos);
+    }
     @Override
     public void create(ObjectLoader loader, GL2 gl, float[] startPos) {
-        this.data = loader.LoadModelToGL(path,gl, "AABB");
+        this.data = loader.LoadModelToGL(path,gl, CollisionType.AABB);
         this.collisionData = loader.getCollisionData();
         this.startPos = startPos;
         this.collisionData.setStartPos(startPos);

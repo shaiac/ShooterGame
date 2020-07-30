@@ -10,6 +10,7 @@ public abstract class Model implements IModel {
     protected List<ObjData> data = new ArrayList<>();
     protected float[] startPos = {0,0,0};
     protected Level observer;
+    protected String path;
 //    public Model(ShooterGame shooterGame) {
 //        this.observer = shooterGame;
 //    }
@@ -44,5 +45,9 @@ public abstract class Model implements IModel {
         for (ObjData obj:data) {
             obj.Scale(scale);
         }
+    }
+
+    public String getPath() {
+        return path;
     }
 }

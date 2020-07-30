@@ -1,19 +1,34 @@
 package Models.Weapons;
 
+import CollisionDetection.CollisionData;
+import CollisionDetection.CollisionType;
+import CollisionDetection.ICollisionObj;
+import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
 import Models.Model;
+import javafx.util.Pair;
+
 import javax.media.opengl.GL2;
 import java.util.List;
 
-public class Bullet extends Model {
+public class Bullet extends Model implements ICollisionObj {
     private float angle;
-    private float move;
+    private float move = 0;
     private float[] bulletPos = {0,0,0};
     private long startTime = System.currentTimeMillis();
+    private CollisionData collisionData;
     public Bullet( List<ObjData> objData) {
         this.data = objData;
         this.move = 0;
+    }
+    public Bullet(String path, LoaderFactory factory){
+        Pair<List<ObjData>, CollisionData> data = factory.create(path, CollisionType.POINT);
+        this.data = data.getKey();
+        this.collisionData = data.getValue();
+    }
+    public void setStartPos(float[] startPos){
+        this.startPos = startPos;
     }
 
     public void setBulletPos(float[] bulletPos) {
@@ -48,5 +63,15 @@ public class Bullet extends Model {
             obj.draw(gl);
         }
         gl.glPopMatrix();
+    }
+
+    @Override
+    public void collide() {
+
+    }
+
+    @Override
+    public CollisionData getCollisionData() {
+        return this.collisionData;
     }
 }

@@ -5,7 +5,7 @@ import LinearMath.Vector;
 import java.util.List;
 
 public class CollisionDetector {
-    public boolean CheckCollision(CollisionData obj1, CollisionData obj2){
+    /*public boolean CheckCollision(CollisionData obj1, CollisionData obj2){
         boolean collide = false;
         //AABB to AABB
         if(obj1.type == AABB.class.getTypeName() && obj2.type == AABB.class.getTypeName()){
@@ -36,7 +36,8 @@ public class CollisionDetector {
             collide = pointToPolygon((CollisionPoint) obj2,(CollisionPolygon) obj1);
         }
         return collide;
-    }
+
+    }*/
     private boolean AABBToAABB(AABB obj1, AABB obj2){
         double[] minA = obj1.min.getVec();
         double[] maxA = obj1.max.getVec();

@@ -5,11 +5,10 @@ import LinearMath.Vector;
 import javax.media.opengl.GL2;
 import java.lang.reflect.Type;
 
-public abstract class CollisionData{
-    public String type;
-    public CollisionData() {
-        type = getClass().getTypeName();
-    }
+
+;
+public abstract class CollisionData implements Cloneable{
+    public CollisionType type;
     public void draw(GL2 gl){
 
     }
@@ -18,4 +17,11 @@ public abstract class CollisionData{
     public void setScale(float[] sf){}
     public void move(float[] move) {}
     public void move(Vector move) {}
+    public void setPosAfterRot(float[] pos,float[] posAfterRot){}
+    public void transAfterRotate(float[] trans){}
+    public void init(){}
+    @Override
+    public CollisionData clone(){
+        return this;
+    }
 }

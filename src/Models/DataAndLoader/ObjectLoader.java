@@ -33,7 +33,7 @@ public class ObjectLoader {
     private HashMap<String,ArrayList<String>> mtlToObj = new HashMap<>();
     private HashMap<String,Texture> mtlToTex = new HashMap<>();
     private Material material;
-    private String collisionType;
+    private CollisionType collisionType;
     private CollisionData collisionData;
 
     public ObjectLoader(){
@@ -50,8 +50,8 @@ public class ObjectLoader {
         cleanAll();
         return objectList;
     }
-    public ArrayList<ObjData> LoadModelToGL(String inModelPath,GL2 gl,String collisionType){
-        this.collisionType = collisionType;
+    public ArrayList<ObjData> LoadModelToGL(String inModelPath,GL2 gl,CollisionType type){
+        this.collisionType = type;
         //OBJModelPath = inModelPath;
         LoadOBJModel(inModelPath,gl);
         if(mtllib != null){
@@ -432,7 +432,7 @@ public class ObjectLoader {
         material = null;
     }
     private void createCollisionObject(ArrayList<float[]> vertex){
-        if(collisionType == "AABB"){
+        if(collisionType == CollisionType.AABB){
             float[] min ={vertex.get(0)[0],vertex.get(0)[1],vertex.get(0)[2]};
             float[] max = {vertex.get(0)[0],vertex.get(0)[1],vertex.get(0)[2]};
             for (float[] v:vertex) {
@@ -451,7 +451,7 @@ public class ObjectLoader {
             Vec3f vec = new Vec3f(0,0,0);
             collisionData = new AABB(Min,Max);
         }
-        else if(collisionType == "BS"){
+        else if(collisionType == CollisionType.BS){
             double maxD = 0;
             float[] vStart = {0,0,0};
             float[] vEnd = {0,0,0};
@@ -464,6 +464,7 @@ public class ObjectLoader {
                     if (distance >= maxD){
                         vStart = v;
                         vEnd = v1;
+                        maxD = distance;
                     }
                 }
             }
@@ -473,11 +474,11 @@ public class ObjectLoader {
             Vector center = new Vector(centerArr,4);
             collisionData = new BoundingSphere(center,maxD/2);
         }
-        else if(collisionType == "CollisionPoint"){
+        else if(collisionType == CollisionType.POINT){
             double[] p = {vertex.get(0)[0],vertex.get(0)[1],vertex.get(0)[2],1};
             Vector point = new Vector(p,4);
             collisionData = new CollisionPoint(point);
-        }else if(collisionType == "CollisionPolygon"){
+        }else if(collisionType == CollisionType.POLYGON){
             List<Vector> poly = new ArrayList<>();
             for (float[] v:vertex) {
                 double[] p = {v[0],v[1],v[2],1};

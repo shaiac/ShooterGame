@@ -88,7 +88,7 @@ public class CollisionTests {
 
 
         //Tests
-        boolean pass = true;
+        /*boolean pass = true;
         //BS to Poly true
         if(detector.CheckCollision(bs1,polygon1)){
             System.out.println("test 1 success");
@@ -172,7 +172,7 @@ public class CollisionTests {
             System.out.println("All Test Pass");
         } else{
             System.out.println("FAILED");
-        }
+        }*/
     }
 
 }

@@ -52,8 +52,8 @@ public class Character implements ICollisionObj {
     }
 
     private void createAABB() {
-        float[] min ={0, 0, 0};
-        float[] max = {5, 10, 5};
+        float[] min ={-2.5f, 0, -2.5f};
+        float[] max = {2.5f, 10, 2.5f};
         double[] minD = {min[0],min[1],min[2],1};
         LinearMath.Vector minVec = new LinearMath.Vector(minD,4);
         double[] maxD = {max[0],max[1],max[2],1};

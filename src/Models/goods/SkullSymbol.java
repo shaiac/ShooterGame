@@ -1,5 +1,6 @@
 package Models.goods;
 
+import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
 import Models.Model;
@@ -11,7 +12,12 @@ public class SkullSymbol extends Model {
     public SkullSymbol(String path) {
         this.path = path;
     }
-
+    public SkullSymbol(String path, LoaderFactory factory){
+        this.data = factory.create(path);
+    }
+    public void setStartPos(float[] startPos){
+        this.startPos = startPos;
+    }
     @Override
     public void create(ObjectLoader loader, GL2 gl, float[] startPos) {
         data = loader.LoadModelToGL(path,gl);

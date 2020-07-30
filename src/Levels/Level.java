@@ -2,6 +2,7 @@ package Levels;
 
 import Game.ShooterGame;
 import LinearMath.Vector;
+import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjectLoader;
 import Models.Enemys.Enemy;
 import Models.Enemys.JackSparrow;
@@ -27,6 +28,7 @@ public class Level {
     private ShooterGame levelObserver;
     //private Cannon tmpCannon;
     private List<Enemy> enemies;
+    private LoaderFactory factory;
     public Level(ObjectLoader loader, GL2 gl, ShooterGame shooterGame) {
         rooms = new ArrayList<>();
         levelWalls = new ArrayList<>();
@@ -35,6 +37,24 @@ public class Level {
         this.gl = gl;
         this.enemies = new ArrayList<>();
         this.levelObserver = shooterGame;
+    }
+    public Level(LoaderFactory factory, ShooterGame shooterGame){
+        rooms = new ArrayList<>();
+        levelWalls = new ArrayList<>();
+        roomNumber = 0;
+        this.enemies = new ArrayList<>();
+        this.levelObserver = shooterGame;
+        this.factory = factory;
+    }
+    public Level(LoaderFactory factory,ShooterGame shooterGame, ObjectLoader loader,GL2 gl){
+        rooms = new ArrayList<>();
+        levelWalls = new ArrayList<>();
+        roomNumber = 0;
+        this.loader = loader;
+        this.gl = gl;
+        this.enemies = new ArrayList<>();
+        this.levelObserver = shooterGame;
+        this.factory = factory;
     }
     //read and build the level
     public void BuildLevel(String levelDefinition) {
@@ -76,25 +96,32 @@ public class Level {
                         rooms.get(roomNumber - 1).AddModel(wall);
                         break;
                     case "AK_47":
-                        Ak47 ak47 = new Ak47(splitData[1], this);
+                        String path = splitData[1];
+                        Ak47 ak47 = new Ak47(path,this,this.factory);
+                        //Ak47 ak47 = new Ak47(splitData[1], this);
                         float[] akPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
-                        ak47.create(loader, gl, akPos);
+                        //ak47.create(loader, gl, akPos);
+                        ak47.setStartPos(akPos);
                         rooms.get(roomNumber - 1).AddModel(ak47);
                         break;
                     case "Barrel":
-                        Barrel barrel = new Barrel("objects/barrel/barrel_obj.obj");
+                        Barrel barrel = new Barrel("objects/barrel/barrel_obj.obj",factory);
+                        //Barrel barrel = new Barrel("objects/barrel/barrel_obj.obj");
                         float[] barrelPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
-                        barrel.create(loader, gl, barrelPos);
+                        //barrel.create(loader, gl, barrelPos);
+                        barrel.setStartPos(barrelPos);
                         rooms.get(roomNumber - 1).AddModel(barrel);
                         break;
                     //enemies weapons
                     case "Gun":
-                        Gun gun = new Gun(splitData[1], this);
+                        Gun gun = new Gun(splitData[1],this,this.factory);
+                        //Gun gun = new Gun(splitData[1], this);
                         float[] gunPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
-                        gun.create(loader, gl, gunPos);
+                        //gun.create(loader, gl, gunPos);
+                        gun.setStartPos(gunPos);
                         gun.rotate(Float.parseFloat(splitData[5]), 'x');
                         if(enemy != null){
                             enemy.addWeapon(gun);
@@ -104,11 +131,13 @@ public class Level {
                         }
                         break;
                     case "Cannon":
-                        Cannon cannon = new Cannon(splitData[1], this);
+                        Cannon cannon = new Cannon(splitData[1],this,this.factory);
+                        //Cannon cannon = new Cannon(splitData[1], this);
                         //this.tmpCannon = cannon;
                         float[] cannonPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
-                        cannon.create(loader, gl, cannonPos);
+                        //cannon.create(loader, gl, cannonPos);
+                        cannon.setStartPos(cannonPos);
                         cannon.rotate(Float.parseFloat(splitData[5]), 'x');
                         if(enemy != null){
                             enemy.addWeapon(cannon);
@@ -119,95 +148,117 @@ public class Level {
                         break;
                     // enemies
                     case "JackSparrow":
-                        JackSparrow jack = new JackSparrow(splitData[1]);
+                        JackSparrow jack = new JackSparrow(splitData[1],this.factory);
+                        //JackSparrow jack = new JackSparrow(splitData[1]);
                         float[] jackPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
-                        jack.create(loader, gl, jackPos);
+                        //jack.create(loader, gl, jackPos);
                         //jack.rotate(Float.parseFloat(splitData[5]), 'y');
+                        jack.setStartPos(jackPos);
                         rooms.get(roomNumber - 1).AddModel(jack);
                         enemies.add(jack);
                         enemy = jack;
 
                         break;
                     case "OldPirate":
-                        OldPirate pirate = new OldPirate(splitData[1]);
+                        OldPirate pirate = new OldPirate(splitData[1],this.factory);
+                        //OldPirate pirate = new OldPirate(splitData[1]);
                         float[] piratePos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
-                        pirate.create(loader, gl, piratePos);
+                        //pirate.create(loader, gl, piratePos);
                         //pirate.rotate(Float.parseFloat(splitData[5]), 'z');
+                        pirate.setStartPos(piratePos);
                         rooms.get(roomNumber - 1).AddModel(pirate);
                         enemies.add(pirate);
                         enemy = pirate;
                         break;
                     case "Shotgun":
-                        Shotgun shotgun = new Shotgun("objects/Shotgun/GunTwo.obj", this);
+                        Shotgun shotgun = new Shotgun("objects/Shotgun/GunTwo.obj", this,this.factory);
+                        //Shotgun shotgun = new Shotgun("objects/Shotgun/GunTwo.obj", this);
                         float[] shotgunPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
-                        shotgun.create(loader, gl, shotgunPos);
+                        //shotgun.create(loader, gl, shotgunPos);
+                        shotgun.setStartPos(shotgunPos);
                         rooms.get(roomNumber - 1).AddModel(shotgun);
                         break;
                     case "Sword":
-                        Sword sword = new Sword("objects/RzR/rzr.obj");
+                        Sword sword = new Sword("objects/RzR/rzr.obj",this.factory);
+                        //Sword sword = new Sword("objects/RzR/rzr.obj");
                         float[] swordPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
-                        sword.create(loader, gl, swordPos);
+                        //sword.create(loader, gl, swordPos);
+                        sword.setStartPos(swordPos);
                         rooms.get(roomNumber - 1).AddModel(sword);
                         break;
                     case "Treasure":
-                        Treasure treasure = new Treasure(splitData[1]);
+                        Treasure treasure = new Treasure(splitData[1],this,this.factory);
+                        //Treasure treasure = new Treasure(splitData[1]);
                         float[] treasurePos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
-                        treasure.create(loader, gl, treasurePos);
+                        //treasure.create(loader, gl, treasurePos);
+                        treasure.setStartPos(treasurePos);
                         treasure.rotate(Float.parseFloat(splitData[5]), 'y');
                         rooms.get(roomNumber - 1).AddModel(treasure);
                         break;
                     case "Map":
-                        Map map = new Map(splitData[1]);
+                        Map map = new Map(splitData[1],this.factory);
+                        //Map map = new Map(splitData[1]);
                         float[] mapPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
-                        map.create(loader, gl, mapPos);
+                        //map.create(loader, gl, mapPos);
+                        map.setStartPos(mapPos);
                         map.rotate(Float.parseFloat(splitData[5]), 'y');
                         rooms.get(roomNumber - 1).AddModel(map);
                         break;
                     case "Skull":
-                        Skull skull = new Skull(splitData[1]);
+                        Skull skull = new Skull(splitData[1],this.factory);
+                        //Skull skull = new Skull(splitData[1]);
                         float[] skullPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
-                        skull.create(loader, gl, skullPos);
+                        //skull.create(loader, gl, skullPos);
+                        skull.setStartPos(skullPos);
                         skull.rotate(Float.parseFloat(splitData[5]), 'y');
                         skull.scale(Float.parseFloat(splitData[6]), Float.parseFloat(splitData[6]),
                                 Float.parseFloat(splitData[6]));
                         rooms.get(roomNumber - 1).AddModel(skull);
                     case "Skellington":
-                        Skellington skellington = new Skellington(splitData[1]);
+                        Skellington skellington = new Skellington(splitData[1],this.factory);
+                        //Skellington skellington = new Skellington(splitData[1]);
                         float[] skellingtonPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
-                        skellington.create(loader, gl, skellingtonPos);
+                        //skellington.create(loader, gl, skellingtonPos);
+                        skellington.setStartPos(skellingtonPos);
                         skellington.rotate(Float.parseFloat(splitData[5]), 'y');
                         skellington.scale(Float.parseFloat(splitData[6]), Float.parseFloat(splitData[6]),
                                 Float.parseFloat(splitData[6]));
                         rooms.get(roomNumber - 1).AddModel(skellington);
                         break;
                     case "Heart":
-                        Heart heart = new Heart(splitData[1]);
+                        Heart heart = new Heart(splitData[1],this,this.factory);
+                        //Heart heart = new Heart(splitData[1]);
                         float[] heartPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
-                        heart.create(loader, gl, heartPos);
+                        //heart.create(loader, gl, heartPos);
+                        heart.setStartPos(heartPos);
                         heart.rotate(Float.parseFloat(splitData[5]), 'y');
                         rooms.get(roomNumber - 1).AddModel(heart);
                         break;
                     case "AmmoBox":
-                        AmmoBox ammoBox = new AmmoBox(splitData[1]);
+                        AmmoBox ammoBox = new AmmoBox(splitData[1],this,this.factory);
+                        //AmmoBox ammoBox = new AmmoBox(splitData[1]);
                         float[] ammoPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
-                        ammoBox.create(loader, gl, ammoPos);
+                        //ammoBox.create(loader, gl, ammoPos);
+                        ammoBox.setStartPos(ammoPos);
                         rooms.get(roomNumber - 1).AddModel(ammoBox);
                         break;
                     case "SkullSymbol":
-                        SkullSymbol skullSymbol = new SkullSymbol(splitData[1]);
+                        SkullSymbol skullSymbol = new SkullSymbol(splitData[1],this.factory);
+                        //SkullSymbol skullSymbol = new SkullSymbol(splitData[1]);
                         float[] symbolPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
-                        skullSymbol.create(loader, gl, symbolPos);
+                        //skullSymbol.create(loader, gl, symbolPos);
+                        skullSymbol.setStartPos(symbolPos);
                         skullSymbol.rotate(Float.parseFloat(splitData[5]), 'x');
                         rooms.get(roomNumber - 1).AddModel(skullSymbol);
                         break;

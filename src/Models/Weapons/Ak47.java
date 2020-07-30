@@ -1,15 +1,18 @@
 package Models.Weapons;
 
 import CollisionDetection.CollisionData;
+import CollisionDetection.CollisionType;
 import CollisionDetection.ICollisionObj;
 import Game.CoordinateSystem;
 import Game.ShooterGame;
 import Levels.Level;
+import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
 import Models.IModel;
 import Models.Model;
 import com.jogamp.opengl.util.awt.TextRenderer;
+import javafx.util.Pair;
 
 import javax.media.opengl.GL2;
 import java.awt.*;
@@ -17,8 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Ak47 extends Weapon implements ICollisionObj {
-    private String path;
+    //private String path;
     private Magazine magazine;
+    private String bulletPath;
     private boolean attackMode = false;
     private float duration = 250f;
     private float time;
@@ -38,13 +42,39 @@ public class Ak47 extends Weapon implements ICollisionObj {
         weapontype = WeaponType.GUN;
         targetSymbol = new TargetSymbol("objects/TargetSymbol/TargetSymbol.obj");
     }
+    public Ak47(String path,Level level, LoaderFactory factory){
+        Pair<List<ObjData>,CollisionData> data = factory.create(path, CollisionType.AABB);
+        this.data = data.getKey();
+        this.collisionData = data.getValue();
+        this.observer = level;
+        this.weapontype = WeaponType.GUN;
+        this.magazine = new Magazine(factory);
+        this.bulletPath = "objects/Bullet/lowpolybullet.obj";
+        this.targetSymbol = new TargetSymbol("objects/TargetSymbol/TargetSymbol.obj",factory);
+        this.targetSymbol.scale(2,2,2);
+        this.targetSymbol.rotate(90,'x');
+
+    }
 
     public void setCoordinateSystem(CoordinateSystem cooSystem) {
         this.cooSystem = cooSystem;
     }
 
+    public void setStartPos(float[] startPos){
+        //pos of weapon
+        this.startPos = startPos;
+        //pos of target
+        float[] targerpos = {startPos[0] + 10,startPos[1] - 3.4f, startPos[2] - 15};
+        this.targetSymbol.setStartPos(startPos);
+        //pos of collisionData
+        this.collisionData.setStartPos(startPos);
+        float[] scale = {0.01f,0.01f,0.01f};
+        this.collisionData.setScale(scale);
+    }
+    //old
+    @Override
     public void create(ObjectLoader loader, GL2 gl, float[] startPos){
-        data = loader.LoadModelToGL(path,gl,"AABB");
+        data = loader.LoadModelToGL(path,gl,CollisionType.AABB);
         this.collisionData = loader.getCollisionData();
 
         this.startPos = startPos;

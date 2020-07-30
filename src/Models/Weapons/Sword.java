@@ -1,6 +1,7 @@
 package Models.Weapons;
 
 import Game.CoordinateSystem;
+import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
 
@@ -24,6 +25,17 @@ public class Sword extends Weapon {
         this.path = inPath;
         ammu = 0;
         weapontype = WeaponType.SWORD;
+    }
+    public Sword(String path, LoaderFactory factory){
+        this.data = factory.create(path);
+        this.translate(1f,0f,0f);
+        this.scale(0.01f,0.01f,0.01f);
+        this.rotate(45,'x');
+        this.rotate(-45,'y');
+        this.rotate(45,'z');
+    }
+    public void setStartPos(float[] startPos){
+        this.startPos = startPos;
     }
     public void create(ObjectLoader loader,GL2 gl,float[] startPos){
         data = loader.LoadModelToGL(path,gl);

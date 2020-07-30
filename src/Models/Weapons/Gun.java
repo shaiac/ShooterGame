@@ -2,6 +2,7 @@ package Models.Weapons;
 
 import Game.CoordinateSystem;
 import Levels.Level;
+import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
 
@@ -14,13 +15,20 @@ public class Gun extends Weapon{
     private float[] pos = {0,0,0};
     boolean fire = false;
     private float angle;
-    private CannonBall ball = null;
+    private LoaderFactory factory;
 
     public Gun(String path, Level level) {
         this.observer = level;
         this.path = path;
     }
-
+    public Gun(String path, Level level, LoaderFactory factory){
+        this.data = factory.create(path);
+        this.factory = factory;
+        this.observer = level;
+    }
+    public void setStartPos(float[] startPos){
+        this.startPos = startPos;
+    }
     @Override
     public void create(ObjectLoader loader, GL2 gl, float[] startPos) {
         data = loader.LoadModelToGL(path,gl);
@@ -70,15 +78,17 @@ public class Gun extends Weapon{
         this.pos = pos;
     }
     private void dofire() {
-        if(ball == null){
+        /*if(ball == null){
             this.ball = new CannonBall("objects/ball/uploads_files_2078589_sphere.obj");
             this.ball.create(loader,gl,pos);
         }
-        CannonBall newBall = this.ball.create(pos);
-        newBall.setRot(angle-2f);
-        newBall.setScaleFactor(0.5f);
+        CannonBall newBall = this.ball.create(pos);*/
+        CannonBall ball = new CannonBall("objects/ball/uploads_files_2078589_sphere.obj",this.factory);
+        ball.setStartPos(pos);
+        ball.setRot(angle-2f);
+        ball.setScaleFactor(0.5f);
         float[] afterPos = {-3.5f,4.5f,-4f};
-        newBall.setPosAfterRot(afterPos);
-        observer.addModel(newBall);
+        ball.setPosAfterRot(afterPos);
+        observer.addModel(ball);
     }
 }

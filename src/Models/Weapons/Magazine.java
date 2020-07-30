@@ -1,8 +1,11 @@
 package Models.Weapons;
 
+import CollisionDetection.CollisionData;
+import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
 import Models.IModel;
+import javafx.util.Pair;
 
 import javax.media.opengl.GL2;
 import java.util.List;
@@ -13,6 +16,7 @@ public class Magazine {
     private ObjectLoader objectLoader;
     private GL2 gl;
     private List<ObjData> objData;
+    private LoaderFactory factory;
     public Magazine(ObjectLoader objectLoader, GL2 gl, int maxBulletsNum) {
         objData = objectLoader.LoadModelToGL("objects/Bullet/lowpolybullet.obj",gl);
         bullets = maxBulletsNum;
@@ -20,7 +24,16 @@ public class Magazine {
         this.gl = gl;
         this.maxBulletsNum = maxBulletsNum;
     }
-
+    public Magazine(LoaderFactory factory){
+        this.factory = factory;
+    }
+    public Bullet shotBullet(float[] pos1,float[] pos2,String bulletPath){
+        Bullet bullet = new Bullet(bulletPath,factory);
+        bullet.setStartPos(pos1);
+        bullet.setBulletPos(pos2);
+        bullets--;
+        return  bullet;
+    }
     public Bullet shotBullet(float[] pos1,float[] pos2) {
         Bullet bullet = new Bullet(objData);
         //float[] bulletlPos = {0,5f,0f};

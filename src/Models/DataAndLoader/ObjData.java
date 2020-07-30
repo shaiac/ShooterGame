@@ -14,7 +14,17 @@ public class ObjData {
     private float angleZ;
     private int textureWrap = GL2.GL_LINEAR;
     public ObjData() { }
-
+    public ObjData(ObjData another){
+        this.texture = another.texture;
+        this.list = another.list;
+        this.material = another.material;
+        this.scale = another.scale;
+        this.translate = another.translate;
+        this.angleX = another.angleX;
+        this.angleY = another.angleY;
+        this.angleZ = another.angleZ;
+        this.textureWrap = another.textureWrap;
+    }
     public void setMaterial(Material material) {
         this.material = material;
     }
