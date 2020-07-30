@@ -48,7 +48,7 @@ public class Ak47 extends Weapon implements ICollisionObj {
         this.collisionData = data.getValue();
         this.observer = level;
         this.weapontype = WeaponType.GUN;
-        this.magazine = new Magazine(factory);
+        this.magazine = new Magazine(factory,20);
         this.bulletPath = "objects/Bullet/lowpolybullet.obj";
         this.targetSymbol = new TargetSymbol("objects/TargetSymbol/TargetSymbol.obj",factory);
         this.targetSymbol.scale(2,2,2);
@@ -65,7 +65,7 @@ public class Ak47 extends Weapon implements ICollisionObj {
         this.startPos = startPos;
         //pos of target
         float[] targerpos = {startPos[0] + 10,startPos[1] - 3.4f, startPos[2] - 15};
-        this.targetSymbol.setStartPos(startPos);
+        this.targetSymbol.setStartPos(targerpos);
         //pos of collisionData
         this.collisionData.setStartPos(startPos);
         float[] scale = {0.01f,0.01f,0.01f};
@@ -159,7 +159,7 @@ public class Ak47 extends Weapon implements ICollisionObj {
                 float[] pos1 = {(float) cooSystem.getOrigin().getVec()[0], (float) cooSystem.getOrigin().getVec()[1]
                         , (float) cooSystem.getOrigin().getVec()[2]};
                 float[] pos2 = {0f,-0.48f,-3.9f};
-               addAsRoomModel(magazine.shotBullet(pos1,pos2));
+               addAsRoomModel(magazine.shotBullet(pos1,pos2,bulletPath));
             }
             rChange += (5f/duration)*milliseconds;
             gl.glRotatef(rChange,0,1,0);

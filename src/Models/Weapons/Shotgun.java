@@ -44,7 +44,7 @@ public class Shotgun extends Weapon implements ICollisionObj {
         this.collisionData = data.getValue();
         this.observer = level;
         this.weapontype = WeaponType.GUN;
-        this.magazine = new Magazine(factory);
+        this.magazine = new Magazine(factory,8);
         this.bulletPath = "objects/Bullet/lowpolybullet.obj";
         this.targetSymbol = new TargetSymbol("objects/TargetSymbol/TargetSymbol.obj",factory);
         this.targetSymbol.scale(2,2,2);
@@ -56,7 +56,7 @@ public class Shotgun extends Weapon implements ICollisionObj {
         this.startPos = startPos;
         //pos of target
         float[] targerpos = {startPos[0] + 10,startPos[1] - 3.4f, startPos[2] - 15};
-        this.targetSymbol.setStartPos(startPos);
+        this.targetSymbol.setStartPos(targerpos);
         //pos of collisionData
         this.collisionData.setStartPos(startPos);
         float[] scale = {10f,10f,10f};
@@ -159,8 +159,8 @@ public class Shotgun extends Weapon implements ICollisionObj {
                         , (float) cooSystem.getOrigin().getVec()[2]};
 
                 float[] bulletPos2 = {0.6f,-0.38f,-3.9f};
-                addAsRoomModel(magazine.shotBullet(pos1,bulletPos1));
-                addAsRoomModel(magazine.shotBullet(pos2,bulletPos2));
+                addAsRoomModel(magazine.shotBullet(pos1,bulletPos1,bulletPath));
+                addAsRoomModel(magazine.shotBullet(pos2,bulletPos2,bulletPath));
             }
             rChange -= (5f/duration)*milliseconds;
             gl.glRotatef(rChange,1,0,0);

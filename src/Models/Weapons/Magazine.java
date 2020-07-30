@@ -24,8 +24,10 @@ public class Magazine {
         this.gl = gl;
         this.maxBulletsNum = maxBulletsNum;
     }
-    public Magazine(LoaderFactory factory){
+    public Magazine(LoaderFactory factory,int maxBulletsNum){
         this.factory = factory;
+        this.bullets = maxBulletsNum;
+        this.maxBulletsNum = maxBulletsNum;
     }
     public Bullet shotBullet(float[] pos1,float[] pos2,String bulletPath){
         Bullet bullet = new Bullet(bulletPath,factory);
