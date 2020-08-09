@@ -51,7 +51,7 @@ public class Ak47 extends Weapon implements ICollisionObj {
         this.magazine = new Magazine(factory,20);
         this.bulletPath = "objects/Bullet/lowpolybullet.obj";
         this.targetSymbol = new TargetSymbol("objects/TargetSymbol/TargetSymbol.obj",factory);
-        this.targetSymbol.scale(2,2,2);
+        //this.targetSymbol.scale(2,2,2);
         this.targetSymbol.rotate(90,'x');
 
     }
@@ -66,6 +66,7 @@ public class Ak47 extends Weapon implements ICollisionObj {
         //pos of target
         float[] targerpos = {startPos[0] + 10,startPos[1] - 3.4f, startPos[2] - 15};
         this.targetSymbol.setStartPos(targerpos);
+
         //pos of collisionData
         this.collisionData.setStartPos(startPos);
         float[] scale = {0.01f,0.01f,0.01f};

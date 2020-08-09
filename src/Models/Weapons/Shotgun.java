@@ -55,8 +55,9 @@ public class Shotgun extends Weapon implements ICollisionObj {
         //pos of weapon
         this.startPos = startPos;
         //pos of target
-        float[] targerpos = {startPos[0] + 10,startPos[1] - 3.4f, startPos[2] - 15};
+        float[] targerpos = {startPos[0] + 0.4f,startPos[1] - 0.4f, startPos[2] - 10};
         this.targetSymbol.setStartPos(targerpos);
+
         //pos of collisionData
         this.collisionData.setStartPos(startPos);
         float[] scale = {10f,10f,10f};
