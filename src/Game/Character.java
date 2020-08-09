@@ -34,7 +34,7 @@ public class Character implements ICollisionObj {
     private Level currentLevel;
     private PointPolygonIntersection ppi;
     private CollisionData collisionData;
-    private float[] pos = {-1, 0, 1};
+    //private float[] pos = {0, 0, -5};
     private Vector toMove;
 
 
@@ -59,9 +59,9 @@ public class Character implements ICollisionObj {
         double[] maxD = {max[0],max[1],max[2],1};
         LinearMath.Vector maxVec = new Vector(maxD,4);
         collisionData = new AABB(minVec,maxVec);
-        collisionData.setStartPos(pos);
-        double[] move = {0, 0, 0, 0};
-        toMove = new Vector(move, 4);
+        //collisionData.setStartPos(pos);
+        //double[] move = {0, 0, 0, 0};
+        //toMove = new Vector(move, 4);
     }
 
     public void setCurrentLevel(Level level) {
@@ -77,7 +77,7 @@ public class Character implements ICollisionObj {
     }
     public void draw(){
         Vector currnetPos = cooSystem.getOrigin();
-        double[] move = {currnetPos.get(0), currnetPos.get(1) - 5, currnetPos.get(2) -7, 0};
+        double[] move = {currnetPos.get(0), currnetPos.get(1) - 5, currnetPos.get(2), 0};
         toMove = new Vector(move, 4);
         collisionData.move(toMove);
         collisionData.draw(gl);

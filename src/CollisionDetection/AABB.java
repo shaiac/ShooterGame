@@ -24,6 +24,8 @@ public class AABB extends CollisionData {
     public void setStartPos(float[] startPos){
        double[] posD= {startPos[0],startPos[1],startPos[2],0};
        this.startPos = new Vector(posD,4);
+        this.min = this.min.Add(this.startPos);
+        this.max = this.max.Add(this.startPos);
     }
     @Override
     public void setRotate(float[] angle){
@@ -31,14 +33,20 @@ public class AABB extends CollisionData {
         Matrix rotateY = Transformation3D.rotate(angle[1],'y');
         Matrix rotateZ = Transformation3D.rotate(angle[2],'z');
         this.rotate = rotateX.Multiply(rotateY.Multiply(rotateZ));
+
+        this.min = this.min.Multiply(this.rotate);
+        this.max = this.max.Multiply(this.rotate);
     }
     @Override
     public void setScale(float[] sf){
         this.scale = Transformation3D.scale(sf[0],sf[1],sf[2]);
+
+        this.min = this.min.Multiply(this.scale);
+        this.max = this.max.Multiply(this.scale);
     }
     @Override
     public void draw(GL2 gl){
-        if (flag) {
+        /*if (flag) {
             if(this.rotate != null){
                 //rotate
                 this.min = this.min.Multiply(this.rotate);
@@ -55,7 +63,7 @@ public class AABB extends CollisionData {
                 this.max = this.max.Add(this.startPos);
             }
             flag = false;
-        }
+        }*/
 
         float[] minf = {(float)min.get(0),(float)min.get(1),(float)min.get(2)};
         float[] maxf = {(float)max.get(0),(float)max.get(1),(float)max.get(2)};

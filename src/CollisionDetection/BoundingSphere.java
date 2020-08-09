@@ -63,8 +63,8 @@ public class BoundingSphere extends CollisionData {
     public void draw(GL2 gl){
         float[] cen = {(float)this.center.getVec()[0],(float)this.center.getVec()[1],(float)this.center.getVec()[2]};
         float rad = (float) this.radius;
-        System.out.println("Center : " + cen[0] +" , " + cen[1] +" , " + cen[2] +" , ");
-        System.out.println("Radius : " + rad);
+        //System.out.println("Center : " + cen[0] +" , " + cen[1] +" , " + cen[2] +" , ");
+        //System.out.println("Radius : " + rad);
         /*gl.glBegin(GL2.GL_LINE);
         gl.glVertex3f(cen[0] - rad,cen[1],cen[2]);
         gl.glVertex3f(cen[0] + rad,cen[1],cen[2]);
