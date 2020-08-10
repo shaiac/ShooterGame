@@ -18,6 +18,10 @@ wall -60 0 20 x 20 120 woodenWall.jpg
 wall -60 0 -60 y 80 120 woodenWall.jpg
 #top
 wall -60 20 -60 y 80 120 woodenWall.jpg
+JackSparrow objects/JackSparrow/Jack_Sparrow.obj 20 0 -50
+Cannon objects/cannon/can.obj 0 0 0 270
+OldPirate objects/OldPirate/oldPirate.obj -40 0 -40
+Gun objects/Gun/pistol.obj 0 0 0 0
 
 
 ROOM_AMMO
@@ -38,6 +42,10 @@ Gun objects/Gun/pistol.obj 0 0 0 0
 #Heart objects/Heart/love_heart.obj 17 3 5 90
 #AmmoBox objects/AmmoBox/AmmoBox.obj -16 2 5
 #Treasure objects/Treasure/treasure_chest.obj 14 0 -8 90
+#OldPirate objects/OldPirate/oldPirate.obj -80 0 -15
+#Gun objects/Gun/pistol.obj 0 0 0 0
+
+
 
 ROOM_TWO
 #front

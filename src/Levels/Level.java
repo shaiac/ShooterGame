@@ -11,13 +11,13 @@ import Models.IModel;
 import Models.Wall;
 import Models.Weapons.*;
 import Models.goods.*;
+import Models.goods.Map;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureIO;
 
 import javax.media.opengl.GL2;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Level {
     private List<Wall> levelWalls;
@@ -29,6 +29,10 @@ public class Level {
     //private Cannon tmpCannon;
     private List<Enemy> enemies;
     private LoaderFactory factory;
+    private HashMap<Integer, List<IModel>> addQueue = new HashMap<>();
+    private boolean addValid = true;
+    private HashMap<Integer, List<IModel>> removeQueue = new HashMap<>();
+    private boolean removeValid = true;
     public Level(ObjectLoader loader, GL2 gl, ShooterGame shooterGame) {
         rooms = new ArrayList<>();
         levelWalls = new ArrayList<>();
@@ -87,13 +91,15 @@ public class Level {
                     continue;
                 if (data.contains("ROOM")) {
                     rooms.add(roomNumber, new Room());
+                    this.addQueue.put(roomNumber,new ArrayList<>());
+                    this.removeQueue.put(roomNumber,new ArrayList<>());
                     roomNumber++;
                 }
                 switch (splitData[0]) {
                     case "wall":
                         Wall wall = createWall(data);
                         levelWalls.add(wall);
-                        rooms.get(roomNumber - 1).AddModel(wall);
+                        rooms.get(roomNumber - 1).addModel(wall);
                         break;
                     case "AK_47":
                         String path = splitData[1];
@@ -103,7 +109,7 @@ public class Level {
                                 Float.parseFloat(splitData[4])};
                         //ak47.create(loader, gl, akPos);
                         ak47.setStartPos(akPos);
-                        rooms.get(roomNumber - 1).AddModel(ak47);
+                        rooms.get(roomNumber - 1).addModel(ak47);
                         break;
                     case "Barrel":
                         Barrel barrel = new Barrel("objects/barrel/barrel_obj.obj",factory);
@@ -112,7 +118,7 @@ public class Level {
                                 Float.parseFloat(splitData[4])};
                         //barrel.create(loader, gl, barrelPos);
                         barrel.setStartPos(barrelPos);
-                        rooms.get(roomNumber - 1).AddModel(barrel);
+                        rooms.get(roomNumber - 1).addModel(barrel);
                         break;
                     //enemies weapons
                     case "Gun":
@@ -127,7 +133,7 @@ public class Level {
                             enemy.addWeapon(gun);
                             enemy = null;
                         } else {
-                            rooms.get(roomNumber - 1).AddModel(gun);
+                            rooms.get(roomNumber - 1).addModel(gun);
                         }
                         break;
                     case "Cannon":
@@ -143,7 +149,7 @@ public class Level {
                             enemy.addWeapon(cannon);
                             enemy = null;
                         } else {
-                            rooms.get(roomNumber - 1).AddModel(cannon);
+                            rooms.get(roomNumber - 1).addModel(cannon);
                         }
                         break;
                     // enemies
@@ -155,7 +161,7 @@ public class Level {
                         //jack.create(loader, gl, jackPos);
                         //jack.rotate(Float.parseFloat(splitData[5]), 'y');
                         jack.setStartPos(jackPos);
-                        rooms.get(roomNumber - 1).AddModel(jack);
+                        rooms.get(roomNumber - 1).addModel(jack);
                         enemies.add(jack);
                         enemy = jack;
 
@@ -168,7 +174,7 @@ public class Level {
                         //pirate.create(loader, gl, piratePos);
                         //pirate.rotate(Float.parseFloat(splitData[5]), 'z');
                         pirate.setStartPos(piratePos);
-                        rooms.get(roomNumber - 1).AddModel(pirate);
+                        rooms.get(roomNumber - 1).addModel(pirate);
                         enemies.add(pirate);
                         enemy = pirate;
                         break;
@@ -179,7 +185,7 @@ public class Level {
                                 Float.parseFloat(splitData[4])};
                         //shotgun.create(loader, gl, shotgunPos);
                         shotgun.setStartPos(shotgunPos);
-                        rooms.get(roomNumber - 1).AddModel(shotgun);
+                        rooms.get(roomNumber - 1).addModel(shotgun);
                         break;
                     case "Sword":
                         Sword sword = new Sword("objects/RzR/rzr.obj",this.factory);
@@ -188,7 +194,7 @@ public class Level {
                                 Float.parseFloat(splitData[4])};
                         //sword.create(loader, gl, swordPos);
                         sword.setStartPos(swordPos);
-                        rooms.get(roomNumber - 1).AddModel(sword);
+                        rooms.get(roomNumber - 1).addModel(sword);
                         break;
                     case "Treasure":
                         Treasure treasure = new Treasure(splitData[1],this,this.factory);
@@ -198,7 +204,7 @@ public class Level {
                         //treasure.create(loader, gl, treasurePos);
                         treasure.setStartPos(treasurePos);
                         treasure.rotate(Float.parseFloat(splitData[5]), 'y');
-                        rooms.get(roomNumber - 1).AddModel(treasure);
+                        rooms.get(roomNumber - 1).addModel(treasure);
                         break;
                     case "Map":
                         Map map = new Map(splitData[1],this.factory);
@@ -208,7 +214,7 @@ public class Level {
                         //map.create(loader, gl, mapPos);
                         map.setStartPos(mapPos);
                         map.rotate(Float.parseFloat(splitData[5]), 'y');
-                        rooms.get(roomNumber - 1).AddModel(map);
+                        rooms.get(roomNumber - 1).addModel(map);
                         break;
                     case "Skull":
                         Skull skull = new Skull(splitData[1],this.factory);
@@ -220,7 +226,7 @@ public class Level {
                         skull.rotate(Float.parseFloat(splitData[5]), 'y');
                         skull.scale(Float.parseFloat(splitData[6]), Float.parseFloat(splitData[6]),
                                 Float.parseFloat(splitData[6]));
-                        rooms.get(roomNumber - 1).AddModel(skull);
+                        rooms.get(roomNumber - 1).addModel(skull);
                     case "Skellington":
                         Skellington skellington = new Skellington(splitData[1],this.factory);
                         //Skellington skellington = new Skellington(splitData[1]);
@@ -231,7 +237,7 @@ public class Level {
                         skellington.rotate(Float.parseFloat(splitData[5]), 'y');
                         skellington.scale(Float.parseFloat(splitData[6]), Float.parseFloat(splitData[6]),
                                 Float.parseFloat(splitData[6]));
-                        rooms.get(roomNumber - 1).AddModel(skellington);
+                        rooms.get(roomNumber - 1).addModel(skellington);
                         break;
                     case "Heart":
                         Heart heart = new Heart(splitData[1],this,this.factory);
@@ -241,7 +247,7 @@ public class Level {
                         //heart.create(loader, gl, heartPos);
                         heart.setStartPos(heartPos);
                         heart.rotate(Float.parseFloat(splitData[5]), 'y');
-                        rooms.get(roomNumber - 1).AddModel(heart);
+                        rooms.get(roomNumber - 1).addModel(heart);
                         break;
                     case "AmmoBox":
                         AmmoBox ammoBox = new AmmoBox(splitData[1],this,this.factory);
@@ -250,7 +256,7 @@ public class Level {
                                 Float.parseFloat(splitData[4])};
                         //ammoBox.create(loader, gl, ammoPos);
                         ammoBox.setStartPos(ammoPos);
-                        rooms.get(roomNumber - 1).AddModel(ammoBox);
+                        rooms.get(roomNumber - 1).addModel(ammoBox);
                         break;
                     case "SkullSymbol":
                         SkullSymbol skullSymbol = new SkullSymbol(splitData[1],this.factory);
@@ -260,7 +266,7 @@ public class Level {
                         //skullSymbol.create(loader, gl, symbolPos);
                         skullSymbol.setStartPos(symbolPos);
                         skullSymbol.rotate(Float.parseFloat(splitData[5]), 'x');
-                        rooms.get(roomNumber - 1).AddModel(skullSymbol);
+                        rooms.get(roomNumber - 1).addModel(skullSymbol);
                         break;
 
 
@@ -306,11 +312,37 @@ public class Level {
     }
 
     public void addModel(IModel model) {
-        rooms.get(0).AddModel(model);
+        //rooms.get(0).addModel(model);
+        addValid = false;
+        addQueue.get(0).add(model);
     }
-
+    public void removeModel(IModel model){
+        removeValid = false;
+        removeQueue.get(0).add(model);
+    }
+    public void updateRooms(){
+        if(!addValid) {
+            for (Integer roomNum : addQueue.keySet()) {
+                for (IModel model : addQueue.get(roomNum)) {
+                    rooms.get(roomNum).addModel(model);
+                }
+                addQueue.get(roomNum).clear();
+            }
+            addValid = true;
+        }
+        if(!removeValid){
+            for (Integer roomNum : removeQueue.keySet()) {
+                for (IModel model : removeQueue.get(roomNum)) {
+                    rooms.get(roomNum).removeModel(model);
+                }
+                removeQueue.get(roomNum).clear();
+            }
+            removeValid = true;
+        }
+    }
     public void drawRooms() {
-        for (Room room : rooms) {
+        //List<Room> tempRooms = this.rooms;
+        for (Room room : this.rooms) {
             room.drawAll(gl);
         }
     }

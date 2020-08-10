@@ -3,6 +3,7 @@ package Models.Weapons;
 import CollisionDetection.BoundingSphere;
 import CollisionDetection.CollisionData;
 import CollisionDetection.CollisionType;
+import Levels.Level;
 import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
@@ -20,17 +21,20 @@ public class CannonBall extends Model {
     private float scaleFactor = 1;
     private float[] posAfterRot = {0,0,0};
     private CollisionData collisionData;
+    private float[] trans = {0,0,0};
     private boolean dead = false;
+    private Level level;
     public CannonBall(String path) {
         this.path = path;
     }
 
     public CannonBall() {
     }
-    public CannonBall(String path, LoaderFactory factory){
+    public CannonBall(String path, LoaderFactory factory, Level level){
         Pair<List<ObjData>,CollisionData> data = factory.create(path,CollisionType.BS);
         this.data = data.getKey();
         this.collisionData = data.getValue();
+        this.level = level;
         //this.translate(1f,0f,0f);
     }
     public void setStartPos(float[] startPos){
@@ -46,6 +50,7 @@ public class CannonBall extends Model {
         this.startPos = startPos;
         //this.collisionData.setStartPos(startPos);
     }
+    //old
     public CannonBall create(float[] startPos){
         CannonBall ball = new CannonBall();
         ball.data = this.data;
@@ -67,47 +72,45 @@ public class CannonBall extends Model {
     }
     private void destroy(){
         this.dead = true;
+        this.level.removeModel(this);
     }
     @Override
     public void draw(GL2 gl) {
-        if(!dead) {
+        gl.glPushMatrix();
+
+        //calculate fps
+        long endTime = System.currentTimeMillis();
+        long timePassed = endTime - startTime;
+        move -= 0.02f * (float) timePassed;
+        //move -= 10f;
+        startTime = System.currentTimeMillis();
+
+        //update collision data
+        this.collisionData.init();
+        float[] moveArr = {0, 0, move};
+        float[] scale = {this.scaleFactor * 2, this.scaleFactor * 2, this.scaleFactor * 2};
+        //float[] trans = {4, 0, 0};
+
+        this.collisionData.transAfterRotate(this.posAfterRot);
+        this.collisionData.transAfterRotate(moveArr);
+        this.collisionData.setScale(scale);
+        this.collisionData.transAfterRotate(this.trans);
+        this.collisionData.draw(gl);
 
 
-            gl.glPushMatrix();
+        gl.glTranslatef(startPos[0], startPos[1], startPos[2]);
+        gl.glRotatef(270 + rot, 0, 1, 0);
+        gl.glTranslatef(posAfterRot[0], posAfterRot[1], move + posAfterRot[2]);
+        gl.glScalef(4f, 4f, 4f);
+        gl.glScalef(scaleFactor, scaleFactor, scaleFactor);
 
-            //calculate fps
-            long endTime = System.currentTimeMillis();
-            long timePassed = endTime - startTime;
-            move -= 0.02f * (float) timePassed;
-            //move -= 10f;
-            startTime = System.currentTimeMillis();
-            if (Math.abs(move) > 200) {
-                this.destroy();
-            }
-            //update collision data
-            this.collisionData.init();
-            float[] moveArr = {0, 0, move};
-            float[] scale = {this.scaleFactor * 2, this.scaleFactor * 2, this.scaleFactor * 2};
-            float[] trans = {2, 0, 0};
-
-            this.collisionData.transAfterRotate(posAfterRot);
-            this.collisionData.transAfterRotate(moveArr);
-            this.collisionData.setScale(scale);
-            this.collisionData.transAfterRotate(trans);
-            this.collisionData.draw(gl);
-
-
-            gl.glTranslatef(startPos[0], startPos[1], startPos[2]);
-            gl.glRotatef(270 + rot, 0, 1, 0);
-            gl.glTranslatef(posAfterRot[0], posAfterRot[1], move + posAfterRot[2]);
-            gl.glScalef(4f, 4f, 4f);
-            gl.glScalef(scaleFactor, scaleFactor, scaleFactor);
-
-            gl.glTranslatef(1f,0f,0f);
-            for (ObjData obj : data) {
-                obj.draw(gl);
-            }
-            gl.glPopMatrix();
+        gl.glTranslatef(1f,0f,0f);
+        for (ObjData obj : data) {
+            obj.draw(gl);
+        }
+        gl.glPopMatrix();
+        if (Math.abs(move) > 100) {
+            this.destroy();
         }
 
     }
@@ -119,5 +122,8 @@ public class CannonBall extends Model {
 
     public void setPosAfterRot(float[] posAfterRot) {
         this.posAfterRot = posAfterRot;
+    }
+    public void setTransAfterRot(float[] trans){
+        this.trans = trans;
     }
 }

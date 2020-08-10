@@ -22,7 +22,7 @@ public class JackSparrow extends Enemy implements ICollisionObj {
     public String path;
     private CollisionData collisionData;
 
-
+    //old
     public JackSparrow(String path) {
         this.path = path;
     }
@@ -41,6 +41,7 @@ public class JackSparrow extends Enemy implements ICollisionObj {
         this.startPos = startPos;
         this.collisionData.setStartPos(startPos);
     }
+    //old
     @Override
     public void create(ObjectLoader loader, GL2 gl, float[] startPos) {
         this.data = loader.LoadModelToGL(path,gl, CollisionType.AABB);

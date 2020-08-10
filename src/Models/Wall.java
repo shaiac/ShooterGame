@@ -5,6 +5,8 @@ Shai Acoca 315314278
  */
 package Models;
 
+import CollisionDetection.CollisionData;
+import CollisionDetection.CollisionPolygon;
 import LinearMath.Vector;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
@@ -23,6 +25,7 @@ public class Wall extends Model {
     private int list;
     private ObjData data = new ObjData();
     private List<Vector> rectangle;
+    private CollisionData collisionData;
     public Wall(float x,float y,float z,char axis,float width,float length){
         this.x = x;
         this.y = y;
@@ -46,6 +49,7 @@ public class Wall extends Model {
         this.color[2] = blue;
     }
     public void create(ObjectLoader loader, GL2 gl, float[] pos){
+        List<Vector> rect = new ArrayList<>();
         float texwidth = length/40.f;
         float texhieght = width/40.f;
         texhieght = 1;
@@ -58,6 +62,9 @@ public class Wall extends Model {
         }
         gl.glTexCoord2f(0.0f,0.0f);
         gl.glVertex3f(x,y,z);
+        double[] arrPoint1 = {x,y,z,1};
+        Vector Vec1 = new Vector(arrPoint1,4);
+        rect.add(Vec1);
         gl.glTexCoord2f(0f,texhieght);
         switch(axis){
             case 'y':
@@ -67,6 +74,9 @@ public class Wall extends Model {
                 y+=width;
         }
         gl.glVertex3f(x,y,z);
+        double[] arrPoint2 = {x,y,z,1};
+        Vector Vec2 = new Vector(arrPoint2,4);
+        rect.add(Vec2);
         insertVertex(x,y,z);
         switch(axis){
             case 'z':
@@ -77,6 +87,9 @@ public class Wall extends Model {
         }
         gl.glTexCoord2f(texwidth,texhieght);
         gl.glVertex3f(x,y,z);
+        double[] arrPoint3 = {x,y,z,1};
+        Vector Vec3 = new Vector(arrPoint3,4);
+        rect.add(Vec3);
         insertVertex(x,y,z);
         switch(axis){
             case 'y':
@@ -87,13 +100,18 @@ public class Wall extends Model {
         }
         gl.glTexCoord2f(texwidth,0f);
         gl.glVertex3f(x,y,z);
+        double[] arrPoint4 = {x,y,z,1};
+        Vector Vec4 = new Vector(arrPoint4,4);
+        rect.add(Vec4);
         insertVertex(x,y,z);
         gl.glEnd();
         gl.glEndList();
         data.setList(list);
+        this.collisionData = new CollisionPolygon(rect);
     }
     @Override
     public void draw(GL2 gl){
+        //this.collisionData.draw(gl);
         data.draw(gl);
     }
 
@@ -106,9 +124,9 @@ public class Wall extends Model {
 
     private void createRectangle() {
 
-        double[] arrVec1 = {x, y, z}; //top left
-        Vector vec1 = new Vector(arrVec1, 3);
-        rectangle.add(0, vec1);
+        double[] arrVec1 = {x, y, z,1}; //top left
+        Vector vec1 = new Vector(arrVec1, 4);
+        rectangle.add(vec1);
         double[] arrVec2 = {20, 40, -20};//top right
         Vector vec2 = new Vector(arrVec2, 3);
         rectangle.add(1, vec2);

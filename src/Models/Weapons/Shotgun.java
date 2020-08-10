@@ -160,8 +160,8 @@ public class Shotgun extends Weapon implements ICollisionObj {
                         , (float) cooSystem.getOrigin().getVec()[2]};
 
                 float[] bulletPos2 = {0.6f,-0.38f,-3.9f};
-                addAsRoomModel(magazine.shotBullet(pos1,bulletPos1,bulletPath));
-                addAsRoomModel(magazine.shotBullet(pos2,bulletPos2,bulletPath));
+                addAsRoomModel(magazine.shotBullet(pos1,bulletPos1,bulletPath,this.observer));
+                addAsRoomModel(magazine.shotBullet(pos2,bulletPos2,bulletPath,this.observer));
             }
             rChange -= (5f/duration)*milliseconds;
             gl.glRotatef(rChange,1,0,0);

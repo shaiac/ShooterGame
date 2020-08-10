@@ -13,8 +13,11 @@ public class Room {
         roomObjects = new ArrayList<>();
     }
 
-    public void AddModel(IModel IModel) {
-        roomObjects.add(IModel);
+    public void addModel(IModel model) {
+        roomObjects.add(model);
+    }
+    public void removeModel(IModel model){
+        roomObjects.remove(model);
     }
 
     public void drawAll(GL2 gl) {

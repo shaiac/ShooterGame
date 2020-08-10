@@ -82,13 +82,15 @@ public class Cannon extends Weapon {
         this.pos = pos;
     }
     private void dofire() {
-        CannonBall ball= new CannonBall("objects/ball/uploads_files_2078589_sphere.obj",this.factory);
+        CannonBall ball= new CannonBall("objects/ball/uploads_files_2078589_sphere.obj",this.factory,this.observer);
         //CannonBall ball = new CannonBall("objects/ball/uploads_files_2078589_sphere.obj");
         //ball.create(loader,gl,pos);
         ball.setStartPos(pos);
         ball.setRot(angle);
         float[] afterPos = {-4f,3.6f,-6f};
         ball.setPosAfterRot(afterPos);
+        float[] trans = {4,0,0};
+        ball.setTransAfterRot(trans);
         observer.addModel(ball);
     }
 }

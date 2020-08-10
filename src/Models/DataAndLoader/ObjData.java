@@ -18,8 +18,10 @@ public class ObjData {
         this.texture = another.texture;
         this.list = another.list;
         this.material = another.material;
-        this.scale = another.scale;
-        this.translate = another.translate;
+        float[] scale = {another.scale[0],another.scale[1],another.scale[2]};
+        this.scale = scale;
+        float[] translate = {another.translate[0],another.translate[1],another.translate[2]};
+        this.translate = translate;
         this.angleX = another.angleX;
         this.angleY = another.angleY;
         this.angleZ = another.angleZ;

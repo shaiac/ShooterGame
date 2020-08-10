@@ -475,7 +475,7 @@ public class ObjectLoader {
             collisionData = new BoundingSphere(center,maxD/2);
         }
         else if(collisionType == CollisionType.POINT){
-            double[] p = {vertex.get(0)[0],vertex.get(0)[1],vertex.get(0)[2],1};
+            double[] p = {0,0,0,1};
             Vector point = new Vector(p,4);
             collisionData = new CollisionPoint(point);
         }else if(collisionType == CollisionType.POLYGON){

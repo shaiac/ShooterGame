@@ -1,6 +1,7 @@
 package Models.Weapons;
 
 import CollisionDetection.CollisionData;
+import Levels.Level;
 import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
@@ -29,8 +30,8 @@ public class Magazine {
         this.bullets = maxBulletsNum;
         this.maxBulletsNum = maxBulletsNum;
     }
-    public Bullet shotBullet(float[] pos1,float[] pos2,String bulletPath){
-        Bullet bullet = new Bullet(bulletPath,factory);
+    public Bullet shotBullet(float[] pos1, float[] pos2, String bulletPath, Level level){
+        Bullet bullet = new Bullet(bulletPath,factory,level);
         bullet.setStartPos(pos1);
         bullet.setBulletPos(pos2);
         bullets--;

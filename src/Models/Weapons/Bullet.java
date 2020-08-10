@@ -3,6 +3,7 @@ package Models.Weapons;
 import CollisionDetection.CollisionData;
 import CollisionDetection.CollisionType;
 import CollisionDetection.ICollisionObj;
+import Levels.Level;
 import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
@@ -18,17 +19,23 @@ public class Bullet extends Model implements ICollisionObj {
     private float[] bulletPos = {0,0,0};
     private long startTime = System.currentTimeMillis();
     private CollisionData collisionData;
+    private boolean dead = false;
+    private Level level;
+
+
     public Bullet( List<ObjData> objData) {
         this.data = objData;
         this.move = 0;
     }
-    public Bullet(String path, LoaderFactory factory){
+    public Bullet(String path, LoaderFactory factory,Level level){
         Pair<List<ObjData>, CollisionData> data = factory.create(path, CollisionType.POINT);
         this.data = data.getKey();
         this.collisionData = data.getValue();
+        this.level = level;
     }
     public void setStartPos(float[] startPos){
         this.startPos = startPos;
+        this.collisionData.setStartPos(startPos);
     }
 
     public void setBulletPos(float[] bulletPos) {
@@ -37,6 +44,12 @@ public class Bullet extends Model implements ICollisionObj {
 
     public void setAngle(float angle) {
         this.angle = angle;
+        float[] rotate = {0,angle,0};
+        this.collisionData.setRotate(rotate);
+    }
+    private void destroy(){
+        this.dead = true;
+        this.level.removeModel(this);
     }
 
     @Override
@@ -46,11 +59,25 @@ public class Bullet extends Model implements ICollisionObj {
 
     @Override
     public void draw(GL2 gl) {
-        gl.glPushMatrix();
+
         long endTime = System.currentTimeMillis();
         long timePassed = endTime- startTime;
         move -= 0.03f*(float)timePassed;
         startTime = System.currentTimeMillis();
+
+        //update collision data
+        this.collisionData.init();
+        float[] moveArr = {0, 0, move};
+        //float[] scale = {0.04f,0.04f,0.04f};
+        float[] trans = {0,0, -0.4f};
+
+        this.collisionData.transAfterRotate(bulletPos);
+        this.collisionData.transAfterRotate(moveArr);
+        this.collisionData.transAfterRotate(trans);
+        //this.collisionData.setScale(scale);
+        this.collisionData.draw(gl);
+
+        gl.glPushMatrix();
         gl.glTranslatef(startPos[0],startPos[1],startPos[2]);
 
         gl.glRotatef(angle,0,1,0);
@@ -63,6 +90,9 @@ public class Bullet extends Model implements ICollisionObj {
             obj.draw(gl);
         }
         gl.glPopMatrix();
+        if (Math.abs(move) > 100) {
+            this.destroy();
+        }
     }
 
     @Override

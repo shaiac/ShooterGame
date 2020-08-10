@@ -160,7 +160,7 @@ public class Ak47 extends Weapon implements ICollisionObj {
                 float[] pos1 = {(float) cooSystem.getOrigin().getVec()[0], (float) cooSystem.getOrigin().getVec()[1]
                         , (float) cooSystem.getOrigin().getVec()[2]};
                 float[] pos2 = {0f,-0.48f,-3.9f};
-               addAsRoomModel(magazine.shotBullet(pos1,pos2,bulletPath));
+               addAsRoomModel(magazine.shotBullet(pos1,pos2,bulletPath,this.observer));
             }
             rChange += (5f/duration)*milliseconds;
             gl.glRotatef(rChange,0,1,0);
