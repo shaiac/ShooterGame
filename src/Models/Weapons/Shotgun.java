@@ -49,6 +49,11 @@ public class Shotgun extends Weapon implements ICollisionObj  {
         this.targetSymbol = new TargetSymbol("objects/TargetSymbol/TargetSymbol.obj",factory);
         this.targetSymbol.scale(2,2,2);
         this.targetSymbol.rotate(90,'x');
+
+        float[] scale = {7f,7f,7f};
+        this.collisionData.setScale(scale);
+        float[] rotate = {0,90f,0};
+        this.collisionData.setRotate(rotate);
     }
 
     public void setStartPos(float[] startPos){
@@ -60,10 +65,7 @@ public class Shotgun extends Weapon implements ICollisionObj  {
 
         //pos of collisionData
         this.collisionData.setStartPos(startPos);
-        float[] scale = {10f,10f,10f};
-        this.collisionData.setScale(scale);
-        float[] rotate = {0,90f,0};
-        this.collisionData.setRotate(rotate);
+
     }
     public void create(ObjectLoader loader, GL2 gl,float[] startPos){
         data = loader.LoadModelToGL(path,gl, CollisionType.AABB);
@@ -93,7 +95,7 @@ public class Shotgun extends Weapon implements ICollisionObj  {
         if(!picked){
             this.collisionData.draw(gl);
             gl.glTranslatef(startPos[0],startPos[1],startPos[2]);
-            gl.glScalef(5f, 5f, 5f);
+            gl.glScalef(7f, 7f, 7f);
             gl.glRotatef(90f, 0f, 1f, 0f);
             drawUnpicked(gl);
         }
@@ -176,5 +178,17 @@ public class Shotgun extends Weapon implements ICollisionObj  {
     @Override
     public CollisionData getCollisionData() {
         return this.collisionData;
+    }
+
+    @Override
+    public void weaponPicked(){
+        super.weaponPicked();
+        float[] shotgunPos = {0,0,0};
+        this.setStartPos(shotgunPos);
+        this.translate(0.5f,-1f,-0.1f);
+        this.scale(7f,7f,7f);
+        this.rotate(180,'y');
+        this.rotate(10,'z');
+        this.collisionData = null;
     }
 }

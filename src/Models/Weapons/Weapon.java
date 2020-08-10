@@ -27,7 +27,7 @@ public abstract class Weapon extends Model implements ICollisionObj {
     }
 
     public void drawUnpicked(GL2 gl){
-        rotate[2] += 0.3f;
+        rotate[2] += 0.5f;
         gl.glRotatef(rotate[2],0.4f,0f,0f);
     }
     public void setPos(float[] pos){
