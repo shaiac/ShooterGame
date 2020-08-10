@@ -89,7 +89,7 @@ public class JackSparrow extends Enemy implements ICollisionObj {
     }
 
     @Override
-    public void collide() {
+    public void collide(ICollisionObj obj) {
 
     }
 

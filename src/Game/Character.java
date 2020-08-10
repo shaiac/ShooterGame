@@ -7,15 +7,11 @@ import CollisionDetection.PointPolygonIntersection;
 import Levels.Level;
 import Levels.Life;
 import LinearMath.Vector;
-import Models.IModel;
-import Models.Model;
-import Models.Wall;
+import Models.Objects.Wall;
 import Models.Weapons.Ammunition;
 import Models.Weapons.Weapon;
-import Models.goods.AmmoBox;
-import Models.goods.Heart;
+import Models.goods.IGood;
 import com.jogamp.newt.event.KeyEvent;
-import com.sun.javafx.geom.Vec3f;
 
 import javax.media.opengl.GL2;
 import java.util.*;
@@ -99,7 +95,9 @@ public class Character implements ICollisionObj {
     public void addAmmo(int quantity){
         ammo.addAmmo(quantity);
     }
-
+    public void addLife(int quantity){
+        life.addLife(quantity);
+    }
     private boolean checkIntersectionWithLevelWalls() {
         for (Wall wall : currentLevel.getLevelWalls()) {
             if (ppi.checkIntersection(cooSystem.getOrigin(), wall.getRectangle())) {
@@ -172,24 +170,16 @@ public class Character implements ICollisionObj {
             }
         }
     }
-    public void collide(IModel obj){
-        if (obj instanceof AmmoBox){
-            this.ammo.addAmmo(50);
-        }
-        else if (obj instanceof Heart){
-            this.life.addLife(50);
-        }
-        else if (obj instanceof Weapon){
-            //check if weapon not picked
-            this.AddWeapon((Weapon)obj);
-        }
-        else{
-
-        }
-
-    }
     @Override
-    public void collide() {
+    public void collide(ICollisionObj obj){
+        if(obj instanceof IGood){
+            ((IGood) obj).pick(this);
+        }else if(obj instanceof Weapon){
+            ((Weapon) obj).weaponPicked();
+            this.weapons.add((Weapon)obj);
+        }else {
+            //stopMove(obj);
+        }
 
     }
 

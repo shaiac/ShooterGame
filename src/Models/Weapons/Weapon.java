@@ -34,7 +34,7 @@ public abstract class Weapon extends Model implements ICollisionObj {
     }
 
     @Override
-    public void collide(){}
+    public void collide(ICollisionObj obj){}
     @Override
     public CollisionData getCollisionData(){
         return null;

@@ -93,7 +93,7 @@ public class OldPirate extends Enemy implements ICollisionObj {
     }
 
     @Override
-    public void collide() {
+    public void collide(ICollisionObj obj) {
 
     }
 

@@ -3,20 +3,22 @@ submit:
 Ziv Zaarur 206099913
 Shai Acoca 315314278
  */
-package Models;
+package Models.Objects;
 
 import CollisionDetection.CollisionData;
 import CollisionDetection.CollisionPolygon;
+import CollisionDetection.ICollisionObj;
 import LinearMath.Vector;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
+import Models.Model;
 import com.jogamp.opengl.util.texture.Texture;
 
 import javax.media.opengl.GL2;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Wall extends Model {
+public class Wall extends Model implements IObstacle {
     private float x,y,z;
     private char axis;
     private float width,length;
@@ -142,4 +144,13 @@ public class Wall extends Model {
         return rectangle;
     }
 
+    @Override
+    public void collide(ICollisionObj obj) {
+
+    }
+
+    @Override
+    public CollisionData getCollisionData() {
+        return this.collisionData;
+    }
 }

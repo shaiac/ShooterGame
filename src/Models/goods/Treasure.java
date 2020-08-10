@@ -3,6 +3,7 @@ package Models.goods;
 import CollisionDetection.CollisionData;
 import CollisionDetection.CollisionType;
 import CollisionDetection.ICollisionObj;
+import Game.Character;
 import Levels.Level;
 import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
@@ -16,6 +17,7 @@ import java.util.List;
 public class Treasure extends Model implements IGood {
     private String path;
     private CollisionData collisionData;
+    private Level level;
 
     public Treasure(String path) {
         this.path = path;
@@ -29,6 +31,8 @@ public class Treasure extends Model implements IGood {
         this.collisionData.setRotate(rotate);
         float[] scale = {3f,3f,3f};
         this.collisionData.setScale(scale);
+
+        this.level = level;
 
     }
     public void setStartPos(float[] startPos){
@@ -61,12 +65,17 @@ public class Treasure extends Model implements IGood {
     }
 
     @Override
-    public void collide() {
+    public void collide(ICollisionObj obj) {
 
     }
 
     @Override
     public CollisionData getCollisionData() {
         return collisionData;
+    }
+
+    @Override
+    public void pick(Character character) {
+        this.level.levelEnded();
     }
 }

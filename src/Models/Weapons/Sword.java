@@ -1,5 +1,6 @@
 package Models.Weapons;
 
+import CollisionDetection.ICollisionObj;
 import Game.CoordinateSystem;
 import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
@@ -9,7 +10,7 @@ import javax.media.opengl.GL2;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Sword extends Weapon {
+public class Sword extends Weapon implements IDamage {
     private List<float[]> colPoints= new ArrayList<>();
     private String path;
     private boolean attackMode = false;
@@ -115,6 +116,11 @@ public class Sword extends Weapon {
     }
     @Override
     public void setCoordinateSystem(CoordinateSystem coordinateSystem) {
+
+    }
+
+    @Override
+    public void collide(ICollisionObj obj) {
 
     }
 }

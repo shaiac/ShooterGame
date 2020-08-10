@@ -10,7 +10,7 @@ import Models.Enemys.OldPirate;
 import Models.IModel;
 import Models.Objects.*;
 import Models.Objects.Map;
-import Models.Wall;
+import Models.Objects.Wall;
 import Models.Weapons.*;
 import Models.goods.*;
 import com.jogamp.opengl.util.texture.Texture;
@@ -342,7 +342,6 @@ public class Level {
         }
     }
     public void drawRooms() {
-        //List<Room> tempRooms = this.rooms;
         for (Room room : this.rooms) {
             room.drawAll(gl);
         }

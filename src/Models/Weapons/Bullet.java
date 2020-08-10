@@ -3,6 +3,7 @@ package Models.Weapons;
 import CollisionDetection.CollisionData;
 import CollisionDetection.CollisionType;
 import CollisionDetection.ICollisionObj;
+import Game.Character;
 import Levels.Level;
 import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
@@ -13,7 +14,7 @@ import javafx.util.Pair;
 import javax.media.opengl.GL2;
 import java.util.List;
 
-public class Bullet extends Model implements ICollisionObj {
+public class Bullet extends Model implements IDamage {
     private float angle;
     private float move = 0;
     private float[] bulletPos = {0,0,0};
@@ -95,9 +96,13 @@ public class Bullet extends Model implements ICollisionObj {
         }
     }
 
-    @Override
-    public void collide() {
 
+    @Override
+    public void collide(ICollisionObj obj) {
+        this.level.removeModel(this);
+        if(obj instanceof Character){
+
+        }
     }
 
     @Override

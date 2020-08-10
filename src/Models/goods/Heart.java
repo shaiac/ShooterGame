@@ -3,6 +3,7 @@ package Models.goods;
 import CollisionDetection.CollisionData;
 import CollisionDetection.CollisionType;
 import CollisionDetection.ICollisionObj;
+import Game.Character;
 import Levels.Level;
 import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
@@ -16,6 +17,8 @@ import java.util.List;
 public class Heart extends Model implements IGood {
     private String path;
     private CollisionData collisionData;
+    private Level level;
+    private int life = 50;
 
     public Heart(String path) {
         this.path = path;
@@ -29,6 +32,7 @@ public class Heart extends Model implements IGood {
         this.collisionData.setRotate(rotate);
         float[] scale = {0.8f,0.8f,0.8f};
         this.collisionData.setScale(scale);
+        this.level = level;
 
     }
     public void setStartPos(float[] startPos){
@@ -61,12 +65,18 @@ public class Heart extends Model implements IGood {
     }
 
     @Override
-    public void collide() {
+    public void collide(ICollisionObj obj) {
 
     }
 
     @Override
     public CollisionData getCollisionData() {
         return collisionData;
+    }
+
+    @Override
+    public void pick(Character character) {
+        character.addLife(life);
+        this.level.removeModel(this);
     }
 }

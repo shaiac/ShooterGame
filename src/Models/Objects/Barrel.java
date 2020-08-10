@@ -54,12 +54,12 @@ public class Barrel extends Model implements IObstacle {
     }
 
     @Override
-    public void collide() {
+    public void collide(ICollisionObj obj) {
 
     }
 
     @Override
     public CollisionData getCollisionData() {
-        return collisionData;
+        return this.collisionData;
     }
 }

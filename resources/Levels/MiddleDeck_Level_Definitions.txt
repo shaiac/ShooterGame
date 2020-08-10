@@ -33,17 +33,17 @@ wall -100 0 -20 z 10 40 woodenWall.jpg
 #top bottom
 wall -100 10 -20 y 40 40 woodenWall.jpg
 wall -100 0 -20 y 40 40 woodenWall.jpg
-#AmmoBox objects/AmmoBox/AmmoBox.obj -95 2 -5
-#Heart objects/Heart/love_heart.obj -95 3 -15 90
-#AmmoBox objects/AmmoBox/AmmoBox.obj -70 2 -5
+AmmoBox objects/AmmoBox/AmmoBox.obj -95 2 -5
+Heart objects/Heart/love_heart.obj -95 3 -15 90
+AmmoBox objects/AmmoBox/AmmoBox.obj -70 2 -5
 OldPirate objects/OldPirate/oldPirate.obj -97 0 0
 Gun objects/Gun/pistol.obj 0 0 0 0
-#Barrel objects/barrel/barrel_obj.obj -17 0 -17
-#Heart objects/Heart/love_heart.obj 17 3 5 90
-#AmmoBox objects/AmmoBox/AmmoBox.obj -16 2 5
-#Treasure objects/Treasure/treasure_chest.obj 14 0 -8 90
-#OldPirate objects/OldPirate/oldPirate.obj -80 0 -15
-#Gun objects/Gun/pistol.obj 0 0 0 0
+Barrel objects/barrel/barrel_obj.obj -17 0 -17
+Heart objects/Heart/love_heart.obj 17 3 5 90
+AmmoBox objects/AmmoBox/AmmoBox.obj -16 2 5
+Treasure objects/Treasure/treasure_chest.obj 14 0 -8 90
+OldPirate objects/OldPirate/oldPirate.obj -80 0 -15
+Gun objects/Gun/pistol.obj 0 0 0 0
 
 
 
@@ -69,6 +69,9 @@ wall -20 0 -140 z 10 40 woodenWall.jpg
 wall -20 10 -140 y 40 40 woodenWall.jpg
 wall -20 0 -140 y 40 40 woodenWall.jpg
 
+# -20 <= x <= 20
+#   0 <= y <= 10
+# -180<= z <= -140
 ROOM_THREE
 #front
 wall -20 0 -180 x 10 40 woodenWall.jpg
@@ -78,5 +81,8 @@ wall -20 0 -180 z 10 40 woodenWall.jpg
 #top bottom
 wall -20 10 -180 y 40 40 woodenWall.jpg
 wall -20 0 -180 y 40 40 woodenWall.jpg
+#objects
+Barrel objects/barrel/barrel_obj.obj -10 0 -160
+
 
 

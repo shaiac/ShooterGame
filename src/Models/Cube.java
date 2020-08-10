@@ -15,7 +15,7 @@ import com.jogamp.opengl.util.texture.Texture;
 
 import javax.media.opengl.GL2;
 
-public class Cube extends Model implements ICollisionObj {
+public class Cube extends Model {
     private float x,y,z;
     private float width;
     private int list;
@@ -106,12 +106,6 @@ public class Cube extends Model implements ICollisionObj {
         data.draw(gl);
     }
 
-    @Override
-    public void collide() {
-
-    }
-
-    @Override
     public CollisionData getCollisionData() {
         return this.collisionData;
     }

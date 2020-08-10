@@ -170,7 +170,7 @@ public class Ak47 extends Weapon {
     }
 
     @Override
-    public void collide() {
+    public void collide(ICollisionObj obj) {
 
     }
 

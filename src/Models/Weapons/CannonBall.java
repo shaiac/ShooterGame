@@ -3,6 +3,7 @@ package Models.Weapons;
 import CollisionDetection.BoundingSphere;
 import CollisionDetection.CollisionData;
 import CollisionDetection.CollisionType;
+import CollisionDetection.ICollisionObj;
 import Levels.Level;
 import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
@@ -13,7 +14,7 @@ import javafx.util.Pair;
 import javax.media.opengl.GL2;
 import java.util.List;
 
-public class CannonBall extends Model {
+public class CannonBall extends Model implements IDamage {
     private String path;
     private float move = 0;
     private long startTime = System.currentTimeMillis();
@@ -125,5 +126,16 @@ public class CannonBall extends Model {
     }
     public void setTransAfterRot(float[] trans){
         this.trans = trans;
+    }
+
+
+    @Override
+    public void collide(ICollisionObj obj) {
+
+    }
+
+    @Override
+    public CollisionData getCollisionData() {
+        return this.collisionData;
     }
 }

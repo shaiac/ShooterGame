@@ -1,6 +1,6 @@
 package CollisionDetection;
 
 public interface ICollisionObj {
-    void collide();
+    void collide(ICollisionObj obj);
     CollisionData getCollisionData();
 }
