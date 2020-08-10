@@ -2,10 +2,13 @@ package Game;
 
 import CollisionDetection.AABB;
 import CollisionDetection.CollisionData;
+import CollisionDetection.CollisionDetector;
 import CollisionDetection.ICollisionObj;
 import Levels.Level;
 import Levels.Life;
+import Levels.Room;
 import LinearMath.Vector;
+import Models.IModel;
 import Models.Weapons.Ammunition;
 import Models.Weapons.Weapon;
 import Models.goods.IGood;
@@ -30,7 +33,6 @@ public class Character implements ICollisionObj {
     private boolean hit;
     private int lastKeyPressed = 0;
     private boolean collided = false;
-
 
     public Character(Weapon startWeapon,CoordinateSystem cooSystem,GL2 gl) {
         this.cooSystem = cooSystem;
@@ -103,6 +105,7 @@ public class Character implements ICollisionObj {
     }
 
     public void walk(int keyPressed){
+        checkCollision();
         float step = 0.5f;
         double angle = Math.PI/36;
         if (!(collided && keyPressed == lastKeyPressed)) {
@@ -161,17 +164,22 @@ public class Character implements ICollisionObj {
     }
     @Override
     public void collide(ICollisionObj obj){
-        collided = true;
         if(obj instanceof IGood){
             ((IGood) obj).pick(this);
         }else if(obj instanceof Weapon){
             ((Weapon) obj).weaponPicked();
             this.weapons.add((Weapon)obj);
+        } else {
+            collided = true;
         }
     }
 
     @Override
     public CollisionData getCollisionData() {
         return collisionData;
+    }
+
+    private void checkCollision() {
+        currentLevel.checkCollision(this);
     }
 }

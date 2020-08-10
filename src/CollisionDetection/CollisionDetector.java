@@ -5,39 +5,39 @@ import LinearMath.Vector;
 import java.util.List;
 
 public class CollisionDetector {
-    /*public boolean CheckCollision(CollisionData obj1, CollisionData obj2){
+    public boolean CheckCollision(CollisionData obj1, CollisionData obj2){
         boolean collide = false;
         //AABB to AABB
-        if(obj1.type == AABB.class.getTypeName() && obj2.type == AABB.class.getTypeName()){
+        if(obj1.type == CollisionType.AABB && obj2.type == CollisionType.AABB){
             collide = AABBToAABB((AABB) obj1,(AABB) obj2);
         }
         // point with AABB
-        else if(obj1.type == AABB.class.getTypeName() && obj2.type == CollisionPoint.class.getTypeName()){
+        else if(obj1.type == CollisionType.AABB && obj2.type == CollisionType.POINT){
             collide = pointToAABB((CollisionPoint) obj2,(AABB) obj1);
-        }else if(obj2.type == AABB.class.getTypeName() && obj1.type == CollisionPoint.class.getTypeName()){
+        }else if(obj2.type == CollisionType.AABB && obj1.type == CollisionType.POINT){
             collide = pointToAABB((CollisionPoint) obj1,(AABB) obj2);
         }
         //BS to AABB
-        else if(obj1.type == AABB.class.getTypeName() && obj2.type == BoundingSphere.class.getTypeName()){
+        else if(obj1.type == CollisionType.AABB && obj2.type == CollisionType.BS){
             collide = BSToAABB((BoundingSphere) obj2,(AABB) obj1);
-        }else if(obj2.type == AABB.class.getTypeName() && obj1.type == BoundingSphere.class.getTypeName()){
+        }else if(obj2.type == CollisionType.AABB && obj1.type == CollisionType.BS){
             collide = BSToAABB((BoundingSphere) obj1,(AABB) obj2);
         }
         //BS to polygon
-        else if(obj1.type == CollisionPolygon.class.getTypeName() && obj2.type == BoundingSphere.class.getTypeName()){
+        else if(obj1.type == CollisionType.POLYGON && obj2.type == CollisionType.BS){
             collide = BSToPolygon((BoundingSphere) obj2,(CollisionPolygon) obj1);
-        }else if(obj2.type == CollisionPolygon.class.getTypeName() && obj1.type == BoundingSphere.class.getTypeName()){
+        }else if(obj2.type == CollisionType.POLYGON && obj1.type == CollisionType.BS){
             collide = BSToPolygon((BoundingSphere) obj1,(CollisionPolygon) obj2);
         }
         //Point to Polygon
-        else if(obj1.type == CollisionPoint.class.getTypeName() && obj2.type == CollisionPolygon.class.getTypeName()){
+        else if(obj1.type == CollisionType.POINT && obj2.type == CollisionType.POLYGON){
             collide = pointToPolygon((CollisionPoint) obj1,(CollisionPolygon) obj2);
-        }else if(obj2.type == CollisionPoint.class.getTypeName() && obj1.type == CollisionPolygon.class.getTypeName()){
+        }else if(obj2.type == CollisionType.POINT && obj1.type == CollisionType.POLYGON){
             collide = pointToPolygon((CollisionPoint) obj2,(CollisionPolygon) obj1);
         }
         return collide;
 
-    }*/
+    }
     private boolean AABBToAABB(AABB obj1, AABB obj2){
         double[] minA = obj1.min.getVec();
         double[] maxA = obj1.max.getVec();

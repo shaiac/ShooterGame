@@ -1,5 +1,7 @@
 package Levels;
 
+import CollisionDetection.CollisionDetector;
+import CollisionDetection.ICollisionObj;
 import Game.ShooterGame;
 import LinearMath.Vector;
 import Models.DataAndLoader.LoaderFactory;
@@ -34,6 +36,8 @@ public class Level {
     private boolean addValid = true;
     private HashMap<Integer, List<IModel>> removeQueue = new HashMap<>();
     private boolean removeValid = true;
+    CollisionDetector detector = new CollisionDetector();
+
     public Level(ObjectLoader loader, GL2 gl, ShooterGame shooterGame) {
         rooms = new ArrayList<>();
         levelWalls = new ArrayList<>();
@@ -334,7 +338,9 @@ public class Level {
         if(!removeValid){
             for (Integer roomNum : removeQueue.keySet()) {
                 for (IModel model : removeQueue.get(roomNum)) {
-                    rooms.get(roomNum).removeModel(model);
+                    for (Room room : rooms) {
+                        room.removeModel(model);
+                    }
                 }
                 removeQueue.get(roomNum).clear();
             }
@@ -356,11 +362,25 @@ public class Level {
             enemy.draw(gl);
         }
     }
-    public List<Wall> getLevelWalls(){
-        return levelWalls;
+    public List<Room> getRooms(){
+        return rooms;
     }
 
     public void levelEnded() {
         this.levelObserver.currentLevelEnded(gl);
+    }
+
+    public void checkCollision(ICollisionObj collisionObj) {
+        for (Room room : rooms) {
+            for (IModel model : room.getRoomObjects()) {
+                if (model instanceof ICollisionObj) {
+                    if (detector.CheckCollision(collisionObj.getCollisionData(),
+                            ((ICollisionObj)model).getCollisionData())) {
+                        ((ICollisionObj) model).collide(collisionObj);
+                        collisionObj.collide((ICollisionObj) model);
+                    }
+                }
+            }
+        }
     }
 }
