@@ -17,7 +17,6 @@ import java.util.List;
 public class Treasure extends Model implements IGood {
     private String path;
     private CollisionData collisionData;
-    private Level level;
 
     public Treasure(String path) {
         this.path = path;

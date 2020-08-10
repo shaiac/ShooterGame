@@ -18,13 +18,13 @@ public class Gun extends Weapon{
     private LoaderFactory factory;
     //old
     public Gun(String path, Level level) {
-        this.observer = level;
+        this.level = level;
         this.path = path;
     }
     public Gun(String path, Level level, LoaderFactory factory){
         this.data = factory.create(path);
         this.factory = factory;
-        this.observer = level;
+        this.level = level;
     }
     public void setStartPos(float[] startPos){
         this.startPos = startPos;
@@ -84,7 +84,7 @@ public class Gun extends Weapon{
             this.ball.create(loader,gl,pos);
         }
         CannonBall newBall = this.ball.create(pos);*/
-        CannonBall ball = new CannonBall("objects/ball/uploads_files_2078589_sphere.obj",this.factory,this.observer);
+        CannonBall ball = new CannonBall("objects/ball/uploads_files_2078589_sphere.obj",this.factory,this.level);
         ball.setStartPos(pos);
         ball.setRot(angle-2f);
         ball.setScaleFactor(0.5f);
@@ -92,6 +92,6 @@ public class Gun extends Weapon{
         ball.setPosAfterRot(afterPos);
         float[] trans = {2,0,0};
         ball.setTransAfterRot(trans);
-        observer.addModel(ball);
+        level.addModel(ball);
     }
 }

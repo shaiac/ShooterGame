@@ -17,7 +17,6 @@ import java.util.List;
 public class Heart extends Model implements IGood {
     private String path;
     private CollisionData collisionData;
-    private Level level;
     private int life = 50;
 
     public Heart(String path) {

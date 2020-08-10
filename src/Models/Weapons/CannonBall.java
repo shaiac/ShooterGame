@@ -4,6 +4,7 @@ import CollisionDetection.BoundingSphere;
 import CollisionDetection.CollisionData;
 import CollisionDetection.CollisionType;
 import CollisionDetection.ICollisionObj;
+import Game.Character;
 import Levels.Level;
 import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
@@ -24,7 +25,8 @@ public class CannonBall extends Model implements IDamage {
     private CollisionData collisionData;
     private float[] trans = {0,0,0};
     private boolean dead = false;
-    private Level level;
+    private int demage = 20;
+
     public CannonBall(String path) {
         this.path = path;
     }
@@ -131,7 +133,10 @@ public class CannonBall extends Model implements IDamage {
 
     @Override
     public void collide(ICollisionObj obj) {
-
+        this.level.removeModel(this);
+        if(obj instanceof Character){
+            ((Character) obj).hit(demage);
+        }
     }
 
     @Override

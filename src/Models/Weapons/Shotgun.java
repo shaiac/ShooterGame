@@ -34,7 +34,7 @@ public class Shotgun extends Weapon implements ICollisionObj  {
     public Shotgun(String inPath, Level level) {
         this.path = inPath;
         weapontype = WeaponType.GUN;
-        this.observer = level;
+        this.level = level;
         targetSymbol = new TargetSymbol("objects/TargetSymbol/TargetSymbol.obj");
     }
     public Shotgun(String path, Level level, LoaderFactory factory){
@@ -42,7 +42,7 @@ public class Shotgun extends Weapon implements ICollisionObj  {
         Pair<List<ObjData>,CollisionData> data = factory.create(path,CollisionType.AABB);
         this.data = data.getKey();
         this.collisionData = data.getValue();
-        this.observer = level;
+        this.level = level;
         this.weapontype = WeaponType.GUN;
         this.magazine = new Magazine(factory,8);
         this.bulletPath = "objects/Bullet/lowpolybullet.obj";
@@ -84,7 +84,7 @@ public class Shotgun extends Weapon implements ICollisionObj  {
 
     private void addAsRoomModel(Bullet bullet) {
         bullet.setAngle(angle);
-        observer.addModel(bullet);
+        level.addModel(bullet);
     }
 
     @Override
@@ -160,8 +160,8 @@ public class Shotgun extends Weapon implements ICollisionObj  {
                         , (float) cooSystem.getOrigin().getVec()[2]};
 
                 float[] bulletPos2 = {0.6f,-0.38f,-3.9f};
-                addAsRoomModel(magazine.shotBullet(pos1,bulletPos1,bulletPath,this.observer));
-                addAsRoomModel(magazine.shotBullet(pos2,bulletPos2,bulletPath,this.observer));
+                addAsRoomModel(magazine.shotBullet(pos1,bulletPos1,bulletPath,this.level));
+                addAsRoomModel(magazine.shotBullet(pos2,bulletPos2,bulletPath,this.level));
             }
             rChange -= (5f/duration)*milliseconds;
             gl.glRotatef(rChange,1,0,0);

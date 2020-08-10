@@ -17,7 +17,6 @@ import java.util.List;
 public class AmmoBox extends Model implements IGood {
     private String path;
     private CollisionData collisionData;
-    private Level level;
     private int ammu = 24;
 
     public AmmoBox(String path) {

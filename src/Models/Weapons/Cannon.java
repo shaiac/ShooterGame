@@ -1,16 +1,12 @@
 package Models.Weapons;
 
-import CollisionDetection.CollisionData;
 import Game.CoordinateSystem;
 import Levels.Level;
 import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
-import Models.Model;
-import javafx.util.Pair;
 
 import javax.media.opengl.GL2;
-import java.util.List;
 
 public class Cannon extends Weapon {
     private String path;
@@ -21,7 +17,7 @@ public class Cannon extends Weapon {
     private float angle;
     private LoaderFactory factory;
     public Cannon(String path, Level level) {
-        this.observer = level;
+        this.level = level;
         this.path = path;
     }
 
@@ -29,7 +25,7 @@ public class Cannon extends Weapon {
         this.data = factory.create(path);
         this.translate(1f,0f,0f);
         this.factory = factory;
-        this.observer = level;
+        this.level = level;
     }
     public void setStartPos(float[] startPos){
         this.startPos =startPos;
@@ -82,7 +78,7 @@ public class Cannon extends Weapon {
         this.pos = pos;
     }
     private void dofire() {
-        CannonBall ball= new CannonBall("objects/ball/uploads_files_2078589_sphere.obj",this.factory,this.observer);
+        CannonBall ball= new CannonBall("objects/ball/uploads_files_2078589_sphere.obj",this.factory,this.level);
         //CannonBall ball = new CannonBall("objects/ball/uploads_files_2078589_sphere.obj");
         //ball.create(loader,gl,pos);
         ball.setStartPos(pos);
@@ -91,6 +87,6 @@ public class Cannon extends Weapon {
         ball.setPosAfterRot(afterPos);
         float[] trans = {4,0,0};
         ball.setTransAfterRot(trans);
-        observer.addModel(ball);
+        level.addModel(ball);
     }
 }

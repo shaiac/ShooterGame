@@ -4,19 +4,13 @@ import CollisionDetection.CollisionData;
 import CollisionDetection.CollisionType;
 import CollisionDetection.ICollisionObj;
 import Game.CoordinateSystem;
-import Game.ShooterGame;
 import Levels.Level;
 import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
-import Models.IModel;
-import Models.Model;
-import com.jogamp.opengl.util.awt.TextRenderer;
 import javafx.util.Pair;
 
 import javax.media.opengl.GL2;
-import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Ak47 extends Weapon {
@@ -37,7 +31,7 @@ public class Ak47 extends Weapon {
     private TargetSymbol targetSymbol;
     private CollisionData collisionData;
     public Ak47(String inPath, Level level) {
-        this.observer = level;
+        this.level = level;
         this.path = inPath;
         weapontype = WeaponType.GUN;
         targetSymbol = new TargetSymbol("objects/TargetSymbol/TargetSymbol.obj");
@@ -46,7 +40,7 @@ public class Ak47 extends Weapon {
         Pair<List<ObjData>,CollisionData> data = factory.create(path, CollisionType.AABB);
         this.data = data.getKey();
         this.collisionData = data.getValue();
-        this.observer = level;
+        this.level = level;
         this.weapontype = WeaponType.GUN;
         this.magazine = new Magazine(factory,20);
         this.bulletPath = "objects/Bullet/lowpolybullet.obj";
@@ -92,7 +86,7 @@ public class Ak47 extends Weapon {
 
     private void addAsRoomModel(Bullet bullet) {
             bullet.setAngle(angle);
-            observer.addModel(bullet);
+            level.addModel(bullet);
     }
 
     @Override
@@ -160,7 +154,7 @@ public class Ak47 extends Weapon {
                 float[] pos1 = {(float) cooSystem.getOrigin().getVec()[0], (float) cooSystem.getOrigin().getVec()[1]
                         , (float) cooSystem.getOrigin().getVec()[2]};
                 float[] pos2 = {0f,-0.48f,-3.9f};
-               addAsRoomModel(magazine.shotBullet(pos1,pos2,bulletPath,this.observer));
+               addAsRoomModel(magazine.shotBullet(pos1,pos2,bulletPath,this.level));
             }
             rChange += (5f/duration)*milliseconds;
             gl.glRotatef(rChange,0,1,0);

@@ -3,11 +3,11 @@ package Models.Weapons;
 import CollisionDetection.CollisionData;
 import CollisionDetection.CollisionType;
 import CollisionDetection.ICollisionObj;
-import Game.Character;
 import Levels.Level;
 import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
+import Models.Enemys.Enemy;
 import Models.Model;
 import javafx.util.Pair;
 
@@ -21,7 +21,7 @@ public class Bullet extends Model implements IDamage {
     private long startTime = System.currentTimeMillis();
     private CollisionData collisionData;
     private boolean dead = false;
-    private Level level;
+    private int demage = 10;
 
 
     public Bullet( List<ObjData> objData) {
@@ -100,8 +100,8 @@ public class Bullet extends Model implements IDamage {
     @Override
     public void collide(ICollisionObj obj) {
         this.level.removeModel(this);
-        if(obj instanceof Character){
-
+        if(obj instanceof Enemy){
+            ((Enemy) obj).hit(demage);
         }
     }
 
