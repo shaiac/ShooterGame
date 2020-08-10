@@ -144,11 +144,11 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
 
         //character starting weapons
 
-        Ak47 AK_47 = new Ak47("objects/AK_47/Ak-47.obj", level,this.factory);
+        /*Ak47 AK_47 = new Ak47("objects/AK_47/Ak-47.obj", level,this.factory);
         level.addModel(AK_47);
 
         Shotgun shotgun = new Shotgun("objects/Shotgun/GunTwo.obj", level,this.factory);
-        level.addModel(shotgun);
+        level.addModel(shotgun);*/
 
         sword = new Sword("objects/RzR/rzr.obj",level,this.factory);
         float[] pos = {0f,5f,-10f};
@@ -156,9 +156,9 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         //sword.create(loader,gl,pos);
         level.addModel(sword);
 
-        this.character = new Character(shotgun,this.cooSystem,gl);
-        character.AddWeapon(sword);
-        character.AddWeapon(AK_47);
+        this.character = new Character(sword,this.cooSystem,gl);
+        //character.addWeapon(sword);
+        //character.addWeapon(AK_47);
         character.setCurrentLevel(level);
 
         if (drawable instanceof Window) {

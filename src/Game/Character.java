@@ -146,7 +146,7 @@ public class Character implements ICollisionObj {
         this.totalRotation = (this.totalRotation -angle);
     }
 
-    public void AddWeapon(Weapon newWeapon) {
+    public void addWeapon(Weapon newWeapon) {
         newWeapon.weaponPicked();
         newWeapon.setCoordinateSystem(cooSystem);
         weapons.add(newWeapon);
@@ -167,8 +167,7 @@ public class Character implements ICollisionObj {
         if(obj instanceof IGood){
             ((IGood) obj).pick(this);
         }else if(obj instanceof Weapon){
-            ((Weapon) obj).weaponPicked();
-            this.weapons.add((Weapon)obj);
+            addWeapon((Weapon)obj);
         } else {
             collided = true;
         }

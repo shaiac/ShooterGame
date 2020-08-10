@@ -22,7 +22,8 @@ wall -60 20 -60 y 80 120 woodenWall.jpg
 #Cannon objects/cannon/can.obj 0 0 0 270
 #OldPirate objects/OldPirate/oldPirate.obj -40 0 -40
 #Gun objects/Gun/pistol.obj 0 0 0 0
-
+AK_47 objects/AK_47/Ak-47.obj -15 5 0
+Shotgun objects/Shotgun/GunTwo.obj 15 5 0
 
 ROOM_AMMO
 #front & back
