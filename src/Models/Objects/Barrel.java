@@ -1,4 +1,4 @@
-package Models.goods;
+package Models.Objects;
 
 import CollisionDetection.CollisionData;
 import CollisionDetection.CollisionType;
@@ -12,7 +12,7 @@ import javafx.util.Pair;
 import javax.media.opengl.GL2;
 import java.util.List;
 
-public class Barrel extends Model implements ICollisionObj {
+public class Barrel extends Model implements IObstacle {
     private String path;
     private CollisionData collisionData;
 

@@ -13,7 +13,7 @@ import javafx.util.Pair;
 import javax.media.opengl.GL2;
 import java.util.List;
 
-public class Treasure extends Model implements ICollisionObj {
+public class Treasure extends Model implements IGood {
     private String path;
     private CollisionData collisionData;
 

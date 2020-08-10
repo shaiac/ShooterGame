@@ -1,13 +1,14 @@
 package Models.Weapons;
 
+import CollisionDetection.CollisionData;
+import CollisionDetection.ICollisionObj;
 import Game.CoordinateSystem;
-import Game.ShooterGame;
 import Models.Model;
 
 import javax.media.opengl.GL2;
 
 enum WeaponType {GUN,SWORD};
-public abstract class Weapon extends Model {
+public abstract class Weapon extends Model implements ICollisionObj {
     protected int ammu;
     protected boolean picked = false;
     protected WeaponType weapontype;
@@ -30,5 +31,12 @@ public abstract class Weapon extends Model {
     }
     public void setPos(float[] pos){
         this.pos = pos;
+    }
+
+    @Override
+    public void collide(){}
+    @Override
+    public CollisionData getCollisionData(){
+        return null;
     }
 }

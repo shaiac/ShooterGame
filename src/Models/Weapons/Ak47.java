@@ -19,7 +19,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Ak47 extends Weapon implements ICollisionObj {
+public class Ak47 extends Weapon {
     //private String path;
     private Magazine magazine;
     private String bulletPath;

@@ -8,10 +8,11 @@ import Models.Enemys.Enemy;
 import Models.Enemys.JackSparrow;
 import Models.Enemys.OldPirate;
 import Models.IModel;
+import Models.Objects.*;
+import Models.Objects.Map;
 import Models.Wall;
 import Models.Weapons.*;
 import Models.goods.*;
-import Models.goods.Map;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureIO;
 

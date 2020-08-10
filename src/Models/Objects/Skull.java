@@ -1,4 +1,4 @@
-package Models.goods;
+package Models.Objects;
 
 import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
@@ -7,12 +7,12 @@ import Models.Model;
 
 import javax.media.opengl.GL2;
 
-public class Skellington extends Model {
+public class Skull extends Model {
     private String path;
-    public Skellington(String path) {
+    public Skull(String path) {
         this.path = path;
     }
-    public Skellington(String path, LoaderFactory factory){
+    public Skull(String path, LoaderFactory factory){
         this.data = factory.create(path);
     }
     public void setStartPos(float[] startPos){

@@ -21,11 +21,9 @@ import Models.DataAndLoader.ObjectLoader;
 import Models.Enemys.Enemy;
 import Models.PirateShip;
 import Models.Weapons.Ak47;
-import Models.Weapons.Cannon;
 import Models.Weapons.Shotgun;
 import Models.Weapons.Sword;
 import Models.IModel;
-import Models.goods.SkullSymbol;
 import com.jogamp.newt.Window;
 import com.jogamp.newt.event.KeyAdapter;
 import com.jogamp.newt.event.KeyEvent;
@@ -34,8 +32,6 @@ import com.jogamp.newt.event.MouseListener;
 import com.jogamp.newt.event.awt.AWTKeyAdapter;
 import com.jogamp.newt.event.awt.AWTMouseAdapter;
 import com.jogamp.opengl.util.Animator;
-import com.jogamp.opengl.util.awt.TextRenderer;
-import com.jogamp.opengl.util.texture.Texture;
 
 public class ShooterGame extends KeyAdapter implements GLEventListener, MouseListener, MouseMotionListener {
     private CoordinateSystem cooSystem;

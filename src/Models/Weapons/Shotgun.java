@@ -13,7 +13,7 @@ import javafx.util.Pair;
 import javax.media.opengl.GL2;
 import java.util.List;
 
-public class Shotgun extends Weapon implements ICollisionObj {
+public class Shotgun extends Weapon  {
     private String path;
     private Magazine magazine;
     private boolean attackMode = false;
