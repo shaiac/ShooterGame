@@ -3,11 +3,9 @@ package Game;
 import CollisionDetection.AABB;
 import CollisionDetection.CollisionData;
 import CollisionDetection.ICollisionObj;
-import CollisionDetection.PointPolygonIntersection;
 import Levels.Level;
 import Levels.Life;
 import LinearMath.Vector;
-import Models.Objects.Wall;
 import Models.Weapons.Ammunition;
 import Models.Weapons.Weapon;
 import Models.goods.IGood;
@@ -17,8 +15,6 @@ import javax.media.opengl.GL2;
 import java.util.*;
 
 public class Character implements ICollisionObj {
-    private int keyPressedWhileInter = -1;
-    private boolean lastTimeInter = false;
     private GL2 gl;
     private CoordinateSystem cooSystem;
     private Queue<Weapon> weapons;
@@ -28,10 +24,12 @@ public class Character implements ICollisionObj {
     private float deg;
     private Life life;
     private Level currentLevel;
-    private PointPolygonIntersection ppi;
     private CollisionData collisionData;
     //private float[] pos = {0, 0, -5};
     private Vector toMove;
+    private boolean hit;
+    private int lastKeyPressed = 0;
+    private boolean collided = false;
 
 
     public Character(Weapon startWeapon,CoordinateSystem cooSystem,GL2 gl) {
@@ -43,7 +41,6 @@ public class Character implements ICollisionObj {
         this.gl = gl;
         this.life = new Life();
         this.ammo = new Ammunition(50);
-        ppi = new PointPolygonIntersection();
         createAABB();
     }
 
@@ -98,56 +95,48 @@ public class Character implements ICollisionObj {
     public void addLife(int quantity){
         life.addLife(quantity);
     }
-    private boolean checkIntersectionWithLevelWalls() {
-        for (Wall wall : currentLevel.getLevelWalls()) {
-            if (ppi.checkIntersection(cooSystem.getOrigin(), wall.getRectangle())) {
-                return true;
-            }
-        }
-        return false;
+
+    public void hit(int reduceLife){
+        life.reduceLife(reduceLife);
+        hit = true;
+        //kill if life=0
     }
 
     public void walk(int keyPressed){
-//        if (lastTimeInter && keyPressed == keyPressedWhileInter) {
-//            return;
-//        } else if (!lastTimeInter) {
-//            if (checkIntersectionWithLevelWalls()) {
-//                keyPressedWhileInter = keyPressed;
-//                lastTimeInter = true;
-//                return;
-//            }
-//        }
-//        lastTimeInter = false;
-//        keyPressedWhileInter = -1;
         float step = 0.5f;
         double angle = Math.PI/36;
-        switch (keyPressed) {
-            case KeyEvent.VK_W:
-                cooSystem.moveStep('z', -step);
-                break;
-            case KeyEvent.VK_A:
-                cooSystem.moveStep('x', -step);
-                break;
-            case KeyEvent.VK_D:
-                cooSystem.moveStep('x', step);
-                break;
-            case KeyEvent.VK_S:
-                cooSystem.moveStep('z', step);
-                break;
-            case KeyEvent.VK_RIGHT:
-                cooSystem.rotate('y', angle);
-                this.totalRotation -= angle;
-                break;
-            case KeyEvent.VK_LEFT:
-                cooSystem.rotate('y', -angle);
-                this.totalRotation +=angle;
-                break;
-            case KeyEvent.VK_R:
-                reload();
-                break;
-            case KeyEvent.VK_L:
-                currentLevel.levelEnded();
+        if (!(collided && keyPressed == lastKeyPressed)) {
+            collided = false;
+            switch (keyPressed) {
+                case KeyEvent.VK_W:
+                    cooSystem.moveStep('z', -step);
+                    break;
+                case KeyEvent.VK_A:
+                    cooSystem.moveStep('x', -step);
+                    break;
+                case KeyEvent.VK_D:
+                    cooSystem.moveStep('x', step);
+                    break;
+                case KeyEvent.VK_S:
+                    cooSystem.moveStep('z', step);
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    cooSystem.rotate('y', angle);
+                    this.totalRotation -= angle;
+                    break;
+                case KeyEvent.VK_LEFT:
+                    cooSystem.rotate('y', -angle);
+                    this.totalRotation += angle;
+                    break;
+                case KeyEvent.VK_R:
+                    reload();
+                    break;
+                case KeyEvent.VK_L:
+                    currentLevel.levelEnded();
+                    break;
+            }
         }
+        this.lastKeyPressed = keyPressed;
     }
     public void rotate(char axis, double angle){
         cooSystem.rotate(axis,angle);
@@ -172,15 +161,13 @@ public class Character implements ICollisionObj {
     }
     @Override
     public void collide(ICollisionObj obj){
+        collided = true;
         if(obj instanceof IGood){
             ((IGood) obj).pick(this);
         }else if(obj instanceof Weapon){
             ((Weapon) obj).weaponPicked();
             this.weapons.add((Weapon)obj);
-        }else {
-            //stopMove(obj);
         }
-
     }
 
     @Override

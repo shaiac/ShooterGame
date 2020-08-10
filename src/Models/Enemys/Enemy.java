@@ -21,7 +21,7 @@ public abstract class Enemy extends Model {
     public void attack(){
         weapon.attack();
     }
-    public void Hit(int reduceLife){
+    public void hit(int reduceLife){
         life.reduceLife(reduceLife);
         hit = true;
         //kill if life=0

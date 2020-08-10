@@ -19,7 +19,7 @@ public class Life {
     public void draw() {
         renderer.beginRendering(800, 600);
         renderer.setColor(1.0f, 0.2f, 0.2f, 0.8f);
-        renderer.draw("Life:" + String.valueOf(life), 0, 0);
+        renderer.draw("Life:" + life, 0, 0);
         renderer.endRendering();
     }
     public void addLife(int amount){
