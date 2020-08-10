@@ -189,7 +189,7 @@ public class Level {
                         rooms.get(roomNumber - 1).addModel(shotgun);
                         break;
                     case "Sword":
-                        Sword sword = new Sword("objects/RzR/rzr.obj",this.factory);
+                        Sword sword = new Sword("objects/RzR/rzr.obj",this,this.factory);
                         //Sword sword = new Sword("objects/RzR/rzr.obj");
                         float[] swordPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};

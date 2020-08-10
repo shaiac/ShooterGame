@@ -23,6 +23,7 @@ public abstract class Weapon extends Model implements ICollisionObj {
 
     public void weaponPicked() {
         this.picked = true;
+        this.level.removeModel(this);
     }
 
     public void drawUnpicked(GL2 gl){

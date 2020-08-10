@@ -2,6 +2,7 @@ package Models.Weapons;
 
 import CollisionDetection.ICollisionObj;
 import Game.CoordinateSystem;
+import Levels.Level;
 import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
@@ -27,13 +28,14 @@ public class Sword extends Weapon implements IDamage {
         ammu = 0;
         weapontype = WeaponType.SWORD;
     }
-    public Sword(String path, LoaderFactory factory){
+    public Sword(String path, Level level, LoaderFactory factory){
         this.data = factory.create(path);
         this.translate(1f,0f,0f);
         this.scale(0.01f,0.01f,0.01f);
         this.rotate(45,'x');
         this.rotate(-45,'y');
         this.rotate(45,'z');
+        this.level = level;
     }
     public void setStartPos(float[] startPos){
         this.startPos = startPos;
