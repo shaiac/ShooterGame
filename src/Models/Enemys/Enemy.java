@@ -24,8 +24,11 @@ public abstract class Enemy extends Model {
     public void hit(int reduceLife){
         life.reduceLife(reduceLife);
         hit = true;
-        //kill if life=0
+        if (life.getRemainLife() == 0) {
+            dead();
+        }
     }
     public void dead(){
+        level.removeModel(this);
     }
 }

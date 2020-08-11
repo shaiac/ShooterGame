@@ -2,13 +2,10 @@ package Game;
 
 import CollisionDetection.AABB;
 import CollisionDetection.CollisionData;
-import CollisionDetection.CollisionDetector;
 import CollisionDetection.ICollisionObj;
 import Levels.Level;
 import Levels.Life;
-import Levels.Room;
 import LinearMath.Vector;
-import Models.IModel;
 import Models.Weapons.Ammunition;
 import Models.Weapons.Weapon;
 import Models.goods.IGood;
@@ -109,19 +106,30 @@ public class Character implements ICollisionObj {
         float step = 0.5f;
         double angle = Math.PI/36;
         if (!(collided && keyPressed == lastKeyPressed)) {
-            collided = false;
             switch (keyPressed) {
                 case KeyEvent.VK_W:
                     cooSystem.moveStep('z', -step);
+                    if (!(collided && (lastKeyPressed == KeyEvent.VK_A || lastKeyPressed == KeyEvent.VK_D))) {
+                        lastKeyPressed = keyPressed;
+                    }
                     break;
                 case KeyEvent.VK_A:
                     cooSystem.moveStep('x', -step);
+                    if (!(collided && (lastKeyPressed == KeyEvent.VK_W || lastKeyPressed == KeyEvent.VK_S))) {
+                        lastKeyPressed = keyPressed;
+                    }
                     break;
                 case KeyEvent.VK_D:
                     cooSystem.moveStep('x', step);
+                    if (!(collided && (lastKeyPressed == KeyEvent.VK_W || lastKeyPressed == KeyEvent.VK_S))) {
+                        lastKeyPressed = keyPressed;
+                    }
                     break;
                 case KeyEvent.VK_S:
                     cooSystem.moveStep('z', step);
+                    if (!(collided && (lastKeyPressed == KeyEvent.VK_A || lastKeyPressed == KeyEvent.VK_D))) {
+                        lastKeyPressed = keyPressed;
+                    }
                     break;
                 case KeyEvent.VK_RIGHT:
                     cooSystem.rotate('y', angle);
@@ -139,7 +147,7 @@ public class Character implements ICollisionObj {
                     break;
             }
         }
-        this.lastKeyPressed = keyPressed;
+        collided = false;
     }
     public void rotate(char axis, double angle){
         cooSystem.rotate(axis,angle);

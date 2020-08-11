@@ -3,6 +3,7 @@ package Models.Weapons;
 import CollisionDetection.CollisionData;
 import CollisionDetection.CollisionType;
 import CollisionDetection.ICollisionObj;
+import Game.Character;
 import Levels.Level;
 import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
@@ -60,10 +61,11 @@ public class Bullet extends Model implements IDamage {
 
     @Override
     public void draw(GL2 gl) {
-
+        checkCollision();
         long endTime = System.currentTimeMillis();
         long timePassed = endTime- startTime;
-        move -= 0.03f*(float)timePassed;
+        //move -= 0.03f*(float)timePassed;
+        move -= 1.5f;
         startTime = System.currentTimeMillis();
 
         //update collision data
@@ -108,5 +110,9 @@ public class Bullet extends Model implements IDamage {
     @Override
     public CollisionData getCollisionData() {
         return this.collisionData;
+    }
+
+    private void checkCollision() {
+        level.checkCollision(this);
     }
 }

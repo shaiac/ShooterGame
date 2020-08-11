@@ -79,6 +79,7 @@ public class CannonBall extends Model implements IDamage {
     }
     @Override
     public void draw(GL2 gl) {
+        checkCollision();
         gl.glPushMatrix();
 
         //calculate fps
@@ -142,5 +143,9 @@ public class CannonBall extends Model implements IDamage {
     @Override
     public CollisionData getCollisionData() {
         return this.collisionData;
+    }
+
+    private void checkCollision() {
+        level.checkCollision(this);
     }
 }

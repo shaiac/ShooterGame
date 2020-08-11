@@ -23,6 +23,10 @@ public class CollisionDetector {
         }else if(obj2.type == CollisionType.AABB && obj1.type == CollisionType.BS){
             collide = BSToAABB((BoundingSphere) obj1,(AABB) obj2);
         }
+        //AABB to Polygon
+        else if(obj1.type == CollisionType.AABB && obj2.type == CollisionType.POLYGON) {
+            collide = AABBToPolygon( (AABB) obj1, (CollisionPolygon) obj2);
+        }
         //BS to polygon
         else if(obj1.type == CollisionType.POLYGON && obj2.type == CollisionType.BS){
             collide = BSToPolygon((BoundingSphere) obj2,(CollisionPolygon) obj1);
@@ -36,8 +40,28 @@ public class CollisionDetector {
             collide = pointToPolygon((CollisionPoint) obj2,(CollisionPolygon) obj1);
         }
         return collide;
-
     }
+
+    private boolean AABBToPolygon(AABB obj1, CollisionPolygon obj2) {
+        double[] point = obj1.min.Add(obj1.max).Multiply(0.5).getVec();
+        List<Vector> rectangle = obj2.rect;
+        double[] arrVec1 = {rectangle.get(0).get(0) - point[0], rectangle.get(0).get(1) - point[1],
+                rectangle.get(0).get(2) - point[2]}; //to top left point
+        Vector vec1 = new Vector(arrVec1, 3);
+        double[] arrVec2 = {rectangle.get(1).get(0) - point[0], rectangle.get(1).get(1) - point[1],
+                rectangle.get(1).get(2) - point[2]}; //to top right point
+        Vector vec2 = new Vector(arrVec2, 3);
+        double[] arrVec3 = {rectangle.get(2).get(0) - point[0], rectangle.get(2).get(1) - point[1],
+                rectangle.get(2).get(2) - point[2]}; // to bottom right point
+        Vector vec3 = new Vector(arrVec3, 3);
+        double[] arrVec4 = {rectangle.get(3).get(0) - point[0], rectangle.get(3).get(1) - point[1],
+                rectangle.get(3).get(2) - point[2]}; //to bottom left point
+        Vector vec4 = new Vector(arrVec4, 3);
+        double anglesSum = vec1.GetAngle(vec2) + vec2.GetAngle(vec3) + vec3.GetAngle(vec4) +
+                vec4.GetAngle(vec1);
+        return anglesSum >= 359;
+    }
+
     private boolean AABBToAABB(AABB obj1, AABB obj2){
         double[] minA = obj1.min.getVec();
         double[] maxA = obj1.max.getVec();
@@ -80,14 +104,15 @@ public class CollisionDetector {
         Vector vec4 = new Vector(arrVec4, 3);
         double anglesSum = vec1.GetAngle(vec2) + vec2.GetAngle(vec3) + vec3.GetAngle(vec4) +
                 vec4.GetAngle(vec1);
-        return anglesSum >= 355;
+        return anglesSum >= 359;
     }
+
     private boolean BSToPolygon(BoundingSphere obj1, CollisionPolygon obj2){
         double D = -(obj2.rect.get(0).Multiply(obj2.normalVec));
         double d = obj1.center.Multiply(obj2.normalVec) + D;
         return Math.abs(d)<obj1.radius;
-
     }
+
     private boolean BSToAABB(BoundingSphere obj1, AABB obj2){
         double[] center = obj1.center.getVec();
         double[] min = obj2.min.getVec();

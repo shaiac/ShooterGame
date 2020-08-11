@@ -24,9 +24,12 @@ public class Life {
     }
     public void addLife(int amount){
         this.life += amount;
-        if(life > 100){
-            life = 100;
-        }
+//        if(life > 100){
+//            life = 100;
+//        }
+    }
+    public int getRemainLife() {
+        return life;
     }
 
 }
