@@ -377,20 +377,20 @@ public class Level {
     }
 
     public void checkCollision(ICollisionObj collisionObj) {
-//        if (checkWithModel(collisionObj, character)) {
-//            return;
-//        }
+        if (checkWithModel(collisionObj, character)) {
+            return;
+        }
         for (Room room : rooms) {
             for (IModel model : room.getRoomObjects()) {
                 if (model instanceof ICollisionObj) {
-                    if (detector.CheckCollision(collisionObj.getCollisionData(),
-                            ((ICollisionObj)model).getCollisionData())) {
-                        ((ICollisionObj) model).collide(collisionObj);
-                        collisionObj.collide((ICollisionObj) model);
-                    }
-//                    if (checkWithModel(collisionObj, (ICollisionObj)model)) {
-//                        return;
+//                    if (detector.CheckCollision(collisionObj.getCollisionData(),
+//                            ((ICollisionObj)model).getCollisionData())) {
+//                        ((ICollisionObj) model).collide(collisionObj);
+//                        collisionObj.collide((ICollisionObj) model);
 //                    }
+                    if (checkWithModel(collisionObj, (ICollisionObj)model)) {
+                        return;
+                    }
                 }
             }
         }
