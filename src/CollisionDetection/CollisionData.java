@@ -9,6 +9,8 @@ import java.lang.reflect.Type;
 ;
 public abstract class CollisionData implements Cloneable{
     public CollisionType type;
+    public boolean checkCollision = true;
+
     public void draw(GL2 gl){
 
     }

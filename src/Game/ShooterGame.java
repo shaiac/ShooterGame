@@ -71,9 +71,9 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         gl.glLoadIdentity();  // Reset The View
         if (startAnimation.toStop()) {
             if(nextLevel){
-                level = new Level(loader, gl, this);
-                level.BuildLevel(gameLevels.getLevelsList().get(levelNum));
                 nextLevel = false;
+                level = new Level(this.factory,this,loader,gl);
+                level.BuildLevel(gameLevels.getLevelsList().get(levelNum));
             }
             gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_S, GL2.GL_LINEAR);
             gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_T, GL2.GL_LINEAR);

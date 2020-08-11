@@ -182,13 +182,17 @@ public class Shotgun extends Weapon implements ICollisionObj  {
 
     @Override
     public void weaponPicked(){
-        super.weaponPicked();
-        float[] shotgunPos = {0,0,0};
-        this.setStartPos(shotgunPos);
-        this.translate(0.5f,-1f,-0.1f);
-        this.scale(7f,7f,7f);
-        this.rotate(180,'y');
-        this.rotate(10,'z');
-        this.collisionData = null;
+        if(!this.picked) {
+            this.level.removeModel(this);
+            this.picked = true;
+
+            float[] shotgunPos = {0, 0, 0};
+            this.setStartPos(shotgunPos);
+            this.translate(0.5f, -1f, -0.1f);
+            this.scale(7f, 7f, 7f);
+            this.rotate(180, 'y');
+            this.rotate(10, 'z');
+        }
+        //this.collisionData = null;
     }
 }

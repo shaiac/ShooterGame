@@ -6,6 +6,9 @@ import java.util.List;
 
 public class CollisionDetector {
     public boolean CheckCollision(CollisionData obj1, CollisionData obj2){
+        if(!obj2.checkCollision){
+            return false;
+        }
         boolean collide = false;
         //AABB to AABB
         if(obj1.type == CollisionType.AABB && obj2.type == CollisionType.AABB){
@@ -59,7 +62,7 @@ public class CollisionDetector {
         Vector vec4 = new Vector(arrVec4, 3);
         double anglesSum = vec1.GetAngle(vec2) + vec2.GetAngle(vec3) + vec3.GetAngle(vec4) +
                 vec4.GetAngle(vec1);
-        return anglesSum >= 359;
+        return anglesSum >= 345;
     }
 
     private boolean AABBToAABB(AABB obj1, AABB obj2){
@@ -104,13 +107,15 @@ public class CollisionDetector {
         Vector vec4 = new Vector(arrVec4, 3);
         double anglesSum = vec1.GetAngle(vec2) + vec2.GetAngle(vec3) + vec3.GetAngle(vec4) +
                 vec4.GetAngle(vec1);
-        return anglesSum >= 359;
+        return anglesSum >= 350;
     }
 
     private boolean BSToPolygon(BoundingSphere obj1, CollisionPolygon obj2){
-        double D = -(obj2.rect.get(0).Multiply(obj2.normalVec));
-        double d = obj1.center.Multiply(obj2.normalVec) + D;
-        return Math.abs(d)<obj1.radius;
+        double D1 = -(obj2.rect.get(0).Multiply(obj2.normalVec1));
+        double d1 = obj1.center.Multiply(obj2.normalVec1) + D1;
+        double D2 = -(obj2.rect.get(0).Multiply(obj2.normalVec2));
+        double d2 = obj1.center.Multiply(obj2.normalVec2) + D2;
+        return Math.abs(d1)<obj1.radius || Math.abs(d2)<obj1.radius;
     }
 
     private boolean BSToAABB(BoundingSphere obj1, AABB obj2){

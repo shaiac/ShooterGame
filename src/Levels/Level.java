@@ -307,6 +307,9 @@ public class Level {
         wall.setTex(getTextureFromPath(splitData[7]));
         float[] wallPos = {0,0,0};
         wall.create(loader, gl, wallPos);
+        if(splitData.length == 9){
+            wall.getCollisionData().checkCollision = false;
+        }
         return wall;
     }
 

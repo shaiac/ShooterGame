@@ -15,15 +15,15 @@ wall 5 10 -60 x 10 5 woodenWall.jpg
 #back
 wall -60 0 20 x 20 120 woodenWall.jpg
 #bottom
-wall -60 0 -60 y 80 120 woodenWall.jpg
+wall -60 0 -60 y 80 120 woodenWall.jpg n
 #top
-wall -60 20 -60 y 80 120 woodenWall.jpg
+wall -60 20 -60 y 80 120 woodenWall.jpg n
 JackSparrow objects/JackSparrow/Jack_Sparrow.obj 20 0 -50
 Cannon objects/cannon/can.obj 0 0 0 270
 OldPirate objects/OldPirate/oldPirate.obj -40 0 -40
 Gun objects/Gun/pistol.obj 0 0 0 0
-AK_47 objects/AK_47/Ak-47.obj -15 5 0
-Shotgun objects/Shotgun/GunTwo.obj 15 5 0
+AK_47 objects/AK_47/Ak-47.obj -15 4 0
+Shotgun objects/Shotgun/GunTwo.obj 15 4 0
 
 ROOM_AMMO
 #front & back
@@ -32,8 +32,8 @@ wall -100 0 20 x 10 40 woodenWall.jpg
 #left & right
 wall -100 0 -20 z 10 40 woodenWall.jpg
 #top bottom
-wall -100 10 -20 y 40 40 woodenWall.jpg
-wall -100 0 -20 y 40 40 woodenWall.jpg
+wall -100 10 -20 y 40 40 woodenWall.jpg n
+wall -100 0 -20 y 40 40 woodenWall.jpg n
 AmmoBox objects/AmmoBox/AmmoBox.obj -95 2 -5
 Heart objects/Heart/love_heart.obj -95 3 -15 90
 AmmoBox objects/AmmoBox/AmmoBox.obj -70 2 -5
@@ -56,8 +56,8 @@ wall 5 0 -100 x 10 15 woodenWall.jpg
 wall 20 0 -100 z 10 40 woodenWall.jpg
 wall -20 0 -100 z 10 40 woodenWall.jpg
 #top bottom
-wall -20 10 -100 y 40 40 woodenWall.jpg
-wall -20 0 -100 y 40 40 woodenWall.jpg
+wall -20 10 -100 y 40 40 woodenWall.jpg n
+wall -20 0 -100 y 40 40 woodenWall.jpg n
 
 ROOM_THREE
 #front
@@ -67,8 +67,8 @@ wall 5 0 -140 x 10 15 woodenWall.jpg
 wall 20 0 -140 z 10 40 woodenWall.jpg
 wall -20 0 -140 z 10 40 woodenWall.jpg
 #top bottom
-wall -20 10 -140 y 40 40 woodenWall.jpg
-wall -20 0 -140 y 40 40 woodenWall.jpg
+wall -20 10 -140 y 40 40 woodenWall.jpg n
+wall -20 0 -140 y 40 40 woodenWall.jpg n
 
 # -20 <= x <= 20
 #   0 <= y <= 10
@@ -80,8 +80,8 @@ wall -20 0 -180 x 10 40 woodenWall.jpg
 wall 20 0 -180 z 10 40 woodenWall.jpg
 wall -20 0 -180 z 10 40 woodenWall.jpg
 #top bottom
-wall -20 10 -180 y 40 40 woodenWall.jpg
-wall -20 0 -180 y 40 40 woodenWall.jpg
+wall -20 10 -180 y 40 40 woodenWall.jpg n
+wall -20 0 -180 y 40 40 woodenWall.jpg n
 #objects
 Barrel objects/barrel/barrel_obj.obj -10 0 -160
 

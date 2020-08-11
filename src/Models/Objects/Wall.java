@@ -5,6 +5,7 @@ Shai Acoca 315314278
  */
 package Models.Objects;
 
+import CollisionDetection.AABB;
 import CollisionDetection.CollisionData;
 import CollisionDetection.CollisionPolygon;
 import CollisionDetection.ICollisionObj;
@@ -52,6 +53,7 @@ public class Wall extends Model implements IObstacle {
     }
     public void create(ObjectLoader loader, GL2 gl, float[] pos){
         List<Vector> rect = new ArrayList<>();
+
         float texwidth = length/40.f;
         float texhieght = width/40.f;
         texhieght = 1;
@@ -64,6 +66,8 @@ public class Wall extends Model implements IObstacle {
         }
         gl.glTexCoord2f(0.0f,0.0f);
         gl.glVertex3f(x,y,z);
+        double[] min = {x,y,z,1};
+        double[] max = {x,y,z,1};
         double[] arrPoint1 = {x,y,z,1};
         Vector Vec1 = new Vector(arrPoint1,4);
         rect.add(Vec1);
@@ -76,6 +80,23 @@ public class Wall extends Model implements IObstacle {
                 y+=width;
         }
         gl.glVertex3f(x,y,z);
+
+        if(x<min[0]){
+            min[0] = x;
+        }else if(x> max[0]){
+            max[0] = x;
+        }
+        if(y<min[1]){
+            min[1] = y;
+        }else if(y> max[1]){
+            max[1] = y;
+        }
+        if(z<min[2]){
+            min[2] = z;
+        }else if(z> max[2]){
+            max[2] = z;
+        }
+
         double[] arrPoint2 = {x,y,z,1};
         Vector Vec2 = new Vector(arrPoint2,4);
         rect.add(Vec2);
@@ -89,6 +110,23 @@ public class Wall extends Model implements IObstacle {
         }
         gl.glTexCoord2f(texwidth,texhieght);
         gl.glVertex3f(x,y,z);
+
+        if(x<min[0]){
+            min[0] = x;
+        }else if(x> max[0]){
+            max[0] = x;
+        }
+        if(y<min[1]){
+            min[1] = y;
+        }else if(y> max[1]){
+            max[1] = y;
+        }
+        if(z<min[2]){
+            min[2] = z;
+        }else if(z> max[2]){
+            max[2] = z;
+        }
+
         double[] arrPoint3 = {x,y,z,1};
         Vector Vec3 = new Vector(arrPoint3,4);
         rect.add(Vec3);
@@ -102,6 +140,23 @@ public class Wall extends Model implements IObstacle {
         }
         gl.glTexCoord2f(texwidth,0f);
         gl.glVertex3f(x,y,z);
+
+        if(x<min[0]){
+            min[0] = x;
+        }else if(x> max[0]){
+            max[0] = x;
+        }
+        if(y<min[1]){
+            min[1] = y;
+        }else if(y> max[1]){
+            max[1] = y;
+        }
+        if(z<min[2]){
+            min[2] = z;
+        }else if(z> max[2]){
+            max[2] = z;
+        }
+
         double[] arrPoint4 = {x,y,z,1};
         Vector Vec4 = new Vector(arrPoint4,4);
         rect.add(Vec4);
@@ -109,11 +164,25 @@ public class Wall extends Model implements IObstacle {
         gl.glEnd();
         gl.glEndList();
         data.setList(list);
-        this.collisionData = new CollisionPolygon(rect);
+        if(axis == 'x'){
+            min[2] -= 0.5;
+            max[2] += 0.5;
+            min[0] += 0.5;
+            max[0] -= 0.5;
+        }else if(axis == 'z'){
+            min[0] -= 0.5;
+            max[0] += 0.5;
+            min[2] += 0.5;
+            max[2] -= 0.5;
+        }
+        Vector minVec = new Vector(min,4);
+        Vector maxVec = new Vector(max,4);
+        this.collisionData = new AABB(minVec,maxVec);
+        //this.collisionData = new CollisionPolygon(rect);
     }
     @Override
     public void draw(GL2 gl){
-        //this.collisionData.draw(gl);
+        this.collisionData.draw(gl);
         data.draw(gl);
     }
 

@@ -8,11 +8,14 @@ import java.util.List;
 
 public class CollisionPolygon extends CollisionData {
     public List<Vector> rect;
-    public Vector normalVec;
+    public Vector normalVec1;
+    public Vector normalVec2;
     public CollisionPolygon(List<Vector> rect){
         this.type = CollisionType.POLYGON;
         this.rect = rect;
-        this.normalVec = this.createNormal();
+        this.normalVec1 = this.createNormal();
+        double[] normalArr2 = {-normalVec1.get(0),-normalVec1.get(1),-normalVec1.get(2),1};
+        this.normalVec2 = new Vector(normalArr2,4);
     }
     @Override
     public CollisionData clone(){
@@ -25,7 +28,7 @@ public class CollisionPolygon extends CollisionData {
     private Vector createNormal(){
         Vector a = this.rect.get(1).minus(this.rect.get(0));
         Vector b = this.rect.get(2).minus(this.rect.get(0));
-        Vector c = a.crossPruduct(b);
+        Vector c = a.crossPruduct(b).normal();
         return c;
     }
 

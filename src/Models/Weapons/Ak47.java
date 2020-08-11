@@ -177,14 +177,18 @@ public class Ak47 extends Weapon {
     }
     @Override
     public void weaponPicked() {
-        super.weaponPicked();
-        float[] akPos = {-10,3,8};
-        this.setStartPos(akPos);
-        this.translate(0.5f,-1.5f,0.2f);
-        this.scale(0.01f,0.01f,0.01f);
-        this.rotate(50,'x');
-        this.rotate(-70,'y');
-        this.rotate(45,'z');
-        this.collisionData = null;
+        if(!this.picked){
+            this.level.removeModel(this);
+
+            this.picked = true;
+
+            float[] akPos = {-10,3,8};
+            this.setStartPos(akPos);
+            this.translate(0.5f,-1.5f,0.2f);
+            this.scale(0.01f,0.01f,0.01f);
+            this.rotate(50,'x');
+            this.rotate(-70,'y');
+            this.rotate(45,'z');
+        }
     }
 }

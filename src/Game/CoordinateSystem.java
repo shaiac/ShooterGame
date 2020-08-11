@@ -4,12 +4,14 @@ Ziv Zaarur 206099913
 Shai Acoca 315314278
  */
 import LinearMath.Vector;
+import javafx.util.Pair;
 
 public class CoordinateSystem {
  private Vector x;
  private Vector y;
  private Vector z;
  private Vector origin;
+ private Vector lastOrigin;
 
  public CoordinateSystem() {
         double[] vec = {0,5,0};
@@ -20,6 +22,7 @@ public class CoordinateSystem {
         x = new Vector(vecX, 3);
         double[] vecY = {0, 1, 0};
         y = new Vector(vecY, 3);
+        lastOrigin = origin;
  }
 
  public void rotate(char axis, double angle) {
@@ -43,6 +46,7 @@ public class CoordinateSystem {
  }
 
  public void moveStep(char axis, double step) {
+     lastOrigin = origin;
      if (axis == 'x') {
         origin = origin.Add(x.Multiply(step));
      } if (axis == 'y') {
@@ -50,6 +54,11 @@ public class CoordinateSystem {
      } if (axis == 'z') {
          origin = origin.Add(z.Multiply(step));
      }
+
+ }
+ public void revertStep(){
+     origin = lastOrigin;
+
  }
 
  public Vector getOrigin() {
