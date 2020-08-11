@@ -80,6 +80,12 @@ public class JackSparrow extends Enemy implements ICollisionObj {
         gl.glPushMatrix();
         gl.glTranslatef(startPos[0],startPos[1],startPos[2]);
         gl.glRotatef(angle,0,1,0);
+        if(hit){
+            gl.glColor3f(1,0,0);
+            if(System.currentTimeMillis() - startHit > 1000){
+                hit = false;
+            }
+        }
         for (ObjData obj:data) {
             obj.draw(gl);
         }

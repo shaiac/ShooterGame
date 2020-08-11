@@ -178,7 +178,7 @@ public class Level {
 
                         break;
                     case "OldPirate":
-                        OldPirate pirate = new OldPirate(splitData[1],this.factory);
+                        OldPirate pirate = new OldPirate(splitData[1],this,this.factory);
                         //OldPirate pirate = new OldPirate(splitData[1]);
                         float[] piratePos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};

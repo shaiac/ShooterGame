@@ -9,6 +9,7 @@ import Levels.Level;
 import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
+import Models.Enemys.Enemy;
 import Models.Model;
 import javafx.util.Pair;
 
@@ -134,9 +135,11 @@ public class CannonBall extends Model implements IDamage {
 
     @Override
     public void collide(ICollisionObj obj) {
-        this.level.removeModel(this);
-        if(obj instanceof Character){
-            ((Character) obj).hit(demage);
+        if(!(obj instanceof Enemy)) {
+            this.level.removeModel(this);
+            if (obj instanceof Character) {
+                ((Character) obj).hit(demage);
+            }
         }
     }
 

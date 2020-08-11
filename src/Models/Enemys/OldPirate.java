@@ -3,6 +3,8 @@ package Models.Enemys;
 import CollisionDetection.CollisionData;
 import CollisionDetection.CollisionType;
 import CollisionDetection.ICollisionObj;
+import Levels.Level;
+import Levels.Life;
 import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
@@ -21,7 +23,7 @@ public class OldPirate extends Enemy implements ICollisionObj {
     public OldPirate(String path) {
         this.path = path;
     }
-    public OldPirate(String path, LoaderFactory factory){
+    public OldPirate(String path, Level level, LoaderFactory factory){
         Pair<List<ObjData>,CollisionData> data = factory.create(path, CollisionType.AABB);
         this.data = data.getKey();
         this.collisionData = data.getValue();
@@ -32,6 +34,8 @@ public class OldPirate extends Enemy implements ICollisionObj {
         this.rotate(90,'z');
         float[] angle = {90,0,0};
         this.collisionData.setRotate(angle);
+        this.life = new Life();
+        this.level = level;
     }
     public void setStartPos(float[] startPos){
         this.startPos = startPos;
@@ -76,6 +80,12 @@ public class OldPirate extends Enemy implements ICollisionObj {
         gl.glPushMatrix();
         gl.glTranslatef(startPos[0],startPos[1],startPos[2]);
         gl.glRotatef(angle,0,1,0);
+        if(hit){
+            gl.glColor3f(1,0,0);
+            if(System.currentTimeMillis() - startHit > 1000){
+                hit = false;
+            }
+        }
         for (ObjData obj:data) {
             obj.draw(gl);
         }

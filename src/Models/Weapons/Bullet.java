@@ -101,9 +101,11 @@ public class Bullet extends Model implements IDamage {
 
     @Override
     public void collide(ICollisionObj obj) {
-        this.level.removeModel(this);
-        if(obj instanceof Enemy){
-            ((Enemy) obj).hit(demage);
+        if(!(obj instanceof Character)) {
+            this.level.removeModel(this);
+            if (obj instanceof Enemy) {
+                ((Enemy) obj).hit(demage);
+            }
         }
     }
 

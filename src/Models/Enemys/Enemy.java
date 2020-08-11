@@ -10,6 +10,8 @@ public abstract class Enemy extends Model {
     protected Weapon weapon = null;
     protected Vector charOrigin;
     protected boolean hit;
+    protected long startHit = 0;
+    protected long stopHit = 0;
     public void addWeapon(Weapon weapon){
         this.weapon = weapon;
     }
@@ -24,6 +26,7 @@ public abstract class Enemy extends Model {
     public void hit(int reduceLife){
         life.reduceLife(reduceLife);
         hit = true;
+        startHit = System.currentTimeMillis();
         if (life.getRemainLife() <= 0) {
             dead();
         }
