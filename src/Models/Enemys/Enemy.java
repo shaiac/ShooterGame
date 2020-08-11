@@ -24,11 +24,11 @@ public abstract class Enemy extends Model {
     public void hit(int reduceLife){
         life.reduceLife(reduceLife);
         hit = true;
-        if (life.getRemainLife() == 0) {
+        if (life.getRemainLife() <= 0) {
             dead();
         }
     }
-    public void dead(){
+    private void dead(){
         level.removeModel(this);
     }
 }

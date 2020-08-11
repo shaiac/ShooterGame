@@ -1,7 +1,10 @@
 # Levels.Level 1
 
 ROOM_ONE
+#    //x //y //z //axis //width //length //texture
+# left
 
-OldPirate objects/OldPirate/oldPirate.obj -40 0 -40
+
+JackSparrow objects/JackSparrow/Jack_Sparrow.obj 20 0 -50
+Cannon objects/cannon/can.obj 0 0 0 270
 AK_47 objects/AK_47/Ak-47.obj -15 5 0
-

@@ -2,6 +2,7 @@ package Levels;
 
 import CollisionDetection.CollisionDetector;
 import CollisionDetection.ICollisionObj;
+import Game.Character;
 import Game.ShooterGame;
 import LinearMath.Vector;
 import Models.DataAndLoader.LoaderFactory;
@@ -37,6 +38,7 @@ public class Level {
     private HashMap<Integer, List<IModel>> removeQueue = new HashMap<>();
     private boolean removeValid = true;
     CollisionDetector detector = new CollisionDetector();
+    private Character character;
 
     public Level(ObjectLoader loader, GL2 gl, ShooterGame shooterGame) {
         rooms = new ArrayList<>();
@@ -64,6 +66,10 @@ public class Level {
         this.enemies = new ArrayList<>();
         this.levelObserver = shooterGame;
         this.factory = factory;
+    }
+
+    public void setCharacter(Character character) {
+        this.character = character;
     }
     //read and build the level
     public void BuildLevel(String levelDefinition) {
@@ -159,7 +165,7 @@ public class Level {
                         break;
                     // enemies
                     case "JackSparrow":
-                        JackSparrow jack = new JackSparrow(splitData[1],this.factory);
+                        JackSparrow jack = new JackSparrow(splitData[1],this.factory, this);
                         //JackSparrow jack = new JackSparrow(splitData[1]);
                         float[] jackPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
@@ -371,6 +377,9 @@ public class Level {
     }
 
     public void checkCollision(ICollisionObj collisionObj) {
+//        if (checkWithModel(collisionObj, character)) {
+//            return;
+//        }
         for (Room room : rooms) {
             for (IModel model : room.getRoomObjects()) {
                 if (model instanceof ICollisionObj) {
@@ -379,8 +388,23 @@ public class Level {
                         ((ICollisionObj) model).collide(collisionObj);
                         collisionObj.collide((ICollisionObj) model);
                     }
+//                    if (checkWithModel(collisionObj, (ICollisionObj)model)) {
+//                        return;
+//                    }
                 }
             }
         }
+    }
+    public boolean checkWithModel(ICollisionObj collisionObj1, ICollisionObj collisionObj2) {
+        if (collisionObj1 == collisionObj2) {
+        return false;
+        }
+        if (detector.CheckCollision(collisionObj1.getCollisionData(),
+                (collisionObj2.getCollisionData()))) {
+            collisionObj2.collide(collisionObj1);
+            collisionObj1.collide(collisionObj2);
+            return true;
+        }
+        return false;
     }
 }

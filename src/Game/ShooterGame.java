@@ -160,7 +160,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         //character.addWeapon(sword);
         //character.addWeapon(AK_47);
         character.setCurrentLevel(level);
-
+        level.setCharacter(character);
         if (drawable instanceof Window) {
             Window window = (Window) drawable;
             window.addKeyListener(this);

@@ -3,6 +3,8 @@ package Models.Enemys;
 import CollisionDetection.CollisionData;
 import CollisionDetection.CollisionType;
 import CollisionDetection.ICollisionObj;
+import Levels.Level;
+import Levels.Life;
 import LinearMath.Vector;
 import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
@@ -26,7 +28,7 @@ public class JackSparrow extends Enemy implements ICollisionObj {
     public JackSparrow(String path) {
         this.path = path;
     }
-    public JackSparrow(String path, LoaderFactory factory){
+    public JackSparrow(String path, LoaderFactory factory, Level level){
         Pair<List<ObjData>,CollisionData> data = factory.create(path,CollisionType.AABB);
         this.data = data.getKey();
         this.collisionData = data.getValue();
@@ -34,8 +36,8 @@ public class JackSparrow extends Enemy implements ICollisionObj {
         this.rotate(90,'y');
         float[] scale = {0.03f,0.03f,0.03f};
         this.collisionData.setScale(scale);
-        float[] angle = {0,90,0};
-        this.collisionData.setRotate(angle);
+        this.life = new Life();
+        this.level = level;
     }
     public void setStartPos(float[] startPos){
         this.startPos = startPos;
