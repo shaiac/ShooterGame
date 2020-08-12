@@ -185,6 +185,7 @@ public class Shotgun extends Weapon implements ICollisionObj  {
     @Override
     public void weaponPicked(){
         if(!this.picked) {
+            sound.play("resources/SoundEffects/weaponPickUp.wav");
             this.level.removeModel(this);
             this.picked = true;
 

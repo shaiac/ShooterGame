@@ -9,6 +9,7 @@ import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
 import Models.Model;
+import SoundEffects.SoundEffect;
 import javafx.util.Pair;
 
 import javax.media.opengl.GL2;
@@ -18,6 +19,7 @@ public class Heart extends Model implements IGood {
     private String path;
     private CollisionData collisionData;
     private int life = 20;
+
 
     public Heart(String path) {
         this.path = path;
@@ -65,7 +67,7 @@ public class Heart extends Model implements IGood {
 
     @Override
     public void collide(ICollisionObj obj) {
-
+        sound.play("resources/SoundEffects/heal.wav");
     }
 
     @Override

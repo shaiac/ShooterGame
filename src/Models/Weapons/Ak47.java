@@ -181,6 +181,7 @@ public class Ak47 extends Weapon {
     @Override
     public void weaponPicked() {
         if(!this.picked){
+            sound.play("resources/SoundEffects/weaponPickUp.wav");
             this.level.removeModel(this);
 
             this.picked = true;

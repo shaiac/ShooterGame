@@ -18,8 +18,8 @@ wall -60 0 20 x 20 120 woodenWall.jpg
 wall -60 0 -60 y 80 120 woodenWall.jpg n
 #top
 wall -60 20 -60 y 80 120 woodenWall.jpg n
-#JackSparrow objects/JackSparrow/Jack_Sparrow.obj 20 0 -50
-#Cannon objects/cannon/can.obj 0 0 0 270
+JackSparrow objects/JackSparrow/Jack_Sparrow.obj 20 0 -50
+Cannon objects/cannon/can.obj 0 0 0 270
 OldPirate objects/OldPirate/oldPirate.obj -40 0 -40
 Gun objects/Gun/pistol.obj 0 0 0 0
 AK_47 objects/AK_47/Ak-47.obj -15 4 0
@@ -46,12 +46,10 @@ Treasure objects/Treasure/treasure_chest.obj 14 0 -8 90
 OldPirate objects/OldPirate/oldPirate.obj -80 0 -15
 Gun objects/Gun/pistol.obj 0 0 0 0
 
-
-
 ROOM_TWO
 #front
-wall -20 0 -100 x 10 20 woodenWall.jpg
-wall 5 0 -100 x 10 15 woodenWall.jpg
+wall -20 0 -100 x 10 10 woodenWall.jpg
+wall -5 0 -100 x 10 25 woodenWall.jpg
 #left & right
 wall 20 0 -100 z 10 40 woodenWall.jpg
 wall -20 0 -100 z 10 40 woodenWall.jpg
