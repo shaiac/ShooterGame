@@ -8,6 +8,7 @@ import Levels.Level;
 import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
+import SoundEffects.SoundEffect;
 import javafx.util.Pair;
 
 import javax.media.opengl.GL2;
@@ -50,7 +51,7 @@ public class Ak47 extends Weapon {
         //this.scale(0.01f,0.01f,0.01f);
         float[] scale = {0.01f,0.01f,0.01f};
         this.collisionData.setScale(scale);
-
+        this.sound = new SoundEffect();
     }
 
     public void setCoordinateSystem(CoordinateSystem cooSystem) {
@@ -134,11 +135,13 @@ public class Ak47 extends Weapon {
         if (!magazine.isEmpty()) {
             attackMode = true;
             startTime = System.currentTimeMillis();
+            sound.play("resources/SoundEffects/ak47shot.mp3");
         }
     }
 
     @Override
     public int reload() {
+        sound.play("resources/SoundEffects/shotgun_reload.wav");
         return magazine.reload();
     }
 

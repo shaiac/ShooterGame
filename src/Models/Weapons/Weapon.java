@@ -4,6 +4,7 @@ import CollisionDetection.CollisionData;
 import CollisionDetection.ICollisionObj;
 import Game.CoordinateSystem;
 import Models.Model;
+import SoundEffects.SoundEffect;
 
 import javax.media.opengl.GL2;
 
@@ -15,6 +16,10 @@ public abstract class Weapon extends Model implements ICollisionObj {
     protected float[] rotate = {0,0,0};
     protected boolean firstDraw = false;
     protected float[] pos ={0,0,0};
+    SoundEffect sound;
+    public Weapon() {
+        sound = new SoundEffect();
+    }
     public abstract void attack();
     public abstract int reload();
     public abstract void setAngle(float angle);

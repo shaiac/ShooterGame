@@ -10,6 +10,7 @@ import Models.Objects.IObstacle;
 import Models.Weapons.Ammunition;
 import Models.Weapons.Weapon;
 import Models.goods.IGood;
+import SoundEffects.SoundEffect;
 import com.jogamp.newt.event.KeyEvent;
 
 import javax.media.opengl.GL2;
@@ -30,6 +31,7 @@ public class Character implements ICollisionObj {
     private boolean hit;
     private boolean collided = false;
     private Vector lastMove;
+    private SoundEffect sound;
 
     public Character(Weapon startWeapon,CoordinateSystem cooSystem,GL2 gl) {
         this.cooSystem = cooSystem;
@@ -44,6 +46,7 @@ public class Character implements ICollisionObj {
         Vector currnetPos = cooSystem.getOrigin();
         double[] move = {currnetPos.get(0), currnetPos.get(1) - 5, currnetPos.get(2), 0};
         lastMove = new Vector(move,4);
+        this.sound = new SoundEffect();
     }
 
     private void createAABB() {
@@ -92,6 +95,7 @@ public class Character implements ICollisionObj {
     }
 
     public void hit(int reduceLife){
+        sound.play("resources/SoundEffects/Character_get_hit.wav");
         life.reduceLife(reduceLife);
         hit = true;
         //TODO kill when life = 0

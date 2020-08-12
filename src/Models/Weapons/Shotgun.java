@@ -130,11 +130,13 @@ public class Shotgun extends Weapon implements ICollisionObj  {
         if (!magazine.isEmpty()) {
             attackMode = true;
             startTime = System.currentTimeMillis();
+            sound.play("resources/SoundEffects/shotgun-shot.wav");
         }
     }
 
     @Override
     public int reload() {
+        sound.play("resources/SoundEffects/shotgun_reload.wav");
         return magazine.reload();
     }
 
