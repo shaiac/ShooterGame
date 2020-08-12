@@ -5,25 +5,17 @@ Shai Acoca 315314278
  */
 import java.awt.*;
 import java.awt.event.MouseMotionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.media.opengl.*;
 import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.glu.GLU;
 
-import CollisionDetection.PointPolygonIntersection;
 import Levels.GameLevels;
 import Levels.Level;
 import LinearMath.Vector;
 import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjectLoader;
-import Models.Enemys.Enemy;
-import Models.PirateShip;
-import Models.Weapons.Ak47;
-import Models.Weapons.Shotgun;
 import Models.Weapons.Sword;
-import Models.IModel;
 import com.jogamp.newt.Window;
 import com.jogamp.newt.event.KeyAdapter;
 import com.jogamp.newt.event.KeyEvent;
@@ -39,21 +31,21 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
     private static GLCanvas canvas;
     private static Frame frame;
     private static Animator animator;
-    private PointPolygonIntersection ppi;
     private ObjectLoader loader = new ObjectLoader();
-    private List<IModel> models = new ArrayList<>();
     private Character character;
-    private PirateShip pirateShip;
     private Sword sword;
     private GameLevels gameLevels;
     private Level level;
     private double[] mousePos = {0,0,1};
     private boolean attack = false;
-    private List<Enemy> enemies;
     private StartAnimation startAnimation;
     private int levelNum = 0;
     private boolean nextLevel = false;
     private LoaderFactory factory;
+    private GameOver gameOver;
+    private Help help;
+    private boolean needHelp = false;
+    public int playerDecision = -1;
 
     public ShooterGame() {
         this.cooSystem =  new CoordinateSystem();
@@ -61,7 +53,6 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         canvas = new GLCanvas();
         frame = new Frame("ThePirateShip");
         animator = new Animator(canvas);
-        ppi = new PointPolygonIntersection();
         gameLevels = new GameLevels();
     }
 
@@ -69,10 +60,16 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         final GL2 gl = gLDrawable.getGL().getGL2();
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();  // Reset The View
-        if (startAnimation.toStop()) {
-            if(nextLevel){
+        if (needHelp) {
+            animator.pause();
+            help.showHelp();
+        } else if (!character.getAlive()) {
+            animator.stop();
+            gameOver.endGamePage();
+        } else if (startAnimation.toStop()) {
+            if (nextLevel) {
                 nextLevel = false;
-                level = new Level(this.factory,this,loader,gl);
+                level = new Level(this.factory, this, loader, gl);
                 level.BuildLevel(gameLevels.getLevelsList().get(levelNum));
             }
             gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_S, GL2.GL_LINEAR);
@@ -83,15 +80,9 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
             Vector y = cooSystem.getY();
             glu.gluLookAt(origin.get(0), origin.get(1), origin.get(2), lookat.get(0), lookat.get(1), lookat.get(2),
                     y.getVec()[0], y.getVec()[1], y.getVec()[2]);
-//            gl.glPushMatrix();
-//            for (IModel model : models) {
-//                model.draw(gl);
-//            }
-//            gl.glPopMatrix();
             level.updatePos(origin);
             level.updateRooms();
             level.drawRooms();
-            //level.drawEnemies();
             character.draw();
             //attack until release left button
             if (attack) {
@@ -141,7 +132,8 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         level.BuildLevel(gameLevels.getLevelsList().get(levelNum));
 
         startAnimation = new StartAnimation(gl, loader);
-
+        gameOver = new GameOver(gl);
+        help = new Help(gl);
         //character starting weapons
 
         /*Ak47 AK_47 = new Ak47("objects/AK_47/Ak-47.obj", level,this.factory);
@@ -198,17 +190,25 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         int keyPressed = e.getKeyCode();
         if(keyPressed == KeyEvent.VK_SPACE){
             character.attack();
-        }
-        if (keyPressed == KeyEvent.VK_Q) {
+        } else if (keyPressed == KeyEvent.VK_Q) {
             character.changeWeapon();
-        }
-        /*if (keyPressed == KeyEvent.VK_CONTROL) {
-            level.getTmpCannon().fire();
-        }*/
-        else{
+        } else if (keyPressed == KeyEvent.VK_2) {
+            if (!character.getAlive())
+                exit();
+        } else if (keyPressed == KeyEvent.VK_1) {
+            if (!character.getAlive()) {
+                frame.dispose();
+                playerDecision = 1;
+            }
+            //TODO fix restart the game
+        } else if(keyPressed == KeyEvent.VK_F1) {
+            needHelp = true;
+        } else if(keyPressed == KeyEvent.VK_ESCAPE) {
+            needHelp = false;
+            animator.resume();
+        }else {
             character.walk(keyPressed);
         }
-
     }
 
     public void keyReleased(KeyEvent e) {
@@ -228,8 +228,6 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         canvas.addGLEventListener(this);
         frame.add(canvas);
         frame.setSize(800, 600);
-//		frame.setUndecorated(true);
-//		frame.setExtendedState(Frame.MAXIMIZED_BOTH);
         frame.addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent e) {
                 // Run this on another thread than the AWT event queue to
@@ -237,8 +235,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
                 // exiting
                 new Thread(new Runnable() {
                     public void run() {
-                        animator.stop();
-                        System.exit(0);
+                        exit();
                     }
                 }).start();
             }

@@ -32,6 +32,7 @@ public class Character implements ICollisionObj {
     private boolean collided = false;
     private Vector lastMove;
     private SoundEffect sound;
+    private boolean alive = true;
 
     public Character(Weapon startWeapon,CoordinateSystem cooSystem,GL2 gl) {
         this.cooSystem = cooSystem;
@@ -47,6 +48,10 @@ public class Character implements ICollisionObj {
         double[] move = {currnetPos.get(0), currnetPos.get(1) - 5, currnetPos.get(2), 0};
         lastMove = new Vector(move,4);
         this.sound = new SoundEffect();
+    }
+
+    public boolean getAlive() {
+        return alive;
     }
 
     private void createAABB() {
@@ -98,7 +103,9 @@ public class Character implements ICollisionObj {
         sound.play("resources/SoundEffects/Character_get_hit.wav");
         life.reduceLife(reduceLife);
         hit = true;
-        //TODO kill when life = 0
+        if (life.getRemainLife() <= 0) {
+            alive = false;
+        }
     }
 
     public void walk(int keyPressed){

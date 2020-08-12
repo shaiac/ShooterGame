@@ -14,9 +14,11 @@ Shai Acoca 315314278
  */
 public class ComputerGraphicsEx3 {
     public static void main(String[] args) {
-        ShooterGame mg = new ShooterGame();
-        mg.startGame();
-
+        do {
+            ShooterGame shooterGame = new ShooterGame();
+            shooterGame.startGame();
+            while (shooterGame.playerDecision != 1);
+        } while (true);
         //CollisionTests collisionTests = new CollisionTests();
         //collisionTests.test();
     }

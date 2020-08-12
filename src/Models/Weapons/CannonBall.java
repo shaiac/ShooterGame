@@ -26,7 +26,7 @@ public class CannonBall extends Model implements IDamage {
     private CollisionData collisionData;
     private float[] trans = {0,0,0};
     private boolean dead = false;
-    private int demage = 20;
+    private int demage = 10;
 
     public CannonBall(String path) {
         this.path = path;
