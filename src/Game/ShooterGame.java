@@ -47,6 +47,8 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
     private boolean needHelp = false;
     public int playerDecision = -1;
     private boolean firstInit = true;
+    private StartingMenu startingMenu;
+    private boolean starting = true;
 
     public ShooterGame() {
         glu = new GLU();
@@ -63,7 +65,9 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         if (needHelp) {
             animator.pause();
             help.showHelp();
-        } else if (!character.getAlive()) {
+        } else if(starting) {
+            startingMenu.draw();
+        }else if (!character.getAlive()) {
             animator.stop();
             gameOver.endGamePage();
         } else if (startAnimation.toStop()) {
@@ -134,7 +138,13 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
             gameOver = new GameOver(gl);
             help = new Help(gl);
             startAnimation = new StartAnimation(gl, loader);
+            startingMenu = new StartingMenu(gl);
         }
+//        new Thread(new Runnable() {
+//            public void run() {
+//                exit();
+//            }
+//        }).start();
         level = new Level(this.factory,this,loader,gl);
         level.BuildLevel(gameLevels.getLevelsList().get(levelNum));
 
@@ -187,6 +197,9 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
                 character.attack();
                 break;
             case KeyEvent.VK_Q:
+                if (starting) {
+                    exit();
+                }
                 character.changeWeapon();
                 break;
             case KeyEvent.VK_2:
@@ -207,6 +220,8 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
                 needHelp = false;
                 animator.resume();
                 break;
+            case KeyEvent.VK_ENTER:
+                starting = false;
             default:
                 character.walk(keyPressed);
                 break;

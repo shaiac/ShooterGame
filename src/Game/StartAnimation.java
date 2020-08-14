@@ -8,7 +8,7 @@ import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 
 public class StartAnimation {
-    private boolean stopAnimation = true;
+    private boolean stopAnimation = false;
     private GL2 gl;
     private PirateShip pirateShip;
     private CoordinateSystem pirateShipCoor;
