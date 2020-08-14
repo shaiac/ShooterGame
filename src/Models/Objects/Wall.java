@@ -15,6 +15,7 @@ import Models.DataAndLoader.ObjectLoader;
 import Models.Model;
 import com.jogamp.opengl.util.texture.Texture;
 
+import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ public class Wall extends Model implements IObstacle {
     private ObjData data = new ObjData();
     private List<Vector> rectangle;
     private CollisionData collisionData;
+    private float[] normal;
     public Wall(float x,float y,float z,char axis,float width,float length){
         this.x = x;
         this.y = y;
@@ -52,26 +54,25 @@ public class Wall extends Model implements IObstacle {
         this.color[2] = blue;
     }
     public void create(ObjectLoader loader, GL2 gl, float[] pos){
-        List<Vector> rect = new ArrayList<>();
-
         float texwidth = length/40.f;
         float texhieght = width/40.f;
+        float[] normal = getNormal();
         texhieght = 1;
         texwidth = 1;
         list = gl.glGenLists(1);
         gl.glNewList(list,GL2.GL_COMPILE);
+
         gl.glBegin(GL2.GL_QUADS);
         if(color != null){
             gl.glColor3f(color[0],color[1],color[2]);
         }
+        gl.glNormal3fv(normal,0);
         gl.glTexCoord2f(0.0f,0.0f);
         gl.glVertex3f(x,y,z);
         double[] min = {x,y,z,1};
         double[] max = {x,y,z,1};
-        double[] arrPoint1 = {x,y,z,1};
-        Vector Vec1 = new Vector(arrPoint1,4);
-        rect.add(Vec1);
-        gl.glTexCoord2f(0f,texhieght);
+
+
         switch(axis){
             case 'y':
                 z+=width;
@@ -79,6 +80,8 @@ public class Wall extends Model implements IObstacle {
             default:
                 y+=width;
         }
+        gl.glNormal3fv(normal,0);
+        gl.glTexCoord2f(0f,texhieght);
         gl.glVertex3f(x,y,z);
 
         if(x<min[0]){
@@ -97,10 +100,7 @@ public class Wall extends Model implements IObstacle {
             max[2] = z;
         }
 
-        double[] arrPoint2 = {x,y,z,1};
-        Vector Vec2 = new Vector(arrPoint2,4);
-        rect.add(Vec2);
-        insertVertex(x,y,z);
+
         switch(axis){
             case 'z':
                 z+=length;
@@ -108,6 +108,7 @@ public class Wall extends Model implements IObstacle {
             default:
                 x+=length;
         }
+        gl.glNormal3fv(normal,0);
         gl.glTexCoord2f(texwidth,texhieght);
         gl.glVertex3f(x,y,z);
 
@@ -127,10 +128,7 @@ public class Wall extends Model implements IObstacle {
             max[2] = z;
         }
 
-        double[] arrPoint3 = {x,y,z,1};
-        Vector Vec3 = new Vector(arrPoint3,4);
-        rect.add(Vec3);
-        insertVertex(x,y,z);
+
         switch(axis){
             case 'y':
                 z-=width;
@@ -138,6 +136,7 @@ public class Wall extends Model implements IObstacle {
             default:
                 y-=width;
         }
+        gl.glNormal3fv(normal,0);
         gl.glTexCoord2f(texwidth,0f);
         gl.glVertex3f(x,y,z);
 
@@ -157,10 +156,6 @@ public class Wall extends Model implements IObstacle {
             max[2] = z;
         }
 
-        double[] arrPoint4 = {x,y,z,1};
-        Vector Vec4 = new Vector(arrPoint4,4);
-        rect.add(Vec4);
-        insertVertex(x,y,z);
         gl.glEnd();
         gl.glEndList();
         data.setList(list);
@@ -182,6 +177,14 @@ public class Wall extends Model implements IObstacle {
     }
     @Override
     public void draw(GL2 gl){
+        float[] color = {0.8f,0.8f,0.8f,1};
+        float[] ambient = {1,1,1,1};
+        float[] spec = {1,1,1,1};
+        //gl.glMaterialfv(GL2.GL_FRONT_AND_BACK,GL2.GL_DIFFUSE,color,0);
+        //gl.glMaterialfv(GL2.GL_FRONT_AND_BACK,GL2.GL_AMBIENT,ambient,0);
+        //gl.glMaterialfv(GL2.GL_FRONT_AND_BACK,GL2.GL_SPECULAR,spec,0);
+        //gl.glFrontFace(GL.GL_CW);
+        //gl.glMaterialfv(GL2.GL_FRONT_AND_BACK,GL2.GL_S);
         this.collisionData.draw(gl);
         data.draw(gl);
     }
@@ -218,6 +221,29 @@ public class Wall extends Model implements IObstacle {
 
     }
 
+    private float[] getNormal(){
+        float[] normal = {0,0,0};
+        if(axis == 'x'){
+            if(length > 0){
+                normal[2] = -1;
+            } else {
+                normal[2] = 1;
+            }
+        } else if(axis == 'z'){
+            if(length > 0){
+                normal[0] = -1;
+            }else{
+                normal[0] = 1;
+            }
+        } else {
+            if(this.y == 0){
+                normal[1] = 1;
+            }else{
+                normal[1] = -1;
+            }
+        }
+        return normal;
+    }
     @Override
     public CollisionData getCollisionData() {
         return this.collisionData;
