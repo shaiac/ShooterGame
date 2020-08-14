@@ -75,7 +75,9 @@ public class Treasure extends Model implements IGood {
 
     @Override
     public void pick(Character character) {
-        this.level.removeModel(this);
-        this.level.levelEnded();
+        if (level.allEnemiesDead()) {
+            this.level.removeModel(this);
+            this.level.levelEnded();
+        }
     }
 }

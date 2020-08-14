@@ -40,5 +40,6 @@ public abstract class Enemy extends Model {
     private void dead(){
         sound.play("resources/SoundEffects/enemyDie.mp3");
         level.removeModel(this);
+        level.removeEnemy(this);
     }
 }

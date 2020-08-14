@@ -366,10 +366,13 @@ public class Level {
             enemy.updateOrigin(origin);
         }
     }
-    public void drawEnemies(){
-        for (Enemy enemy:enemies) {
-            enemy.draw(gl);
-        }
+
+    public boolean allEnemiesDead() {
+        return enemies.isEmpty();
+    }
+
+    public void removeEnemy(Enemy enemy){
+        enemies.remove(enemy);
     }
     public List<Room> getRooms(){
         return rooms;
