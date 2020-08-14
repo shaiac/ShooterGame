@@ -1,15 +1,11 @@
 package Game;
 
 import com.jogamp.opengl.util.awt.TextRenderer;
-
-import javax.media.opengl.GL2;
 import java.awt.*;
 
 public class StartingMenu {
-    private GL2 gl;
     private TextRenderer renderer;
-    public StartingMenu(GL2 gl) {
-        this.gl = gl;
+    public StartingMenu() {
         renderer = new TextRenderer(new Font("Helvetica", Font.PLAIN, 50));
     }
 

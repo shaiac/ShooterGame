@@ -1,15 +1,11 @@
 package Game;
 
 import com.jogamp.opengl.util.awt.TextRenderer;
-
-import javax.media.opengl.GL2;
 import java.awt.*;
 
 public class Help {
-    private GL2 gl;
     private TextRenderer renderer;
-    Help(GL2 gl) {
-        this.gl = gl;
+    Help() {
         renderer = new TextRenderer(new Font("Helvetica", Font.PLAIN, 20));
     }
 

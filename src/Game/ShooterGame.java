@@ -67,7 +67,6 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         final GL2 gl = gLDrawable.getGL().getGL2();
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();  // Reset The View
-
         //calculate fps
         fps.updateTime(System.currentTimeMillis() - startTime);
         startTime = System.currentTimeMillis();
@@ -112,6 +111,8 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
     }
 
     public void init(GLAutoDrawable drawable) {
+        ControlSubThread subThread= new ControlSubThread(canvas);
+        subThread.start();
         final GL2 gl = drawable.getGL().getGL2();
         gl.glShadeModel(GL2.GL_SMOOTH);              // Enable Smooth Shading
         gl.glClearColor(0.0f, 0.3f, 1f, 0.5f);    // Black Background
@@ -148,19 +149,14 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         if (firstInit) {
             this.factory = new LoaderFactory(this.loader, gl);
             firstInit = false;
-            gameOver = new GameOver(gl);
-            help = new Help(gl);
+            gameOver = new GameOver();
+            help = new Help();
             startAnimation = new StartAnimation(gl, loader);
-            startingMenu = new StartingMenu(gl);
+            startingMenu = new StartingMenu();
         }
-//        new Thread(new Runnable() {
-//            public void run() {
-//                exit();
-//            }
-//        }).start();
         level = new Level(this.factory,this,loader,gl);
         level.BuildLevel(gameLevels.getLevelsList().get(levelNum));
-
+        subThread.stop();
         //Setting the character
         sword = new Sword("objects/RzR/rzr.obj",level,this.factory);
         float[] pos = {0f,5f,-10f};
@@ -268,12 +264,11 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
                 break;
             case KeyEvent.VK_ENTER:
                 starting = false;
+                animator.start();
             default:
                 //character.walk(keyPressed);
                 break;
         }
-
-
     }
 
     public void keyReleased(KeyEvent e) {
@@ -329,7 +324,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
             }
         });
         frame.setVisible(true);
-        animator.start();
+        //animator.start();
         canvas.requestFocus();
     }
 
@@ -395,44 +390,34 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
 
     @Override
     public void mouseMoved(MouseEvent mouseEvent) {
-        double[] mPos = {mouseEvent.getX(), mouseEvent.getY(),1};
-        if(mPos[0] > frame.getWidth()){
-            mPos[0] = frame.getWidth();
-        }
-        if(mPos[1] > frame.getHeight()){
-            mPos[1] = frame.getHeight();
-        }
-        if(mPos[0] < 0){
-            mPos[0] = 0;
-        }
-        if(mPos[1] < 0){
-            mPos[1] = 0;
-        }
-        double angle = Math.PI*4/(double) frame.getWidth();
-        double diff = mPos[0] - mousePos[0];
-        character.rotate('y',diff*angle);
-        mousePos = mPos;
+        moveCamera(mouseEvent);
     }
 
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
-        double[] mPos = {mouseEvent.getX(), mouseEvent.getY(),1};
-        if(mPos[0] > frame.getWidth()){
-            mPos[0] = frame.getWidth();
+        moveCamera(mouseEvent);
+    }
+
+    private void moveCamera(MouseEvent mouseEvent) {
+        if (!needHelp) {
+            double[] mPos = {mouseEvent.getX(), mouseEvent.getY(), 1};
+            if (mPos[0] > frame.getWidth()) {
+                mPos[0] = frame.getWidth();
+            }
+            if (mPos[1] > frame.getHeight()) {
+                mPos[1] = frame.getHeight();
+            }
+            if (mPos[0] < 0) {
+                mPos[0] = 0;
+            }
+            if (mPos[1] < 0) {
+                mPos[1] = 0;
+            }
+            double angle = Math.PI * 4 / (double) frame.getWidth();
+            double diff = mPos[0] - mousePos[0];
+            character.rotate('y', diff * angle);
+            mousePos = mPos;
         }
-        if(mPos[1] > frame.getHeight()){
-            mPos[1] = frame.getHeight();
-        }
-        if(mPos[0] < 0){
-            mPos[0] = 0;
-        }
-        if(mPos[1] < 0){
-            mPos[1] = 0;
-        }
-        double angle = Math.PI*4/(double) frame.getWidth();
-        double diff = mPos[0] - mousePos[0];
-        character.rotate('y',diff*angle);
-        mousePos = mPos;
     }
 
     @Override

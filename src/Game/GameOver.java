@@ -1,15 +1,11 @@
 package Game;
 
 import com.jogamp.opengl.util.awt.TextRenderer;
-
-import javax.media.opengl.GL2;
 import java.awt.*;
 
 class GameOver {
-    private GL2 gl;
     private TextRenderer renderer;
-    GameOver(GL2 gl) {
-        this.gl = gl;
+    GameOver() {
         renderer = new TextRenderer(new Font("Helvetica", Font.PLAIN, 40));
     }
 
