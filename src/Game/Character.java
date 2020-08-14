@@ -182,7 +182,7 @@ public class Character implements ICollisionObj {
             case KeyEvent.VK_R:
                 reload();
                 break;
-            case KeyEvent.VK_L:
+            case KeyEvent.VK_F2:
                 currentLevel.levelEnded();
                 break;
         }

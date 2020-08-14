@@ -46,9 +46,9 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
     private Help help;
     private boolean needHelp = false;
     public int playerDecision = -1;
+    private boolean firstInit = true;
 
     public ShooterGame() {
-        this.cooSystem =  new CoordinateSystem();
         glu = new GLU();
         canvas = new GLCanvas();
         frame = new Frame("ThePirateShip");
@@ -69,8 +69,9 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         } else if (startAnimation.toStop()) {
             if (nextLevel) {
                 nextLevel = false;
-                level = new Level(this.factory, this, loader, gl);
-                level.BuildLevel(gameLevels.getLevelsList().get(levelNum));
+//                level = new Level(this.factory, this, loader, gl);
+//                level.BuildLevel(gameLevels.getLevelsList().get(levelNum));
+                init(gLDrawable);
             }
             gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_S, GL2.GL_LINEAR);
             gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_T, GL2.GL_LINEAR);
@@ -125,34 +126,27 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         gl.glEnable(GL2.GL_LIGHT1);
 
         gl.glEnable(GL2.GL_LIGHTING);
+        this.cooSystem =  new CoordinateSystem();
         //end of lightning
-
-        this.factory = new LoaderFactory(this.loader,gl);
+        if (firstInit) {
+            this.factory = new LoaderFactory(this.loader, gl);
+            firstInit = false;
+            gameOver = new GameOver(gl);
+            help = new Help(gl);
+            startAnimation = new StartAnimation(gl, loader);
+        }
         level = new Level(this.factory,this,loader,gl);
         level.BuildLevel(gameLevels.getLevelsList().get(levelNum));
 
-        startAnimation = new StartAnimation(gl, loader);
-        gameOver = new GameOver(gl);
-        help = new Help(gl);
-        //character starting weapons
-
-        /*Ak47 AK_47 = new Ak47("objects/AK_47/Ak-47.obj", level,this.factory);
-        level.addModel(AK_47);
-
-        Shotgun shotgun = new Shotgun("objects/Shotgun/GunTwo.obj", level,this.factory);
-        level.addModel(shotgun);*/
-
+        //Setting the character
         sword = new Sword("objects/RzR/rzr.obj",level,this.factory);
         float[] pos = {0f,5f,-10f};
         sword.setStartPos(pos);
-        //sword.create(loader,gl,pos);
         level.addModel(sword);
-
         this.character = new Character(sword,this.cooSystem,gl);
-        //character.addWeapon(sword);
-        //character.addWeapon(AK_47);
         character.setCurrentLevel(level);
         level.setCharacter(character);
+
         if (drawable instanceof Window) {
             Window window = (Window) drawable;
             window.addKeyListener(this);
@@ -188,27 +182,37 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
     public void keyPressed(KeyEvent e) {
 
         int keyPressed = e.getKeyCode();
-        if(keyPressed == KeyEvent.VK_SPACE){
-            character.attack();
-        } else if (keyPressed == KeyEvent.VK_Q) {
-            character.changeWeapon();
-        } else if (keyPressed == KeyEvent.VK_2) {
-            if (!character.getAlive())
-                exit();
-        } else if (keyPressed == KeyEvent.VK_1) {
-            if (!character.getAlive()) {
-                frame.dispose();
-                playerDecision = 1;
-            }
-            //TODO fix restart the game
-        } else if(keyPressed == KeyEvent.VK_F1) {
-            needHelp = true;
-        } else if(keyPressed == KeyEvent.VK_ESCAPE) {
-            needHelp = false;
-            animator.resume();
-        }else {
-            character.walk(keyPressed);
+        switch (keyPressed) {
+            case KeyEvent.VK_SPACE:
+                character.attack();
+                break;
+            case KeyEvent.VK_Q:
+                character.changeWeapon();
+                break;
+            case KeyEvent.VK_2:
+                if (!character.getAlive())
+                    exit();
+                break;
+            case KeyEvent.VK_1:
+                if (!character.getAlive()) {
+                    frame.dispose();
+                    playerDecision = 1;
+                }
+                //TODO fix restart the game
+                break;
+            case KeyEvent.VK_F1:
+                needHelp = true;
+                break;
+            case KeyEvent.VK_ESCAPE:
+                needHelp = false;
+                animator.resume();
+                break;
+            default:
+                character.walk(keyPressed);
+                break;
         }
+
+
     }
 
     public void keyReleased(KeyEvent e) {
