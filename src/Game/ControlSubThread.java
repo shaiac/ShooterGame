@@ -9,8 +9,8 @@ public class ControlSubThread implements Runnable {
     private final AtomicBoolean running = new AtomicBoolean(false);
     private int interval = 0;
 
-    public ControlSubThread(Canvas canvas) {
-        this.loadingPage = new LoadingPage(canvas);
+    public ControlSubThread(Canvas canvas, LoadingPage loadingPage) {
+        this.loadingPage = loadingPage;
         interval = 1000;
     }
 

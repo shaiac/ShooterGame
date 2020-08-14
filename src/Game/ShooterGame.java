@@ -4,7 +4,11 @@ Ziv Zaarur 206099913
 Shai Acoca 315314278
  */
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.media.opengl.*;
 import javax.media.opengl.awt.GLCanvas;
@@ -54,6 +58,8 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
     private boolean reload = false;
     private FPS fps = new FPS();
     private long startTime;
+    private LoadingPage loadingPage;
+    protected List<GamePage> gamePages = new ArrayList<>();
 
     public ShooterGame() {
         glu = new GLU();
@@ -111,7 +117,10 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
     }
 
     public void init(GLAutoDrawable drawable) {
-        ControlSubThread subThread= new ControlSubThread(canvas);
+        loadingPage =  new LoadingPage(canvas.getGraphics(), frame.getHeight(),
+                frame.getWidth(), "resources/pirate_ship.jpg");
+        gamePages.add(loadingPage);
+        ControlSubThread subThread= new ControlSubThread(canvas, loadingPage);
         subThread.start();
         final GL2 gl = drawable.getGL().getGL2();
         gl.glShadeModel(GL2.GL_SMOOTH);              // Enable Smooth Shading
@@ -152,7 +161,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
             gameOver = new GameOver();
             help = new Help();
             startAnimation = new StartAnimation(gl, loader);
-            startingMenu = new StartingMenu();
+            startingMenu = new StartingMenu(gl);
         }
         level = new Level(this.factory,this,loader,gl);
         level.BuildLevel(gameLevels.getLevelsList().get(levelNum));
@@ -165,7 +174,6 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         this.character = new Character(sword,this.cooSystem,gl);
         character.setCurrentLevel(level);
         level.setCharacter(character);
-
         startTime = System.currentTimeMillis();
 
         if (drawable instanceof Window) {
@@ -324,8 +332,16 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
             }
         });
         frame.setVisible(true);
-        //animator.start();
         canvas.requestFocus();
+        frame.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                for (GamePage page : gamePages) {
+                    page.setSize(e.getComponent().getSize());
+                    page.reSized();
+                }
+            }
+        });
     }
 
     @Override
