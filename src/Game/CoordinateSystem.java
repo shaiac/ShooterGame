@@ -56,6 +56,12 @@ public class CoordinateSystem {
      }
 
  }
+ public void moveStep(float[] step){
+     lastOrigin = origin;
+     origin = origin.Add(x.Multiply(step[0]));
+     origin = origin.Add(y.Multiply(step[1]));
+     origin = origin.Add(z.Multiply(step[2]));
+ }
  public void revertStep(){
      origin = lastOrigin;
 

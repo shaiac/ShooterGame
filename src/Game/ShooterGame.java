@@ -49,6 +49,11 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
     private boolean firstInit = true;
     private StartingMenu startingMenu;
     private boolean starting = true;
+    private float[] movement = {0,0,0};
+    private double[] rotate = {0,0,0};
+    private boolean reload = false;
+    private FPS fps = new FPS();
+    private long startTime;
 
     public ShooterGame() {
         glu = new GLU();
@@ -62,6 +67,10 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         final GL2 gl = gLDrawable.getGL().getGL2();
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();  // Reset The View
+
+        //calculate fps
+        fps.updateTime(System.currentTimeMillis() - startTime);
+        startTime = System.currentTimeMillis();
         if (needHelp) {
             animator.pause();
             help.showHelp();
@@ -88,7 +97,11 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
             level.updatePos(origin);
             level.updateRooms();
             level.drawRooms();
+
+
             character.draw();
+            character.move(movement);
+            character.rotate('y',rotate[1]);
             //attack until release left button
             if (attack) {
                 character.attack();
@@ -157,6 +170,8 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         character.setCurrentLevel(level);
         level.setCharacter(character);
 
+        startTime = System.currentTimeMillis();
+
         if (drawable instanceof Window) {
             Window window = (Window) drawable;
             window.addKeyListener(this);
@@ -190,9 +205,39 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
     }
 
     public void keyPressed(KeyEvent e) {
+        float step = 20f;
+        double angle = Math.PI/36;
+        //float[] movement = {0,0,0};
 
         int keyPressed = e.getKeyCode();
         switch (keyPressed) {
+            case KeyEvent.VK_W:
+                movement[2] = -step;
+                break;
+            case KeyEvent.VK_A:
+                movement[0] = -step;
+
+                break;
+            case KeyEvent.VK_D:
+                movement[0] = step;
+
+                break;
+            case KeyEvent.VK_S:
+                movement[2] = step;
+
+                break;
+            case KeyEvent.VK_RIGHT:
+                rotate[1] = angle;
+                break;
+            case KeyEvent.VK_LEFT:
+                rotate[1] = -angle;
+                break;
+            case KeyEvent.VK_R:
+                this.character.reload();
+                break;
+            case KeyEvent.VK_F2:
+                this.level.levelEnded();
+                break;
             case KeyEvent.VK_SPACE:
                 character.attack();
                 break;
@@ -217,13 +262,14 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
                 needHelp = true;
                 break;
             case KeyEvent.VK_ESCAPE:
+                startTime = System.currentTimeMillis();
                 needHelp = false;
                 animator.resume();
                 break;
             case KeyEvent.VK_ENTER:
                 starting = false;
             default:
-                character.walk(keyPressed);
+                //character.walk(keyPressed);
                 break;
         }
 
@@ -231,6 +277,29 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
     }
 
     public void keyReleased(KeyEvent e) {
+        switch (e.getKeyCode()){
+            case KeyEvent.VK_W:
+                movement[2] = 0;
+                break;
+            case KeyEvent.VK_A:
+                movement[0] = 0;
+
+                break;
+            case KeyEvent.VK_D:
+                movement[0] = 0;
+
+                break;
+            case KeyEvent.VK_S:
+                movement[2] = 0;
+
+                break;
+            case KeyEvent.VK_RIGHT:
+                rotate[1] = 0;
+                break;
+            case KeyEvent.VK_LEFT:
+                rotate[1] = -0;
+                break;
+        }
     }
 
     public void keyTyped(KeyEvent e) {

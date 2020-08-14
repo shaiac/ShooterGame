@@ -130,7 +130,7 @@ public class Shotgun extends Weapon implements ICollisionObj  {
         if (!magazine.isEmpty()) {
             attackMode = true;
             startTime = System.currentTimeMillis();
-            sound.play("resources/SoundEffects/shotgun-shot.wav");
+
         }
     }
 
@@ -166,6 +166,7 @@ public class Shotgun extends Weapon implements ICollisionObj  {
                 float[] bulletPos2 = {0.6f,-0.38f,-3.9f};
                 addAsRoomModel(magazine.shotBullet(pos1,bulletPos1,bulletPath,this.level));
                 addAsRoomModel(magazine.shotBullet(pos2,bulletPos2,bulletPath,this.level));
+                sound.play("resources/SoundEffects/shotgun-shot.wav");
             }
             rChange -= (5f/duration)*milliseconds;
             gl.glRotatef(rChange,1,0,0);

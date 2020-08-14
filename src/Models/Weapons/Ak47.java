@@ -135,7 +135,7 @@ public class Ak47 extends Weapon {
         if (!magazine.isEmpty()) {
             attackMode = true;
             startTime = System.currentTimeMillis();
-            sound.play("resources/SoundEffects/ak47shot.mp3");
+
         }
     }
 
@@ -161,6 +161,7 @@ public class Ak47 extends Weapon {
                         , (float) cooSystem.getOrigin().getVec()[2]};
                 float[] pos2 = {0f,-0.48f,-3.9f};
                addAsRoomModel(magazine.shotBullet(pos1,pos2,bulletPath,this.level));
+                sound.play("resources/SoundEffects/ak47shot.mp3");
             }
             rChange += (5f/duration)*milliseconds;
             gl.glRotatef(rChange,0,1,0);

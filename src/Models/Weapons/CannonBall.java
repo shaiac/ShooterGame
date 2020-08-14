@@ -5,6 +5,7 @@ import CollisionDetection.CollisionData;
 import CollisionDetection.CollisionType;
 import CollisionDetection.ICollisionObj;
 import Game.Character;
+import Game.FPS;
 import Levels.Level;
 import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
@@ -86,7 +87,7 @@ public class CannonBall extends Model implements IDamage {
         //calculate fps
         long endTime = System.currentTimeMillis();
         long timePassed = endTime - startTime;
-        move -= 0.02f * (float) timePassed;
+        move -= 0.02f * (float) FPS.timePassed;
         //move -= 10f;
         startTime = System.currentTimeMillis();
 

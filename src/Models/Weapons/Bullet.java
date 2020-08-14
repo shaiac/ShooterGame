@@ -4,6 +4,7 @@ import CollisionDetection.CollisionData;
 import CollisionDetection.CollisionType;
 import CollisionDetection.ICollisionObj;
 import Game.Character;
+import Game.FPS;
 import Levels.Level;
 import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
@@ -64,8 +65,8 @@ public class Bullet extends Model implements IDamage {
         checkCollision();
         long endTime = System.currentTimeMillis();
         long timePassed = endTime- startTime;
-        //move -= 0.03f*(float)timePassed;
-        move -= 1.5f;
+        move -= 0.03f*(float) FPS.timePassed;
+        //move -= 1.5f;
         startTime = System.currentTimeMillis();
 
         //update collision data

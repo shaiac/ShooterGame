@@ -38,6 +38,7 @@ public class Character implements ICollisionObj {
     private Vector lastMove;
     private SoundEffect sound;
     private boolean alive = true;
+    private long startTime = System.currentTimeMillis();
 
     public Character(Weapon startWeapon,CoordinateSystem cooSystem,GL2 gl) {
         this.cooSystem = cooSystem;
@@ -116,60 +117,23 @@ public class Character implements ICollisionObj {
     public void walk(int keyPressed){
         float step = 0.5f;
         double angle = Math.PI/36;
-
+        float[] movement = {0,0,0};
         Vector currentPos;
         switch (keyPressed) {
             case KeyEvent.VK_W:
-                cooSystem.moveStep('z', -step);
-                currentPos = cooSystem.getOrigin();
-                double[] moveW = {currentPos.get(0), currentPos.get(1) - 5, currentPos.get(2), 0};
-                toMove = new Vector(moveW, 4);
-                collisionData.move(toMove);
-                checkCollision();
-                if(collided){
-                    collided = false;
-                } else {
-                    lastMove = toMove;
-                }
+                movement[2] = -step;
                 break;
             case KeyEvent.VK_A:
-                cooSystem.moveStep('x', -step);
-                currentPos = cooSystem.getOrigin();
-                double[] moveA = {currentPos.get(0), currentPos.get(1) - 5, currentPos.get(2), 0};
-                toMove = new Vector(moveA, 4);
-                collisionData.move(toMove);
-                checkCollision();
-                if(collided){
-                    collided = false;
-                } else {
-                    lastMove = toMove;
-                }
+                movement[0] = -step;
+
                 break;
             case KeyEvent.VK_D:
-                cooSystem.moveStep('x', step);
-                currentPos = cooSystem.getOrigin();
-                double[] moveD = {currentPos.get(0), currentPos.get(1) - 5, currentPos.get(2), 0};
-                toMove = new Vector(moveD, 4);
-                collisionData.move(toMove);
-                checkCollision();
-                if(collided){
-                    collided = false;
-                } else {
-                    lastMove = toMove;
-                }
+                movement[0] = step;
+
                 break;
             case KeyEvent.VK_S:
-                cooSystem.moveStep('z', step);
-                currentPos = cooSystem.getOrigin();
-                double[] moveZ = {currentPos.get(0), currentPos.get(1) - 5, currentPos.get(2), 0};
-                toMove = new Vector(moveZ, 4);
-                collisionData.move(toMove);
-                checkCollision();
-                if(collided){
-                    collided = false;
-                } else {
-                    lastMove = toMove;
-                }
+                movement[2] = step;
+
                 break;
             case KeyEvent.VK_RIGHT:
                 cooSystem.rotate('y', angle);
@@ -187,6 +151,39 @@ public class Character implements ICollisionObj {
                 break;
         }
 
+        if(movement[0] != 0 || movement[2] != 0){
+            cooSystem.moveStep(movement);
+            currentPos = cooSystem.getOrigin();
+            double[] moveA = {currentPos.get(0), currentPos.get(1) - 5, currentPos.get(2), 0};
+            toMove = new Vector(moveA, 4);
+            collisionData.move(toMove);
+            checkCollision();
+            if(collided){
+                collided = false;
+            } else {
+                lastMove = toMove;
+            }
+        }
+
+    }
+    public void move(float[] movement){
+
+        movement[0] = movement[0] *FPS.timePassed/1000;
+        movement[2] = movement[2] *FPS.timePassed/1000;
+
+        if(movement[0] != 0 || movement[2] != 0){
+            cooSystem.moveStep(movement);
+            Vector currentPos = cooSystem.getOrigin();
+            double[] moveA = {currentPos.get(0), currentPos.get(1) - 5, currentPos.get(2), 0};
+            toMove = new Vector(moveA, 4);
+            collisionData.move(toMove);
+            checkCollision();
+            if(collided){
+                collided = false;
+            } else {
+                lastMove = toMove;
+            }
+        }
     }
     public void rotate(char axis, double angle){
         cooSystem.rotate(axis,angle);
