@@ -73,13 +73,18 @@ public class ObjData {
 
 
     public void draw(GL2 gl){
+        //enable texture
         gl.glPushMatrix();
+        gl.glEnable(GL2.GL_TEXTURE_2D);
+
+        gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR);
+        gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR);
         gl.glTexParameteri ( GL2.GL_TEXTURE_2D,GL2.GL_TEXTURE_WRAP_S, textureWrap);
         gl.glTexParameteri( GL2.GL_TEXTURE_2D,GL2.GL_TEXTURE_WRAP_T, textureWrap);
         gl.glTranslatef(translate[0],translate[1],translate[2]);
 
 
-
+        //transformation
         gl.glRotatef(angleX,1,0,0);
         gl.glRotatef(angleY,0,1,0);
         gl.glRotatef(angleZ,0,0,1);
@@ -90,6 +95,7 @@ public class ObjData {
             texture.bind(gl);
         //TODO add material handler
         gl.glCallList(list);
+        gl.glDisable(GL2.GL_TEXTURE_2D);
         gl.glPopMatrix();
 
     }

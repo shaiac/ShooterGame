@@ -81,19 +81,27 @@ public class JackSparrow extends Enemy implements ICollisionObj {
         gl.glTranslatef(startPos[0],startPos[1],startPos[2]);
         gl.glRotatef(angle,0,1,0);
         if(hit){
-            gl.glColor3f(1,0,0);
-            if(System.currentTimeMillis() - startHit > 1000){
+            float[] color = {0f, 1f, 0f, 1f};
+            gl.glMaterialfv(GL2.GL_FRONT_AND_BACK,GL2.GL_AMBIENT_AND_DIFFUSE,color,1);
+
+
+            if(System.currentTimeMillis() - startHit > 500){
                 hit = false;
             }
         }
         for (ObjData obj:data) {
             obj.draw(gl);
         }
+        float[] color = {1f, 1, 1, 1};
+        gl.glMaterialfv(GL2.GL_FRONT_AND_BACK,GL2.GL_AMBIENT_AND_DIFFUSE,color,1);
         gl.glPushMatrix();
         gl.glTranslatef(4f,0,0);
         this.weapon.draw(gl);
         gl.glPopMatrix();
+
         gl.glPopMatrix();
+
+
     }
 
     @Override

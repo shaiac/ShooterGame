@@ -27,7 +27,7 @@ public abstract class Weapon extends Model implements ICollisionObj {
     public abstract void setCoordinateSystem(CoordinateSystem coordinateSystem);
 
     public void weaponPicked() {
-        sound.play("resources/SoundEffects/weaponPickUp.wav");
+        //sound.play("resources/SoundEffects/weaponPickUp.wav");
         this.picked = true;
         this.level.removeModel(this);
     }

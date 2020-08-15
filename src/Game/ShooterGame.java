@@ -60,6 +60,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
     private long startTime;
     private LoadingPage loadingPage;
     protected List<GamePage> gamePages = new ArrayList<>();
+    private ControlSubThread subThread;
 
     public ShooterGame() {
         glu = new GLU();
@@ -90,7 +91,9 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
                 nextLevel = false;
 //                level = new Level(this.factory, this, loader, gl);
 //                level.BuildLevel(gameLevels.getLevelsList().get(levelNum));
-                init(gLDrawable);
+                this.subThread= new ControlSubThread(canvas, loadingPage);
+                this.subThread.start();
+                loadLevel(gl);
             }
             character.step(movement);
             gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_S, GL2.GL_LINEAR);
@@ -121,7 +124,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         loadingPage =  new LoadingPage(canvas.getGraphics(), frame.getHeight(),
                 frame.getWidth(), "resources/pirate_ship.jpg");
         gamePages.add(loadingPage);
-        ControlSubThread subThread= new ControlSubThread(canvas, loadingPage);
+        this.subThread= new ControlSubThread(canvas, loadingPage);
         subThread.start();
         final GL2 gl = drawable.getGL().getGL2();
         gl.glShadeModel(GL2.GL_SMOOTH);              // Enable Smooth Shading
@@ -131,10 +134,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         gl.glDepthFunc(GL2.GL_LEQUAL);               // The Type Of Depth Testing To Do
         // Really Nice Perspective Calculations
         gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT, GL2.GL_NICEST);
-        gl.glEnable(GL2.GL_TEXTURE_2D);
 
-        gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR);
-        gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR);
         gl.glEnable(GL2.GL_LIGHTING);
 
         // Light
@@ -154,7 +154,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         gl.glEnable(GL2.GL_LIGHT1);
 
         gl.glEnable(GL2.GL_LIGHTING);
-        this.cooSystem =  new CoordinateSystem();
+
         //end of lightning
         if (firstInit) {
             this.factory = new LoaderFactory(this.loader, gl);
@@ -164,6 +164,22 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
             startAnimation = new StartAnimation(gl, loader);
             startingMenu = new StartingMenu(gl);
         }
+
+        loadLevel(gl);
+
+        if (drawable instanceof Window) {
+            Window window = (Window) drawable;
+            window.addKeyListener(this);
+            window.addMouseListener(this);
+        } else if (GLProfile.isAWTAvailable() && drawable instanceof java.awt.Component) {
+            java.awt.Component comp = (java.awt.Component) drawable;
+            new AWTKeyAdapter(this, drawable).addTo(comp);
+            new AWTMouseAdapter(this,drawable).addTo(comp);
+            character.setCurrentLevel(level);
+        }
+    }
+    public void loadLevel(GL2 gl){
+        this.cooSystem =  new CoordinateSystem();
         level = new Level(this.factory,this,loader,gl);
         level.BuildLevel(gameLevels.getLevelsList().get(levelNum));
         subThread.stop();
@@ -176,17 +192,6 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         character.setCurrentLevel(level);
         level.setCharacter(character);
         startTime = System.currentTimeMillis();
-
-        if (drawable instanceof Window) {
-            Window window = (Window) drawable;
-            window.addKeyListener(this);
-            window.addMouseListener(this);
-        } else if (GLProfile.isAWTAvailable() && drawable instanceof java.awt.Component) {
-            java.awt.Component comp = (java.awt.Component) drawable;
-            new AWTKeyAdapter(this, drawable).addTo(comp);
-            new AWTMouseAdapter(this,drawable).addTo(comp);
-            character.setCurrentLevel(level);
-        }
     }
 
     public void currentLevelEnded(GL2 gl) {

@@ -22,12 +22,7 @@ public class Sword extends Weapon implements IDamage {
     private long startTime = 0;
     private long endTime = 0;
     private long milliseconds;
-    public Sword(String inPath){
 
-        this.path = inPath;
-        ammu = 0;
-        weapontype = WeaponType.SWORD;
-    }
     public Sword(String path, Level level, LoaderFactory factory){
         this.data = factory.create(path);
         this.translate(1f,0f,0f);

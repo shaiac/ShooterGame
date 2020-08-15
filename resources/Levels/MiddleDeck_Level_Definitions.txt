@@ -24,6 +24,7 @@ OldPirate objects/OldPirate/oldPirate.obj -40 0 -40
 Gun objects/Gun/pistol.obj 0 0 0 0
 AK_47 objects/AK_47/Ak-47.obj -15 4 0
 Shotgun objects/Shotgun/GunTwo.obj 15 4 0
+Treasure objects/Treasure/treasure_chest.obj 14 0 -8 90
 
 ROOM_AMMO
 #front & back
@@ -42,9 +43,9 @@ AmmoBox objects/AmmoBox/AmmoBox.obj -70 2 -5
 Barrel objects/barrel/barrel_obj.obj -17 0 -17
 Heart objects/Heart/love_heart.obj 17 3 5 90
 AmmoBox objects/AmmoBox/AmmoBox.obj -16 2 5
-Treasure objects/Treasure/treasure_chest.obj 14 0 -8 90
-OldPirate objects/OldPirate/oldPirate.obj -80 0 -15
-Gun objects/Gun/pistol.obj 0 0 0 0
+
+#OldPirate objects/OldPirate/oldPirate.obj -80 0 -15
+#Gun objects/Gun/pistol.obj 0 0 0 0
 
 ROOM_TWO
 #front
