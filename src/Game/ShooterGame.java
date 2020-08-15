@@ -84,8 +84,16 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         } else if(starting) {
             startingMenu.draw();
         }else if (!character.getAlive()) {
-            animator.stop();
+            //animator.stop();
             gameOver.endGamePage();
+            if (nextLevel) {
+                nextLevel = false;
+//                level = new Level(this.factory, this, loader, gl);
+//                level.BuildLevel(gameLevels.getLevelsList().get(levelNum));
+                this.subThread= new ControlSubThread(canvas, loadingPage);
+                this.subThread.start();
+                loadLevel(gl);
+            }
         } else if (startAnimation.toStop()) {
             if (nextLevel) {
                 nextLevel = false;
@@ -259,8 +267,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
                 break;
             case KeyEvent.VK_1:
                 if (!character.getAlive()) {
-                    frame.dispose();
-                    playerDecision = 1;
+                    this.nextLevel = true;
                 }
                 //TODO fix restart the game
                 break;
