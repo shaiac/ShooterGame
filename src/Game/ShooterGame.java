@@ -53,7 +53,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
     private boolean firstInit = true;
     private StartingMenu startingMenu;
     private boolean starting = true;
-    private float[] movement = {0,0,0};
+    private double[] movement = {0,0,0};
     private double[] rotate = {0,0,0};
     private boolean reload = false;
     private FPS fps = new FPS();
@@ -75,6 +75,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         gl.glLoadIdentity();  // Reset The View
         //calculate fps
         fps.updateTime(System.currentTimeMillis() - startTime);
+        System.out.println(FPS.fps);
         startTime = System.currentTimeMillis();
         if (needHelp) {
             animator.pause();
@@ -91,6 +92,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
 //                level.BuildLevel(gameLevels.getLevelsList().get(levelNum));
                 init(gLDrawable);
             }
+            character.step(movement);
             gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_S, GL2.GL_LINEAR);
             gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_T, GL2.GL_LINEAR);
             Vector origin = cooSystem.getOrigin();
@@ -105,8 +107,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
 
 
             character.draw();
-            character.move(movement);
-            character.rotate('y',rotate[1]);
+
             //attack until release left button
             if (attack) {
                 character.attack();
@@ -211,7 +212,6 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
     public void keyPressed(KeyEvent e) {
         float step = 20f;
         double angle = Math.PI/36;
-        //float[] movement = {0,0,0};
 
         int keyPressed = e.getKeyCode();
         switch (keyPressed) {
@@ -220,15 +220,12 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
                 break;
             case KeyEvent.VK_A:
                 movement[0] = -step;
-
                 break;
             case KeyEvent.VK_D:
                 movement[0] = step;
-
                 break;
             case KeyEvent.VK_S:
                 movement[2] = step;
-
                 break;
             case KeyEvent.VK_RIGHT:
                 rotate[1] = angle;
@@ -274,7 +271,6 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
                 starting = false;
                 animator.start();
             default:
-                //character.walk(keyPressed);
                 break;
         }
     }
