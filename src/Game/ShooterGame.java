@@ -277,6 +277,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
                 break;
             case KeyEvent.VK_1:
                 if (!character.getAlive()) {
+                    this.levelNum = 0;
                     this.nextLevel = true;
                 }
                 //TODO fix restart the game
