@@ -143,7 +143,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         // Really Nice Perspective Calculations
         gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT, GL2.GL_NICEST);
 
-        gl.glEnable(GL2.GL_LIGHTING);
+        //gl.glEnable(GL2.GL_LIGHTING);
 
         // Light
         float	ambient[] = {0.7f,0.7f,0.7f,1.0f};
@@ -157,9 +157,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_DIFFUSE, diffuse0, 0);
         gl.glEnable(GL2.GL_LIGHT0);
 
-        gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_AMBIENT, ambient, 0);
-        gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_DIFFUSE, diffuse1, 0);
-        gl.glEnable(GL2.GL_LIGHT1);
+
 
         gl.glEnable(GL2.GL_LIGHTING);
 

@@ -38,6 +38,7 @@ public class Character implements ICollisionObj {
     private Vector lastMove;
     private SoundEffect sound;
     private boolean alive = true;
+    private long hitTime = 0;
 
 
     public Character(Weapon startWeapon,CoordinateSystem cooSystem,GL2 gl) {
@@ -54,6 +55,10 @@ public class Character implements ICollisionObj {
         double[] move = {currnetPos.get(0), currnetPos.get(1) - 5, currnetPos.get(2), 0};
         lastMove = new Vector(move,4);
         this.sound = new SoundEffect();
+        float	ambient[] = {1f,1f,1f,1.0f};
+        float	diffuse1[] = {1f,0f,0f,1.0f};
+        gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_AMBIENT, ambient, 0);
+        gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_DIFFUSE, diffuse1, 0);
     }
 
     public boolean getAlive() {
@@ -83,6 +88,17 @@ public class Character implements ICollisionObj {
     }
     public void draw(){
         collisionData.draw(gl);
+        if(hit){
+
+
+            //gl.glEnable(GL2.GL_LIGHT1);
+            hitTime+= FPS.timePassed;
+            if(hitTime > 500){
+                hitTime = 0;
+                hit = false;
+                //gl.glDisable(GL2.GL_LIGHT1);
+            }
+        }
         deg = (float) Math.toDegrees(totalRotation);
         currentWeapon.setAngle(deg);
         ammo.draw();
