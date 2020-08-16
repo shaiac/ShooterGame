@@ -379,7 +379,7 @@ public class Level {
     }
 
     public void levelEnded() {
-        this.levelObserver.currentLevelEnded(gl);
+        this.levelObserver.currentLevelEnded();
     }
 
     public void checkCollision(ICollisionObj collisionObj) {

@@ -7,13 +7,9 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseMotionListener;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.media.opengl.*;
 import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.glu.GLU;
-
 import Levels.GameLevels;
 import Levels.Level;
 import LinearMath.Vector;
@@ -59,8 +55,8 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
     private FPS fps = new FPS();
     private long startTime;
     private LoadingPage loadingPage;
-    protected List<GamePage> gamePages = new ArrayList<>();
     private ControlSubThread subThread;
+    private boolean gameEnded = false;
 
     public ShooterGame() {
         glu = new GLU();
@@ -83,13 +79,14 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
             help.showHelp();
         } else if(starting) {
             startingMenu.draw();
-        }else if (!character.getAlive()) {
+        }else if (!character.getAlive() || gameEnded) {
             //animator.stop();
-            gameOver.endGamePage();
+            if (gameEnded)
+                gameOver.draw("Finished The Game");
+            else
+                gameOver.draw("You're Dead!!");
             if (nextLevel) {
                 nextLevel = false;
-//                level = new Level(this.factory, this, loader, gl);
-//                level.BuildLevel(gameLevels.getLevelsList().get(levelNum));
                 loadingPage =  new LoadingPage(canvas.getGraphics(), frame.getHeight(),
                         frame.getWidth(), "resources/pirate_ship.jpg");
                 this.subThread= new ControlSubThread(canvas, loadingPage);
@@ -138,7 +135,6 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
     public void init(GLAutoDrawable drawable) {
         loadingPage =  new LoadingPage(canvas.getGraphics(), frame.getHeight(),
                 frame.getWidth(), "resources/pirate_ship.jpg");
-        gamePages.add(loadingPage);
         this.subThread= new ControlSubThread(canvas, loadingPage);
         subThread.start();
         final GL2 gl = drawable.getGL().getGL2();
@@ -177,7 +173,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         if (firstInit) {
             this.factory = new LoaderFactory(this.loader, gl);
             firstInit = false;
-            gameOver = new GameOver();
+            gameOver = new GameOver(gl);
             help = new Help();
             startAnimation = new StartAnimation(gl, loader);
             startingMenu = new StartingMenu(gl);
@@ -212,9 +208,13 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         startTime = System.currentTimeMillis();
     }
 
-    public void currentLevelEnded(GL2 gl) {
-        levelNum++;
-        this.nextLevel = true;
+    public void currentLevelEnded() {
+        if (levelNum != gameLevels.numOfLevels() - 1) {
+            levelNum++;
+            this.nextLevel = true;
+        } else {
+            gameEnded = true;
+        }
 
     }
 
@@ -280,7 +280,6 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
                     this.levelNum = 0;
                     this.nextLevel = true;
                 }
-                //TODO fix restart the game
                 break;
             case KeyEvent.VK_F1:
                 needHelp = true;
@@ -355,10 +354,8 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         frame.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                for (GamePage page : gamePages) {
-                    page.setSize(e.getComponent().getSize());
-                    page.reSized();
-                }
+                loadingPage.setSize(e.getComponent().getSize());
+                loadingPage.reSized();
             }
         });
     }

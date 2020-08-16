@@ -52,4 +52,8 @@ public class GameLevels {
     public List<String> getLevelsList() {
         return this.levelsList;
     }
+
+    public int numOfLevels() {
+        return this.levelsList.size();
+    }
 }

@@ -5,23 +5,35 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-public class LoadingPage extends GamePage {
-    private Font font;
+public class LoadingPage {
     private int i = 0;
     private BufferedImage smallImage;
     private BufferedImage image;
+    private int height;
+    private int width;
+    private boolean reSized;
+    private String backgroundPath;
+    private Graphics g;
 
     public LoadingPage(Graphics g, int height, int width, String backgroundPath) {
-        super(height, width, backgroundPath, g);
-        this.font = new Font("Helvetica", Font.PLAIN, 50);
+        this.height = height;
+        this.width = width;
+        this.backgroundPath = backgroundPath;
+        this.g = g;
+        this.reSized = false;
+        Font font = new Font("Helvetica", Font.PLAIN, 50);
+        loadImages();
+        g.drawImage(image, 0,0,width,height,null);
+        g.setFont(font);
+    }
+
+    private void loadImages() {
         try {
             image = ImageIO.read(new File(backgroundPath));
             smallImage = ImageIO.read(new File("resources/loading_image_small.jpg"));
         } catch (Exception e) {
             System.out.println(e);
         }
-        g.drawImage(image, 0,0,width,height,null);
-        g.setFont(font);
     }
 
     public void changeI() {
@@ -44,5 +56,14 @@ public class LoadingPage extends GamePage {
         if (reSized) {
             g.drawImage(image, 0,0,width,height,null);
         }
+    }
+
+    public void setSize(Dimension dim) {
+        height = dim.height;
+        width = dim.width;
+    }
+
+    public void reSized() {
+        this.reSized = true;
     }
 }
