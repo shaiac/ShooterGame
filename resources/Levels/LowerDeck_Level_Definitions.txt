@@ -2,20 +2,24 @@
 
 ROOM_ONE
 #    //x //y //z //axis //width //length //texture
-wall -60 0 -20 x 20 55 woodenWall.jpg
-wall -5 10 -20 x 10 10 woodenWall.jpg
-wall 5 0 -20 x 20 55 woodenWall.jpg
+#front wall
+wall -60 0 -20 x 20 45 woodenWall.jpg
+wall -15 10 -20 x 10 5 woodenWall.jpg
+wall -10 0 -20 x 20 70 woodenWall.jpg
+#back wall
 wall -20 0 20 x 10 40 woodenWall.jpg
+#right wall
 wall 20 0 -20 z 10 40 woodenWall.jpg
+#left wall
 wall -20 0 -20 z 10 40 woodenWall.jpg
+#top wall
 wall -20 10 -20 y 40 40 woodenWall.jpg n
+#bottom wall
 wall -20 0 -20 y 40 40 woodenWall.jpg n
 AK_47 objects/AK_47/Ak-47.obj -15 5 0
-Shotgun objects/Shotgun/GunTwo.obj 15 5 0
 Map objects/Map/14059_Pirate_map_Scroll_v1_L1.obj -20.2 5 -10 90
 Barrel objects/barrel/barrel_obj.obj -17 0 -17
 Barrel objects/barrel/barrel_obj.obj 17 0 -17
-Treasure objects/Treasure/treasure_chest.obj 14 0 -8 90
 Skull objects/skull/Skull.obj -17.5 5 -17 30 5
 Skull objects/skull/Skull.obj -18.7 5 -17.3 0 5
 Skull objects/skull/Skull1.obj -18 5.2 -16 0 0.5
@@ -24,21 +28,125 @@ Heart objects/Heart/love_heart.obj 17 3 5 90
 AmmoBox objects/AmmoBox/AmmoBox.obj -16 2 5
 SkullSymbol objects/SkullSymbol/Skull_Low.obj 10 5 -19.8 90
 
-
 ROOM_TWO
-wall -60 0 -100 z 20 80 woodenWall.jpg
+#left wall
+wall -60 0 -100 z 20 70 woodenWall.jpg
+wall -60 10 -30 z 10 10 woodenWall.jpg
+#right wall
 wall 60 0 -100 z 20 80 woodenWall.jpg
-wall -60 0 -100 x 20 120 woodenWall.jpg
+#front wall
+wall -60 0 -100 x 20 95 woodenWall.jpg
+wall 45 0 -100 x 20 20 woodenWall.jpg
+wall 35 10 -100 x 10 10 woodenWall.jpg
+#wall bottom
 wall -60 0 -100 y 80 120 woodenWall.jpg n
+#wall top
 wall -60 20 -100 y 80 120 woodenWall.jpg n
-Barrel objects/barrel/barrel_obj.obj -50 0 -80
-Barrel objects/barrel/barrel_obj.obj 40 0 -70
-Barrel objects/barrel/barrel_obj.obj 50 0 -95
-Barrel objects/barrel/barrel_obj.obj 0 0 -62
-JackSparrow objects/JackSparrow/Jack_Sparrow.obj -55 0 -30
+JackSparrow objects/JackSparrow/Jack_Sparrow.obj -50 0 -30
 Cannon objects/cannon/can.obj 0 0 0 270
-OldPirate objects/OldPirate/oldPirate.obj 0 0 -80
+OldPirate objects/OldPirate/oldPirate.obj 30 0 -90
 Gun objects/Gun/pistol.obj 0 0 0 0
-Skellington objects/Skellington/Jack_Skellington.obj -60 0 -70 90 0.03
+JackSparrow objects/JackSparrow/Jack_Sparrow.obj -43 0 -90
+Cannon objects/cannon/can.obj 0 0 0 270
+Barrel objects/barrel/barrel_obj.obj 17 0 -24
+Barrel objects/barrel/barrel_obj.obj 0 0 -70
+Heart objects/Heart/love_heart.obj 20 3 -24 90
+AmmoBox objects/AmmoBox/AmmoBox.obj -55 2 -95
+Barrel objects/barrel/barrel_obj.obj -55 0 -85
+Barrel objects/barrel/barrel_obj.obj -45 0 -95
+
+ROOM_THREE
+#left wall
+wall 0 0 -180 z 20 70 woodenWall.jpg
+#right wall
+wall 120 0 -180 z 20 80 woodenWall.jpg
+#front wall
+wall 0 0 -180 x 20 120 woodenWall.jpg
+#back wall
+wall 60 0 -100 x 20 60 woodenWall.jpg
+#wall bottom
+wall 0 0 -180 y 80 120 woodenWall.jpg n
+#wall top
+wall 0 20 -180 y 80 120 woodenWall.jpg n
+#middle wall
+wall 60 0 -180 z 20 75 woodenWall.jpg
+wall 60 10 -105 z 10 5 woodenWall.jpg
+#left part
+JackSparrow objects/JackSparrow/Jack_Sparrow.obj 5 0 -175
+Cannon objects/cannon/can.obj 0 0 0 270
+OldPirate objects/OldPirate/oldPirate.obj 55 0 -175
+Gun objects/Gun/pistol.obj 0 0 0 0
+Heart objects/Heart/love_heart.obj 20 3 -175 90
+Shotgun objects/Shotgun/GunTwo.obj 5 5 -120
+#right part
+OldPirate objects/OldPirate/oldPirate.obj 110 0 -175
+Gun objects/Gun/pistol.obj 0 0 0 0
+JackSparrow objects/JackSparrow/Jack_Sparrow.obj 90 0 -130
+Cannon objects/cannon/can.obj 0 0 0 270
+Barrel objects/barrel/barrel_obj.obj 85 0 -110
+Barrel objects/barrel/barrel_obj.obj 90 0 -110
+Barrel objects/barrel/barrel_obj.obj 95 0 -110
+AmmoBox objects/AmmoBox/AmmoBox.obj 87 2 -105
+AmmoBox objects/AmmoBox/AmmoBox.obj 93 2 -105
+Barrel objects/barrel/barrel_obj.obj 100 0 -140
+Barrel objects/barrel/barrel_obj.obj 105 0 -140
+Barrel objects/barrel/barrel_obj.obj 110 0 -140
 
 
+ROOM_FOUR
+#left wall
+wall -60 0 -180 z 20 80 woodenWall.jpg
+#front wall
+wall -60 0 -180 x 20 120 woodenWall.jpg
+#wall bottom
+wall -60 0 -180 y 80 120 woodenWall.jpg n
+#wall top
+wall -60 20 -180 y 80 120 woodenWall.jpg n
+JackSparrow objects/JackSparrow/Jack_Sparrow.obj -45 0 -170
+Cannon objects/cannon/can.obj 0 0 0 270
+Barrel objects/barrel/barrel_obj.obj -55 0 -150
+Barrel objects/barrel/barrel_obj.obj -50 0 -150
+Barrel objects/barrel/barrel_obj.obj -45 0 -150
+Barrel objects/barrel/barrel_obj.obj -40 0 -150
+Barrel objects/barrel/barrel_obj.obj -35 0 -150
+Barrel objects/barrel/barrel_obj.obj -30 0 -150
+Barrel objects/barrel/barrel_obj.obj -25 0 -150
+
+ROOM_FIVE
+#left wall
+wall -120 0 -100 z 20 80 woodenWall.jpg n
+#front wall
+wall -120 0 -100 x 20 60 woodenWall.jpg
+#back wall
+wall -120 0 -20 x 20 60 woodenWall.jpg
+#wall bottom
+wall -120 0 -100 y 80 60 woodenWall.jpg n
+#wall top
+wall -120 20 -100 y 80 60 woodenWall.jpg n
+#middle walls | -
+wall -90 0 -100 z 20 35 woodenWall.jpg
+wall -90 0 -55 z 20 35 woodenWall.jpg
+#wall -120 0 -60 x 20 120 woodenWall.jpg
+wall -120 0 -60 x 20 25 woodenWall.jpg
+wall -85 0 -60 x 20 25 woodenWall.jpg
+#top left part
+Barrel objects/barrel/barrel_obj.obj -117 0 -80
+Barrel objects/barrel/barrel_obj.obj -112.5 0 -80
+Barrel objects/barrel/barrel_obj.obj -108 0 -80
+Barrel objects/barrel/barrel_obj.obj -108 0 -84.5
+Barrel objects/barrel/barrel_obj.obj -108 0 -89
+Treasure objects/Treasure/treasure_chest.obj -112.5 0 -87 90
+OldPirate objects/OldPirate/oldPirate.obj -113 0 -95
+Gun objects/Gun/pistol.obj 0 0 0 0
+#top right part
+JackSparrow objects/JackSparrow/Jack_Sparrow.obj -65 0 -95
+Cannon objects/cannon/can.obj 0 0 0 270
+Barrel objects/barrel/barrel_obj.obj -80 0 -85
+Barrel objects/barrel/barrel_obj.obj -80 0 -80.5
+Barrel objects/barrel/barrel_obj.obj -80 0 -76
+#bottom left part
+JackSparrow objects/JackSparrow/Jack_Sparrow.obj -115 0 -25
+Cannon objects/cannon/can.obj 0 0 0 270
+Barrel objects/barrel/barrel_obj.obj -105 0 -45
+Barrel objects/barrel/barrel_obj.obj -100.5 0 -45
+Barrel objects/barrel/barrel_obj.obj -96 0 -45

@@ -30,10 +30,12 @@ public class GameLevels {
         try {
             String data;
             //while there are still lines in the file.
-            buffer.readLine();
             while ((data = buffer.readLine()) != null) {
+                data = data.trim();
+                if (data.contains("#") || data.length() == 0) {
+                    continue;
+                }
                 levelsList.add(data);
-                buffer.readLine();
             }
         } catch (IOException e) {
             e.printStackTrace();

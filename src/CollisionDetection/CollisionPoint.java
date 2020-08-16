@@ -50,73 +50,73 @@ public class CollisionPoint extends CollisionData {
 
     }
     public void draw(GL2 gl){
-        float[] cen = {(float)point.getVec()[0],(float)point.getVec()[1],(float)point.getVec()[2]};
-        float rad = 0.1f;
-        gl.glBegin(GL2.GL_LINE_STRIP);
-        gl.glColor3f(1,1,1);
-        //side 1
-        gl.glVertex3f(cen[0] - rad,cen[1] - rad,cen[2] - rad);
-        gl.glVertex3f(cen[0] - rad,cen[1] + rad,cen[2] - rad);
-
-        gl.glVertex3f(cen[0] - rad,cen[1] + rad,cen[2] - rad);
-        gl.glVertex3f(cen[0] + rad,cen[1] + rad,cen[2] - rad);
-
-        gl.glVertex3f(cen[0] + rad,cen[1] + rad,cen[2] - rad);
-        gl.glVertex3f(cen[0] + rad,cen[1] - rad,cen[2] - rad);
-
-        gl.glVertex3f(cen[0] + rad,cen[1] - rad,cen[2] - rad);
-        gl.glVertex3f(cen[0] - rad,cen[1] - rad,cen[2] - rad);
-
-        //side2
-        gl.glVertex3f(cen[0] - rad,cen[1] - rad,cen[2] + rad);
-        gl.glVertex3f(cen[0] - rad,cen[1] + rad,cen[2] + rad);
-
-        gl.glVertex3f(cen[0] - rad,cen[1] + rad,cen[2] + rad);
-        gl.glVertex3f(cen[0] + rad,cen[1] + rad,cen[2] + rad);
-
-        gl.glVertex3f(cen[0] + rad,cen[1] + rad,cen[2] + rad);
-        gl.glVertex3f(cen[0] + rad,cen[1] - rad,cen[2] + rad);
-
-        gl.glVertex3f(cen[0] + rad,cen[1] - rad,cen[2] + rad);
-        gl.glVertex3f(cen[0] - rad,cen[1] - rad,cen[2] + rad);
-
-        //side3
-        gl.glVertex3f(cen[0] - rad,cen[1] - rad,cen[2] - rad);
-        gl.glVertex3f(cen[0] - rad,cen[1] - rad,cen[2] + rad);
-        gl.glVertex3f(cen[0] - rad,cen[1] - rad,cen[2] + rad);
-        gl.glVertex3f(cen[0] + rad,cen[1] - rad,cen[2] + rad);
-        gl.glVertex3f(cen[0] + rad,cen[1] - rad,cen[2] + rad);
-        gl.glVertex3f(cen[0] + rad,cen[1] - rad,cen[2] - rad);
-        gl.glVertex3f(cen[0] + rad,cen[1] - rad,cen[2] - rad);
-        gl.glVertex3f(cen[0] - rad,cen[1] - rad,cen[2] - rad);
-        //side 4
-        gl.glVertex3f(cen[0] - rad,cen[1] + rad,cen[2] - rad);
-        gl.glVertex3f(cen[0] - rad,cen[1] + rad,cen[2] + rad);
-        gl.glVertex3f(cen[0] - rad,cen[1] + rad,cen[2] + rad);
-        gl.glVertex3f(cen[0] + rad,cen[1] + rad,cen[2] + rad);
-        gl.glVertex3f(cen[0] + rad,cen[1] + rad,cen[2] + rad);
-        gl.glVertex3f(cen[0] + rad,cen[1] + rad,cen[2] - rad);
-        gl.glVertex3f(cen[0] + rad,cen[1] + rad,cen[2] - rad);
-        gl.glVertex3f(cen[0] - rad,cen[1] + rad,cen[2] - rad);
-        //side 5
-        gl.glVertex3f(cen[0] - rad,cen[1] - rad,cen[2] - rad);
-        gl.glVertex3f(cen[0] - rad,cen[1] + rad,cen[2] - rad);
-        gl.glVertex3f(cen[0] - rad,cen[1] + rad,cen[2] - rad);
-        gl.glVertex3f(cen[0] - rad,cen[1] + rad,cen[2] + rad);
-        gl.glVertex3f(cen[0] - rad,cen[1] + rad,cen[2] + rad);
-        gl.glVertex3f(cen[0] - rad,cen[1] - rad,cen[2] + rad);
-        gl.glVertex3f(cen[0] - rad,cen[1] - rad,cen[2] + rad);
-        gl.glVertex3f(cen[0] - rad,cen[1] - rad,cen[2] - rad);
-        //side 6
-        gl.glVertex3f(cen[0] + rad,cen[1] - rad,cen[2] - rad);
-        gl.glVertex3f(cen[0] + rad,cen[1] + rad,cen[2] - rad);
-        gl.glVertex3f(cen[0] + rad,cen[1] + rad,cen[2] - rad);
-        gl.glVertex3f(cen[0] + rad,cen[1] + rad,cen[2] + rad);
-        gl.glVertex3f(cen[0] + rad,cen[1] + rad,cen[2] + rad);
-        gl.glVertex3f(cen[0] + rad,cen[1] - rad,cen[2] + rad);
-        gl.glVertex3f(cen[0] + rad,cen[1] - rad,cen[2] + rad);
-        gl.glVertex3f(cen[0] + rad,cen[1] - rad,cen[2] - rad);
-        gl.glEnd();
+//        float[] cen = {(float)point.getVec()[0],(float)point.getVec()[1],(float)point.getVec()[2]};
+//        float rad = 0.1f;
+//        gl.glBegin(GL2.GL_LINE_STRIP);
+//        gl.glColor3f(1,1,1);
+//        //side 1
+//        gl.glVertex3f(cen[0] - rad,cen[1] - rad,cen[2] - rad);
+//        gl.glVertex3f(cen[0] - rad,cen[1] + rad,cen[2] - rad);
+//
+//        gl.glVertex3f(cen[0] - rad,cen[1] + rad,cen[2] - rad);
+//        gl.glVertex3f(cen[0] + rad,cen[1] + rad,cen[2] - rad);
+//
+//        gl.glVertex3f(cen[0] + rad,cen[1] + rad,cen[2] - rad);
+//        gl.glVertex3f(cen[0] + rad,cen[1] - rad,cen[2] - rad);
+//
+//        gl.glVertex3f(cen[0] + rad,cen[1] - rad,cen[2] - rad);
+//        gl.glVertex3f(cen[0] - rad,cen[1] - rad,cen[2] - rad);
+//
+//        //side2
+//        gl.glVertex3f(cen[0] - rad,cen[1] - rad,cen[2] + rad);
+//        gl.glVertex3f(cen[0] - rad,cen[1] + rad,cen[2] + rad);
+//
+//        gl.glVertex3f(cen[0] - rad,cen[1] + rad,cen[2] + rad);
+//        gl.glVertex3f(cen[0] + rad,cen[1] + rad,cen[2] + rad);
+//
+//        gl.glVertex3f(cen[0] + rad,cen[1] + rad,cen[2] + rad);
+//        gl.glVertex3f(cen[0] + rad,cen[1] - rad,cen[2] + rad);
+//
+//        gl.glVertex3f(cen[0] + rad,cen[1] - rad,cen[2] + rad);
+//        gl.glVertex3f(cen[0] - rad,cen[1] - rad,cen[2] + rad);
+//
+//        //side3
+//        gl.glVertex3f(cen[0] - rad,cen[1] - rad,cen[2] - rad);
+//        gl.glVertex3f(cen[0] - rad,cen[1] - rad,cen[2] + rad);
+//        gl.glVertex3f(cen[0] - rad,cen[1] - rad,cen[2] + rad);
+//        gl.glVertex3f(cen[0] + rad,cen[1] - rad,cen[2] + rad);
+//        gl.glVertex3f(cen[0] + rad,cen[1] - rad,cen[2] + rad);
+//        gl.glVertex3f(cen[0] + rad,cen[1] - rad,cen[2] - rad);
+//        gl.glVertex3f(cen[0] + rad,cen[1] - rad,cen[2] - rad);
+//        gl.glVertex3f(cen[0] - rad,cen[1] - rad,cen[2] - rad);
+//        //side 4
+//        gl.glVertex3f(cen[0] - rad,cen[1] + rad,cen[2] - rad);
+//        gl.glVertex3f(cen[0] - rad,cen[1] + rad,cen[2] + rad);
+//        gl.glVertex3f(cen[0] - rad,cen[1] + rad,cen[2] + rad);
+//        gl.glVertex3f(cen[0] + rad,cen[1] + rad,cen[2] + rad);
+//        gl.glVertex3f(cen[0] + rad,cen[1] + rad,cen[2] + rad);
+//        gl.glVertex3f(cen[0] + rad,cen[1] + rad,cen[2] - rad);
+//        gl.glVertex3f(cen[0] + rad,cen[1] + rad,cen[2] - rad);
+//        gl.glVertex3f(cen[0] - rad,cen[1] + rad,cen[2] - rad);
+//        //side 5
+//        gl.glVertex3f(cen[0] - rad,cen[1] - rad,cen[2] - rad);
+//        gl.glVertex3f(cen[0] - rad,cen[1] + rad,cen[2] - rad);
+//        gl.glVertex3f(cen[0] - rad,cen[1] + rad,cen[2] - rad);
+//        gl.glVertex3f(cen[0] - rad,cen[1] + rad,cen[2] + rad);
+//        gl.glVertex3f(cen[0] - rad,cen[1] + rad,cen[2] + rad);
+//        gl.glVertex3f(cen[0] - rad,cen[1] - rad,cen[2] + rad);
+//        gl.glVertex3f(cen[0] - rad,cen[1] - rad,cen[2] + rad);
+//        gl.glVertex3f(cen[0] - rad,cen[1] - rad,cen[2] - rad);
+//        //side 6
+//        gl.glVertex3f(cen[0] + rad,cen[1] - rad,cen[2] - rad);
+//        gl.glVertex3f(cen[0] + rad,cen[1] + rad,cen[2] - rad);
+//        gl.glVertex3f(cen[0] + rad,cen[1] + rad,cen[2] - rad);
+//        gl.glVertex3f(cen[0] + rad,cen[1] + rad,cen[2] + rad);
+//        gl.glVertex3f(cen[0] + rad,cen[1] + rad,cen[2] + rad);
+//        gl.glVertex3f(cen[0] + rad,cen[1] - rad,cen[2] + rad);
+//        gl.glVertex3f(cen[0] + rad,cen[1] - rad,cen[2] + rad);
+//        gl.glVertex3f(cen[0] + rad,cen[1] - rad,cen[2] - rad);
+//        gl.glEnd();
 
     }
 }
