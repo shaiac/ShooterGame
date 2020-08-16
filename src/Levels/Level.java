@@ -30,7 +30,6 @@ public class Level {
     private ObjectLoader loader;
     private GL2 gl;
     private ShooterGame levelObserver;
-    //private Cannon tmpCannon;
     private List<Enemy> enemies;
     private LoaderFactory factory;
     private HashMap<Integer, List<IModel>> addQueue = new HashMap<>();
@@ -40,23 +39,6 @@ public class Level {
     CollisionDetector detector = new CollisionDetector();
     private Character character;
 
-    public Level(ObjectLoader loader, GL2 gl, ShooterGame shooterGame) {
-        rooms = new ArrayList<>();
-        levelWalls = new ArrayList<>();
-        roomNumber = 0;
-        this.loader = loader;
-        this.gl = gl;
-        this.enemies = new ArrayList<>();
-        this.levelObserver = shooterGame;
-    }
-    public Level(LoaderFactory factory, ShooterGame shooterGame){
-        rooms = new ArrayList<>();
-        levelWalls = new ArrayList<>();
-        roomNumber = 0;
-        this.enemies = new ArrayList<>();
-        this.levelObserver = shooterGame;
-        this.factory = factory;
-    }
     public Level(LoaderFactory factory,ShooterGame shooterGame, ObjectLoader loader,GL2 gl){
         rooms = new ArrayList<>();
         levelWalls = new ArrayList<>();
@@ -66,11 +48,14 @@ public class Level {
         this.enemies = new ArrayList<>();
         this.levelObserver = shooterGame;
         this.factory = factory;
+        //to init the object Loader
+        new CannonBall("objects/ball/uploads_files_2078589_sphere.obj",this.factory,this);
     }
 
     public void setCharacter(Character character) {
         this.character = character;
     }
+    public Character getCharacter() { return this.character;}
     //read and build the level
     public void BuildLevel(String levelDefinition) {
         Reader reader = null;
@@ -101,12 +86,15 @@ public class Level {
                 if (splitData[0].contains("#"))
                     continue;
                 if (data.contains("ROOM")) {
-                    rooms.add(roomNumber, new Room());
+                    rooms.add(roomNumber, new Room(roomNumber));
                     this.addQueue.put(roomNumber,new ArrayList<>());
                     this.removeQueue.put(roomNumber,new ArrayList<>());
                     roomNumber++;
                 }
                 switch (splitData[0]) {
+                    case "boundaries":
+                        rooms.get(roomNumber - 1).setBoundaries(splitData);
+                        break;
                     case "wall":
                         Wall wall = createWall(data);
                         levelWalls.add(wall);
@@ -165,12 +153,11 @@ public class Level {
                         break;
                     // enemies
                     case "JackSparrow":
-                        JackSparrow jack = new JackSparrow(splitData[1],this.factory, this);
+                        JackSparrow jack = new JackSparrow(splitData[1],this.factory, this,
+                                roomNumber - 1);
                         //JackSparrow jack = new JackSparrow(splitData[1]);
                         float[] jackPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
-                        //jack.create(loader, gl, jackPos);
-                        //jack.rotate(Float.parseFloat(splitData[5]), 'y');
                         jack.setStartPos(jackPos);
                         rooms.get(roomNumber - 1).addModel(jack);
                         enemies.add(jack);
@@ -178,7 +165,8 @@ public class Level {
 
                         break;
                     case "OldPirate":
-                        OldPirate pirate = new OldPirate(splitData[1],this,this.factory);
+                        OldPirate pirate = new OldPirate(splitData[1],this,this.factory,
+                                roomNumber - 1);
                         //OldPirate pirate = new OldPirate(splitData[1]);
                         float[] piratePos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};

@@ -1,8 +1,10 @@
 # Levels.Level 1
 
 ROOM_ONE
-#    //x //y //z //axis //width //length //texture
+#           leftFront length width
+boundaries -20 0 -20 40 40
 #front wall
+#    //x //y //z //axis //width //length //texture
 wall -60 0 -20 x 20 45 woodenWall.jpg
 wall -15 10 -20 x 10 5 woodenWall.jpg
 wall -10 0 -20 x 20 70 woodenWall.jpg
@@ -29,6 +31,7 @@ AmmoBox objects/AmmoBox/AmmoBox.obj -16 2 5
 SkullSymbol objects/SkullSymbol/Skull_Low.obj 10 5 -19.8 90
 
 ROOM_TWO
+boundaries -60 0 -100 120 80
 #left wall
 wall -60 0 -100 z 20 70 woodenWall.jpg
 wall -60 10 -30 z 10 10 woodenWall.jpg
@@ -56,6 +59,7 @@ Barrel objects/barrel/barrel_obj.obj -55 0 -85
 Barrel objects/barrel/barrel_obj.obj -45 0 -95
 
 ROOM_THREE
+boundaries 0 0 -180 120 80
 #left wall
 wall 0 0 -180 z 20 70 woodenWall.jpg
 #right wall
@@ -94,14 +98,15 @@ Barrel objects/barrel/barrel_obj.obj 110 0 -140
 
 
 ROOM_FOUR
+boundaries -60 0 -180 60 80
 #left wall
 wall -60 0 -180 z 20 80 woodenWall.jpg
 #front wall
-wall -60 0 -180 x 20 120 woodenWall.jpg
+wall -60 0 -180 x 20 60 woodenWall.jpg
 #wall bottom
-wall -60 0 -180 y 80 120 woodenWall.jpg n
+wall -60 0 -180 y 80 60 woodenWall.jpg n
 #wall top
-wall -60 20 -180 y 80 120 woodenWall.jpg n
+wall -60 20 -180 y 80 60 woodenWall.jpg n
 JackSparrow objects/JackSparrow/Jack_Sparrow.obj -45 0 -170
 Cannon objects/cannon/can.obj 0 0 0 270
 Barrel objects/barrel/barrel_obj.obj -55 0 -150
@@ -113,6 +118,7 @@ Barrel objects/barrel/barrel_obj.obj -30 0 -150
 Barrel objects/barrel/barrel_obj.obj -25 0 -150
 
 ROOM_FIVE
+boundaries -120 0 -100 60 80
 #left wall
 wall -120 0 -100 z 20 80 woodenWall.jpg n
 #front wall

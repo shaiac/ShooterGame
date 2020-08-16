@@ -18,7 +18,11 @@ public abstract class Enemy extends Model {
     boolean hit;
     long startHit = 0;
     private SoundEffect sound = new SoundEffect();
+    private int inRoomNumber;
 
+    public Enemy(int inRoomNumber) {
+        this.inRoomNumber = inRoomNumber;
+    }
     public void addWeapon(Weapon weapon){
         this.weapon = weapon;
     }
@@ -26,8 +30,9 @@ public abstract class Enemy extends Model {
         double[] fixGround = {0,5,0};
         this.charOrigin = origin.minus(new Vector(fixGround,3));
     }
-    public void attack(){
-        weapon.attack();
+    public void attack() {
+        if (level.getCharacter().whichRoom() == inRoomNumber)
+            weapon.attack();
     }
     public void hit(int reduceLife){
         life.reduceLife(reduceLife);

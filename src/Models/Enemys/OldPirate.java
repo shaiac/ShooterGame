@@ -20,10 +20,11 @@ public class OldPirate extends Enemy implements ICollisionObj {
     private long startTimeAtt = System.currentTimeMillis();
     private CollisionData collisionData;
 
-    public OldPirate(String path) {
-        this.path = path;
-    }
-    public OldPirate(String path, Level level, LoaderFactory factory){
+//    public OldPirate(String path) {
+//        this.path = path;
+//    }
+    public OldPirate(String path, Level level, LoaderFactory factory, int inRoomNumber){
+        super(inRoomNumber);
         Pair<List<ObjData>,CollisionData> data = factory.create(path, CollisionType.AABB);
         this.data = data.getKey();
         this.collisionData = data.getValue();

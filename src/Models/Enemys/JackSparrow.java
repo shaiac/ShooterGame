@@ -17,18 +17,13 @@ import javax.media.opengl.GL2;
 import java.util.List;
 
 public class JackSparrow extends Enemy implements ICollisionObj {
-    private long rotDuration = 100;
     private long attackDuration = 2500;
-    private long startTimeRot = System.currentTimeMillis();
     private long startTimeAtt = System.currentTimeMillis();
     public String path;
     private CollisionData collisionData;
 
-    //old
-    public JackSparrow(String path) {
-        this.path = path;
-    }
-    public JackSparrow(String path, LoaderFactory factory, Level level){
+    public JackSparrow(String path, LoaderFactory factory, Level level, int inRoomNumber){
+        super(inRoomNumber);
         Pair<List<ObjData>,CollisionData> data = factory.create(path,CollisionType.AABB);
         this.data = data.getKey();
         this.collisionData = data.getValue();

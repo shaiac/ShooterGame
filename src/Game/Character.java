@@ -10,6 +10,7 @@ import CollisionDetection.CollisionData;
 import CollisionDetection.ICollisionObj;
 import Levels.Level;
 import Levels.Life;
+import Levels.Room;
 import LinearMath.Vector;
 import Models.Objects.IObstacle;
 import Models.Weapons.Ammunition;
@@ -39,6 +40,7 @@ public class Character implements ICollisionObj {
     private SoundEffect sound;
     private boolean alive = true;
     private long hitTime = 0;
+    private int inRoomNumber = 0;
 
 
     public Character(Weapon startWeapon,CoordinateSystem cooSystem,GL2 gl) {
@@ -55,10 +57,10 @@ public class Character implements ICollisionObj {
         double[] move = {currnetPos.get(0), currnetPos.get(1) - 5, currnetPos.get(2), 0};
         lastMove = new Vector(move,4);
         this.sound = new SoundEffect();
-        /*float	ambient[] = {1f,1f,1f,1.0f};
-        float	diffuse1[] = {1f,0f,0f,1.0f};
-        gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_AMBIENT, ambient, 0);
-        gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_DIFFUSE, diffuse1, 0);*/
+    }
+
+    public int whichRoom() {
+        return inRoomNumber;
     }
 
     public boolean getAlive() {
@@ -87,15 +89,14 @@ public class Character implements ICollisionObj {
         currentWeapon = weapons.poll();
     }
     public void draw(){
+        findInWhichRoom();
         collisionData.draw(gl);
         if(hit){
             drawHit();
-            //gl.glEnable(GL2.GL_LIGHT1);
             hitTime+= FPS.timePassed;
             if(hitTime > 500){
                 hitTime = 0;
                 hit = false;
-                //gl.glDisable(GL2.GL_LIGHT1);
             }
         }
         deg = (float) Math.toDegrees(totalRotation);
@@ -195,7 +196,6 @@ public class Character implements ICollisionObj {
         float width = 4;
         float hieght = 10;
 
-
         gl.glTranslatef((float)this.cooSystem.getOrigin().getVec()[0],
                 (float)this.cooSystem.getOrigin().getVec()[1],(float)this.cooSystem.getOrigin().getVec()[2]);
         gl.glBegin(GL2.GL_QUADS);
@@ -223,5 +223,25 @@ public class Character implements ICollisionObj {
         gl.glEnd();
 
         gl.glEnable(GL2.GL_LIGHTING);
+    }
+
+    private boolean checkIfInThisRoom(Room room) {
+        double x = cooSystem.getOrigin().get(0);
+        double z = cooSystem.getOrigin().get(2);
+        double minX = room.getLeftFront().get(0);
+        double minZ = room.getLeftFront().get(2);
+        double maxX = room.getLeftFront().get(0) + room.getLength();
+        double maxZ = room.getLeftFront().get(2) + room.getWidth();
+        if (x > maxX || x < minX || z > maxZ || z < minZ) {
+            return false;
+        }
+        return true;
+    }
+    public void findInWhichRoom() {
+        for (Room room : currentLevel.getRooms()) {
+            if (checkIfInThisRoom(room)) {
+                inRoomNumber = room.getRoomNumber();
+            }
+        }
     }
 }
