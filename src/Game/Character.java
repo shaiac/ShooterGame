@@ -55,10 +55,10 @@ public class Character implements ICollisionObj {
         double[] move = {currnetPos.get(0), currnetPos.get(1) - 5, currnetPos.get(2), 0};
         lastMove = new Vector(move,4);
         this.sound = new SoundEffect();
-        float	ambient[] = {1f,1f,1f,1.0f};
+        /*float	ambient[] = {1f,1f,1f,1.0f};
         float	diffuse1[] = {1f,0f,0f,1.0f};
         gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_AMBIENT, ambient, 0);
-        gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_DIFFUSE, diffuse1, 0);
+        gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_DIFFUSE, diffuse1, 0);*/
     }
 
     public boolean getAlive() {

@@ -90,6 +90,8 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
                 nextLevel = false;
 //                level = new Level(this.factory, this, loader, gl);
 //                level.BuildLevel(gameLevels.getLevelsList().get(levelNum));
+                loadingPage =  new LoadingPage(canvas.getGraphics(), frame.getHeight(),
+                        frame.getWidth(), "resources/pirate_ship.jpg");
                 this.subThread= new ControlSubThread(canvas, loadingPage);
                 this.subThread.start();
                 loadLevel(gl);
@@ -99,6 +101,8 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
                 nextLevel = false;
 //                level = new Level(this.factory, this, loader, gl);
 //                level.BuildLevel(gameLevels.getLevelsList().get(levelNum));
+                loadingPage =  new LoadingPage(canvas.getGraphics(), frame.getHeight(),
+                        frame.getWidth(), "resources/pirate_ship.jpg");
                 this.subThread= new ControlSubThread(canvas, loadingPage);
                 this.subThread.start();
                 loadLevel(gl);
@@ -112,6 +116,9 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
             Vector y = cooSystem.getY();
             glu.gluLookAt(origin.get(0), origin.get(1), origin.get(2), lookat.get(0), lookat.get(1), lookat.get(2),
                     y.getVec()[0], y.getVec()[1], y.getVec()[2]);
+
+
+
             level.updatePos(origin);
             level.updateRooms();
             level.drawRooms();
@@ -143,10 +150,10 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         // Really Nice Perspective Calculations
         gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT, GL2.GL_NICEST);
 
-        //gl.glEnable(GL2.GL_LIGHTING);
+        gl.glEnable(GL2.GL_LIGHTING);
 
         // Light
-        float	ambient[] = {0.7f,0.7f,0.7f,1.0f};
+        float	ambient[] = {0.8f,0.8f,0.8f,1.0f};
         float	diffuse0[] = {0f,0f,0f,1.0f};
         float	diffuse1[] = {0f,0f,0f,1.0f};
 
@@ -156,6 +163,10 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_AMBIENT, ambient, 0);
         gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_DIFFUSE, diffuse0, 0);
         gl.glEnable(GL2.GL_LIGHT0);
+
+        gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_AMBIENT, ambient, 0);
+        gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_DIFFUSE, diffuse1, 0);
+        gl.glEnable(GL2.GL_LIGHT1);
 
 
 
