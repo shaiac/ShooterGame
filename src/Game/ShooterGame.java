@@ -149,7 +149,8 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         gl.glDepthFunc(GL2.GL_LEQUAL);               // The Type Of Depth Testing To Do
         // Really Nice Perspective Calculations
         gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT, GL2.GL_NICEST);
-
+        gl.glEnable(GL2.GL_BLEND);
+        gl.glBlendFunc(GL.GL_SRC_ALPHA,GL.GL_ONE_MINUS_SRC_ALPHA);
         gl.glEnable(GL2.GL_LIGHTING);
 
         // Light

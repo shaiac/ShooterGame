@@ -89,8 +89,7 @@ public class Character implements ICollisionObj {
     public void draw(){
         collisionData.draw(gl);
         if(hit){
-
-
+            drawHit();
             //gl.glEnable(GL2.GL_LIGHT1);
             hitTime+= FPS.timePassed;
             if(hitTime > 500){
@@ -190,5 +189,39 @@ public class Character implements ICollisionObj {
 
     private void checkCollision() {
         currentLevel.checkCollision(this);
+    }
+    private void drawHit(){
+        gl.glDisable(GL2.GL_LIGHTING);
+        float width = 4;
+        float hieght = 10;
+
+
+        gl.glTranslatef((float)this.cooSystem.getOrigin().getVec()[0],
+                (float)this.cooSystem.getOrigin().getVec()[1],(float)this.cooSystem.getOrigin().getVec()[2]);
+        gl.glBegin(GL2.GL_QUADS);
+        gl.glColor4f(1,0,0,0.2f);
+        //front
+        gl.glVertex3f(-width,-hieght,-width);
+        gl.glVertex3f(-width,hieght,-width);
+        gl.glVertex3f(width,hieght,-width);
+        gl.glVertex3f(width,-hieght,-width);
+        //back
+        gl.glVertex3f(-width,-hieght,width);
+        gl.glVertex3f(-width,hieght,width);
+        gl.glVertex3f(width,hieght,width);
+        gl.glVertex3f(width,-hieght,width);
+        //left
+        gl.glVertex3f(-width,-hieght,-width);
+        gl.glVertex3f(-width,hieght,-width);
+        gl.glVertex3f(-width,hieght,width);
+        gl.glVertex3f(-width,-hieght,width);
+        //right
+        gl.glVertex3f(width,-hieght,-width);
+        gl.glVertex3f(width,hieght,-width);
+        gl.glVertex3f(width,hieght,width);
+        gl.glVertex3f(width,-hieght,width);
+        gl.glEnd();
+
+        gl.glEnable(GL2.GL_LIGHTING);
     }
 }
