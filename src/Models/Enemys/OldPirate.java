@@ -81,8 +81,8 @@ public class OldPirate extends Enemy implements ICollisionObj {
         gl.glTranslatef(startPos[0],startPos[1],startPos[2]);
         gl.glRotatef(angle,0,1,0);
         if(hit){
-            float[] color = {0f, 1f, 0f, 1f};
-            gl.glMaterialfv(GL2.GL_FRONT_AND_BACK,GL2.GL_AMBIENT_AND_DIFFUSE,color,1);
+            gl.glDisable(GL2.GL_LIGHTING);
+            gl.glColor3f(1,0,0);
             if(System.currentTimeMillis() - startHit > 1000){
                 hit = false;
             }
@@ -90,8 +90,7 @@ public class OldPirate extends Enemy implements ICollisionObj {
         for (ObjData obj:data) {
             obj.draw(gl);
         }
-        float[] color = {1f, 1, 1, 1};
-        gl.glMaterialfv(GL2.GL_FRONT_AND_BACK,GL2.GL_AMBIENT_AND_DIFFUSE,color,1);
+        gl.glEnable(GL2.GL_LIGHTING);
         gl.glPushMatrix();
         //gl.glScalef(0.07f,0.07f,0.07f);
         gl.glTranslatef(2.5f,2.8f,-2.3f);
