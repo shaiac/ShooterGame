@@ -1,11 +1,16 @@
 package Models.Weapons;
 
+import CollisionDetection.CollisionData;
+import CollisionDetection.CollisionPoint;
 import CollisionDetection.ICollisionObj;
+import Game.Character;
 import Game.CoordinateSystem;
 import Levels.Level;
+import LinearMath.Vector;
 import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
+import Models.Enemys.Enemy;
 
 import javax.media.opengl.GL2;
 import java.util.ArrayList;
@@ -22,6 +27,10 @@ public class Sword extends Weapon implements IDamage {
     private long startTime = 0;
     private long endTime = 0;
     private long milliseconds;
+    private CollisionData collisionData;
+    private CoordinateSystem coordinateSystem;
+    private boolean attack = false;
+    private int demage = 30;
 
     public Sword(String path, Level level, LoaderFactory factory){
         this.data = factory.create(path);
@@ -31,9 +40,13 @@ public class Sword extends Weapon implements IDamage {
         this.rotate(-45,'y');
         this.rotate(45,'z');
         this.level = level;
+        double[] coll = {0,0,0,1};
+        Vector collisionVector = new Vector(coll,4);
+        this.collisionData = new CollisionPoint(collisionVector);
     }
     public void setStartPos(float[] startPos){
         this.startPos = startPos;
+        //this.collisionData.setStartPos(startPos);
     }
     public void create(ObjectLoader loader,GL2 gl,float[] startPos){
         data = loader.LoadModelToGL(path,gl);
@@ -47,6 +60,8 @@ public class Sword extends Weapon implements IDamage {
     }
     @Override
     public void draw(GL2 gl) {
+
+
         gl.glPushMatrix();
         if(!picked){
             gl.glTranslatef(startPos[0],startPos[1],startPos[2]);
@@ -62,6 +77,7 @@ public class Sword extends Weapon implements IDamage {
             }
             time += milliseconds;
             if(time >= duration){
+                attack = false;
                 attackMode = false;
                 time = 0;
                 rChange = 0f;
@@ -86,6 +102,17 @@ public class Sword extends Weapon implements IDamage {
             //rotate(-rChange,'x');
             //rotate(rChange,'y');
         }else{
+            if(!attack){
+                attack = true;
+                this.collisionData.init();
+                double[] move = {coordinateSystem.getOrigin().get(0),
+                        coordinateSystem.getOrigin().get(1) - 1.5,coordinateSystem.getOrigin().get(2),1};
+                Vector toMove = new Vector(move,4);
+                this.collisionData.move(toMove);
+                float[] afterRot = {0,0,-5};
+                this.collisionData.transAfterRotate(afterRot);
+                this.level.checkCollision(this);
+            }
             rChange -= (30f/duration)*milliseconds;
             //translate(change, change,0f);
             gl.glTranslatef(-0.5f,-0.5f,0.5f);
@@ -110,15 +137,24 @@ public class Sword extends Weapon implements IDamage {
 
     @Override
     public void setAngle(float angle) {
-
+        float[] rot = {0,angle,0};
+        this.collisionData.setRotate(rot);
     }
     @Override
     public void setCoordinateSystem(CoordinateSystem coordinateSystem) {
-
+        this.coordinateSystem = coordinateSystem;
     }
 
     @Override
     public void collide(ICollisionObj obj) {
-
+        if(!(obj instanceof Character)) {
+            if (obj instanceof Enemy) {
+                ((Enemy) obj).hit(demage);
+            }
+        }
     }
+    public CollisionData getCollisionData(){
+        return this.collisionData;
+    }
+
 }

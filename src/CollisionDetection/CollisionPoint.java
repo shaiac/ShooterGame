@@ -47,7 +47,7 @@ public class CollisionPoint extends CollisionData {
 
     @Override
     public void move(Vector move) {
-
+        this.point = this.point.Add(move);
     }
     public void draw(GL2 gl){
 //        float[] cen = {(float)point.getVec()[0],(float)point.getVec()[1],(float)point.getVec()[2]};
