@@ -84,9 +84,10 @@ public class Shotgun extends Weapon implements ICollisionObj  {
         this.collisionData.setRotate(rotate);
     }
 
-    private void addAsRoomModel(Bullet bullet) {
+    private void addAsRoomModel(Bullet bullet,int roomNum) {
         bullet.setAngle(angle);
-        level.addModel(bullet);
+        bullet.setRoomNum(roomNum);
+        level.addModel(bullet,roomNum);
     }
 
     @Override
@@ -164,8 +165,9 @@ public class Shotgun extends Weapon implements ICollisionObj  {
                         , (float) cooSystem.getOrigin().getVec()[2]};
 
                 float[] bulletPos2 = {0.6f,-0.38f,-3.9f};
-                addAsRoomModel(magazine.shotBullet(pos1,bulletPos1,bulletPath,this.level));
-                addAsRoomModel(magazine.shotBullet(pos2,bulletPos2,bulletPath,this.level));
+                int roomNum = this.level.getRoom(pos1);
+                addAsRoomModel(magazine.shotBullet(pos1,bulletPos1,bulletPath,this.level),roomNum);
+                addAsRoomModel(magazine.shotBullet(pos2,bulletPos2,bulletPath,this.level),roomNum);
                 sound.play("resources/SoundEffects/shotgun-shot.wav");
             }
             rChange -= (5f/duration)*milliseconds;

@@ -30,6 +30,10 @@ public class CollisionPoint extends CollisionData {
         this.point = this.point.Add(startPosition);
         this.startPoint = this.startPoint.Add(startPosition);
     }
+    @Override
+    public float[] getCenter(){
+        return new float[] {(float)point.get(0),(float)point.get(1),(float)point.get(2)};
+    }
     public void setRotate(float[] angle){
         //this.angle = angle;
         Matrix rotateX = Transformation3D.rotate(angle[0],'x');

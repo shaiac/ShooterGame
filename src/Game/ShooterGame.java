@@ -201,7 +201,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         sword = new Sword("objects/RzR/rzr.obj",level,this.factory);
         float[] pos = {0f,5f,-10f};
         sword.setStartPos(pos);
-        level.addModel(sword);
+        //level.addModel(sword);
         this.character = new Character(sword,this.cooSystem,gl);
         character.setCurrentLevel(level);
         level.setCharacter(character);

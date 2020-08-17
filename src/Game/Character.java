@@ -237,11 +237,14 @@ public class Character implements ICollisionObj {
         }
         return true;
     }
-    public void findInWhichRoom() {
-        for (Room room : currentLevel.getRooms()) {
+    public int findInWhichRoom() {
+        /*for (Room room : currentLevel.getRooms()) {
             if (checkIfInThisRoom(room)) {
                 inRoomNumber = room.getRoomNumber();
             }
-        }
+        }*/
+        float[] pos = {(float)cooSystem.getOrigin().get(0),(float)cooSystem.getOrigin().get(1),(float)cooSystem.getOrigin().get(2)};
+        inRoomNumber = this.currentLevel.getRoom(pos);
+        return inRoomNumber;
     }
 }

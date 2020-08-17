@@ -43,6 +43,7 @@ public class Sword extends Weapon implements IDamage {
         double[] coll = {0,0,0,1};
         Vector collisionVector = new Vector(coll,4);
         this.collisionData = new CollisionPoint(collisionVector);
+        this.weapontype = WeaponType.SWORD;
     }
     public void setStartPos(float[] startPos){
         this.startPos = startPos;

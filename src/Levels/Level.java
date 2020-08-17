@@ -87,11 +87,18 @@ public class Level {
                     continue;
                 if (data.contains("ROOM")) {
                     rooms.add(roomNumber, new Room(roomNumber));
+                    rooms.get(roomNumber).addRoomToDisplay(roomNumber);
                     this.addQueue.put(roomNumber,new ArrayList<>());
                     this.removeQueue.put(roomNumber,new ArrayList<>());
                     roomNumber++;
                 }
                 switch (splitData[0]) {
+                    case "show":
+                        String[] roomsNumber = splitData[1].split(",");
+                        for (String roomNum:roomsNumber) {
+                            this.rooms.get(roomNumber - 1).addRoomToDisplay(Integer.parseInt(roomNum) - 1);
+                        }
+                        break;
                     case "boundaries":
                         rooms.get(roomNumber - 1).setBoundaries(splitData);
                         break;
@@ -312,15 +319,41 @@ public class Level {
             return null;
         }
     }
-
+    public int getRoom(float[] pos){
+        for (Room room:rooms) {
+            if(checkIfInThisRoom(room,pos[0],pos[2])){
+                return room.getRoomNumber();
+            }
+        }
+        return -1;
+    }
+    private boolean checkIfInThisRoom(Room room,double x,double z) {
+        double minX = room.getLeftFront().get(0);
+        double minZ = room.getLeftFront().get(2);
+        double maxX = room.getLeftFront().get(0) + room.getLength();
+        double maxZ = room.getLeftFront().get(2) + room.getWidth();
+        if (x > maxX || x < minX || z > maxZ || z < minZ) {
+            return false;
+        }
+        return true;
+    }
+    public void addModel(IModel model, int roomNum){
+        addValid = false;
+        addQueue.get(roomNum).add(model);
+    }
+    public void removeModel(IModel model, int roomNum){
+        removeValid = false;
+        removeQueue.get(roomNum).add(model);
+    }
     public void addModel(IModel model) {
         //rooms.get(0).addModel(model);
         addValid = false;
         addQueue.get(0).add(model);
     }
     public void removeModel(IModel model){
+        ICollisionObj colObj = (ICollisionObj) model;
         removeValid = false;
-        removeQueue.get(0).add(model);
+        removeQueue.get(getRoom(colObj.getCollisionData().getCenter())).add(model);
     }
     public void updateRooms(){
         if(!addValid) {
@@ -335,9 +368,10 @@ public class Level {
         if(!removeValid){
             for (Integer roomNum : removeQueue.keySet()) {
                 for (IModel model : removeQueue.get(roomNum)) {
-                    for (Room room : rooms) {
+                    /*for (Room room : rooms) {
                         room.removeModel(model);
-                    }
+                    }*/
+                    rooms.get(roomNum).removeModel(model);
                 }
                 removeQueue.get(roomNum).clear();
             }
@@ -345,9 +379,13 @@ public class Level {
         }
     }
     public void drawRooms() {
-        for (Room room : this.rooms) {
-            room.drawAll(gl);
+        int roomNum = this.character.findInWhichRoom();
+        for (int room:rooms.get(roomNum).getRoomsToDisplay()) {
+            rooms.get(room).drawAll(gl);
         }
+        /*for (Room room : this.rooms) {
+            room.drawAll(gl);
+        }*/
     }
     public void updatePos(Vector origin){
         for (Enemy enemy:enemies) {
@@ -388,6 +426,24 @@ public class Level {
                 }
             }
         }
+    }
+    public void checkCollision(ICollisionObj collisionObj,int roomNum) {
+        if (checkWithModel(collisionObj, character)) {
+            return;
+        }
+            for (IModel model : rooms.get(roomNum).getRoomObjects()) {
+                if (model instanceof ICollisionObj) {
+//                    if (detector.CheckCollision(collisionObj.getCollisionData(),
+//                            ((ICollisionObj)model).getCollisionData())) {
+//                        ((ICollisionObj) model).collide(collisionObj);
+//                        collisionObj.collide((ICollisionObj) model);
+//                    }
+                    if (checkWithModel(collisionObj, (ICollisionObj)model)) {
+                        return;
+                    }
+                }
+            }
+
     }
     public boolean checkWithModel(ICollisionObj collisionObj1, ICollisionObj collisionObj2) {
         if (collisionObj1 == collisionObj2) {

@@ -13,6 +13,11 @@ public class Room {
     private int length;
     private int width;
     private int roomNumber;
+    private List<Integer> roomsToDisplay = new ArrayList<>();
+
+    public List<Integer> getRoomsToDisplay() {
+        return roomsToDisplay;
+    }
 
     public Vector getLeftFront() {
         return leftFront;
@@ -54,5 +59,8 @@ public class Room {
         this.leftFront = new Vector(leftFrontD,3);
         this.length = Integer.parseInt(data[4]);
         this.width = Integer.parseInt(data[5]);
+    }
+    public void addRoomToDisplay(int roomNum){
+        this.roomsToDisplay.add(roomNum);
     }
 }

@@ -21,6 +21,8 @@ public abstract class CollisionData implements Cloneable{
     public void move(Vector move) {}
     public void setPosAfterRot(float[] pos,float[] posAfterRot){}
     public void transAfterRotate(float[] trans){}
+    public float[] getCenter(){return new float[]{0, 0, 0};
+    }
     public void init(){}
     @Override
     public CollisionData clone(){

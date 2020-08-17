@@ -48,6 +48,10 @@ public class BoundingSphere extends CollisionData {
         this.rotate = rotateX.Multiply(rotateY.Multiply(rotateZ));
 
     }
+    @Override
+    public float[] getCenter(){
+        return new float[] {(float)center.get(0),(float)center.get(1),(float)center.get(2)};
+    }
     public void transAfterRotate(float[] trans){
         double[] posAfterD= {trans[0],trans[1],trans[2],1};
         Vector afterPos = new Vector(posAfterD,4);

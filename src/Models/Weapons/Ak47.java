@@ -88,9 +88,10 @@ public class Ak47 extends Weapon {
         this.collisionData.setScale(scale);
     }
 
-    private void addAsRoomModel(Bullet bullet) {
+    private void addAsRoomModel(Bullet bullet,int roomNum) {
             bullet.setAngle(angle);
-            level.addModel(bullet);
+            bullet.setRoomNum(roomNum);
+            level.addModel(bullet,roomNum);
     }
 
     @Override
@@ -160,7 +161,8 @@ public class Ak47 extends Weapon {
                 float[] pos1 = {(float) cooSystem.getOrigin().getVec()[0], (float) cooSystem.getOrigin().getVec()[1]
                         , (float) cooSystem.getOrigin().getVec()[2]};
                 float[] pos2 = {0f,-0.48f,-3.9f};
-               addAsRoomModel(magazine.shotBullet(pos1,pos2,bulletPath,this.level));
+                int roomNum = this.level.getRoom(pos1);
+                addAsRoomModel(magazine.shotBullet(pos1,pos2,bulletPath,this.level),roomNum);
                 sound.play("resources/SoundEffects/ak47shot.mp3");
             }
             rChange += (5f/duration)*milliseconds;

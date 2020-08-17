@@ -152,6 +152,11 @@ public class AABB extends CollisionData {
     public CollisionData clone(){
         return new AABB(min.clone(),max.clone());
     }
+    @Override
+    public float[] getCenter(){
+        Vector sum= this.min.Add(this.max);
+        return new float[]{(float)sum.get(0)/2,(float)sum.get(1)/2,(float)sum.get(2)/2} ;
+    }
 
 
 }

@@ -92,6 +92,8 @@ public class Gun extends Weapon{
         ball.setPosAfterRot(afterPos);
         float[] trans = {2,0,0};
         ball.setTransAfterRot(trans);
-        level.addModel(ball);
+        int roomNum = this.level.getRoom(pos);
+        ball.setRoomNum(roomNum);
+        level.addModel(ball,roomNum);
     }
 }

@@ -24,6 +24,7 @@ public class Bullet extends Model implements IDamage {
     private CollisionData collisionData;
     private boolean dead = false;
     private int demage = 10;
+    private int roomNum;
 
 
     public Bullet( List<ObjData> objData) {
@@ -50,9 +51,12 @@ public class Bullet extends Model implements IDamage {
         float[] rotate = {0,angle,0};
         this.collisionData.setRotate(rotate);
     }
+    public void setRoomNum(int roomNum){
+        this.roomNum = roomNum;
+    }
     private void destroy(){
         this.dead = true;
-        this.level.removeModel(this);
+        this.level.removeModel(this,this.roomNum);
     }
 
     @Override
@@ -62,7 +66,7 @@ public class Bullet extends Model implements IDamage {
 
     @Override
     public void draw(GL2 gl) {
-        checkCollision();
+
         long endTime = System.currentTimeMillis();
         long timePassed = endTime- startTime;
         move -= 0.03f*(float) FPS.timePassed;
@@ -80,6 +84,12 @@ public class Bullet extends Model implements IDamage {
         this.collisionData.transAfterRotate(trans);
         //this.collisionData.setScale(scale);
         this.collisionData.draw(gl);
+        int roomNum = this.level.getRoom(this.collisionData.getCenter());
+        if(this.roomNum != roomNum && roomNum != -1){
+            this.level.removeModel(this,this.roomNum);
+            this.roomNum = roomNum;
+            this.level.addModel(this,this.roomNum);
+        }
 
         gl.glPushMatrix();
         gl.glTranslatef(startPos[0],startPos[1],startPos[2]);
@@ -97,13 +107,14 @@ public class Bullet extends Model implements IDamage {
         if (Math.abs(move) > 100) {
             this.destroy();
         }
+        checkCollision();
     }
 
 
     @Override
     public void collide(ICollisionObj obj) {
         if(!(obj instanceof Character)) {
-            this.level.removeModel(this);
+            this.level.removeModel(this,this.roomNum);
             if (obj instanceof Enemy) {
                 ((Enemy) obj).hit(demage);
             }
@@ -116,6 +127,7 @@ public class Bullet extends Model implements IDamage {
     }
 
     private void checkCollision() {
-        level.checkCollision(this);
+        level.checkCollision(this,this.roomNum);
     }
+
 }

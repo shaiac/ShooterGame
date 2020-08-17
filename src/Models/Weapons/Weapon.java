@@ -29,7 +29,10 @@ public abstract class Weapon extends Model implements ICollisionObj {
     public void weaponPicked() {
         //sound.play("resources/SoundEffects/weaponPickUp.wav");
         this.picked = true;
-        this.level.removeModel(this);
+        if(weapontype != WeaponType.SWORD){
+            this.level.removeModel(this);
+        }
+
     }
 
     public void drawUnpicked(GL2 gl){

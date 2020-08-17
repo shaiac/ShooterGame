@@ -28,6 +28,8 @@ public class CannonBall extends Model implements IDamage {
     private float[] trans = {0,0,0};
     private boolean dead = false;
     private int demage = 10;
+    private int roomNum;
+
 
     public CannonBall(String path) {
         this.path = path;
@@ -45,6 +47,9 @@ public class CannonBall extends Model implements IDamage {
     public void setStartPos(float[] startPos){
         this.startPos = startPos;
         this.collisionData.setStartPos(startPos);
+    }
+    public void setRoomNum(int roomNum){
+        this.roomNum = roomNum;
     }
     //old
     @Override
@@ -77,7 +82,7 @@ public class CannonBall extends Model implements IDamage {
     }
     private void destroy(){
         this.dead = true;
-        this.level.removeModel(this);
+        this.level.removeModel(this,this.roomNum);
     }
     @Override
     public void draw(GL2 gl) {
@@ -102,7 +107,12 @@ public class CannonBall extends Model implements IDamage {
         this.collisionData.setScale(scale);
         this.collisionData.transAfterRotate(this.trans);
         this.collisionData.draw(gl);
-
+        int roomNum = this.level.getRoom(this.collisionData.getCenter());
+        if(this.roomNum != roomNum && roomNum != -1){
+            this.level.removeModel(this,this.roomNum);
+            this.roomNum = roomNum;
+            this.level.addModel(this,this.roomNum);
+        }
 
         gl.glTranslatef(startPos[0], startPos[1], startPos[2]);
         gl.glRotatef(270 + rot, 0, 1, 0);
@@ -137,7 +147,7 @@ public class CannonBall extends Model implements IDamage {
     @Override
     public void collide(ICollisionObj obj) {
         if(!(obj instanceof Enemy)) {
-            this.level.removeModel(this);
+            this.level.removeModel(this,this.roomNum);
             if (obj instanceof Character) {
                 ((Character) obj).hit(demage);
             }
@@ -150,6 +160,6 @@ public class CannonBall extends Model implements IDamage {
     }
 
     private void checkCollision() {
-        level.checkCollision(this);
+        level.checkCollision(this,this.roomNum);
     }
 }
