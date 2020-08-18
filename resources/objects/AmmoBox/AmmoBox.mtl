@@ -12,5 +12,5 @@ newmtl AmmoBoxD
 	Kd 0.5882 0.5882 0.5882
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka maps\AmmoBoxD.png
-	map_Kd maps\AmmoBoxD.png
+	map_Ka AmmoBoxD.png
+	map_Kd AmmoBoxD.png

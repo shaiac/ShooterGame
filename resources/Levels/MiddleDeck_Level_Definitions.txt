@@ -23,7 +23,7 @@ wall -60 20 -60 y 80 120 woodenWall.jpg n
 JackSparrow objects/JackSparrow/Jack_Sparrow.obj -40 0 -40
 Cannon objects/cannon/can.obj 0 0 0 270
 OldPirate objects/OldPirate/oldPirate.obj 40 0 -20
-Gun objects/Gun/pistol.obj 0 0 0 0
+Gun objects/Gun/Pistol.obj 0 0 0 0
 Barrel objects/barrel/barrel_obj.obj 37 0 -24
 Barrel objects/barrel/barrel_obj.obj 37 0 -19
 Barrel objects/barrel/barrel_obj.obj 37 0 -14
@@ -99,7 +99,7 @@ wall -80 0 -100 z 10 40 woodenWall.jpg
 wall -80 10 -100 y 40 40 woodenWall.jpg n
 wall -80 0 -100 y 40 40 woodenWall.jpg n
 OldPirate objects/OldPirate/oldPirate.obj -70 0 -90
-Gun objects/Gun/pistol.obj 0 0 0 0
+Gun objects/Gun/Pistol.obj 0 0 0 0
 Barrel objects/barrel/barrel_obj.obj -65 0 -73
 Barrel objects/barrel/barrel_obj.obj -65 0 -68
 Barrel objects/barrel/barrel_obj.obj -65 0 -63
@@ -120,7 +120,7 @@ wall -20 0 -110 z 10 10 woodenWall.jpg
 wall -28 0 -110 y 10 10 woodenWall.jpg n
 wall -28 10 -110 y 10 10 woodenWall.jpg n
 OldPirate objects/OldPirate/oldPirate.obj -25 0 -108
-Gun objects/Gun/pistol.obj 0 0 0 0
+Gun objects/Gun/Pistol.obj 0 0 0 0
 
 ROOM_FIVE_7
 show 6

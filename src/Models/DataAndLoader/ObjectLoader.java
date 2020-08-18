@@ -85,7 +85,6 @@ public class ObjectLoader {
                 }
             } else {
                 InputStream	myis = ClassLoader.getSystemClassLoader().getResourceAsStream(ModelPath);
-
                 InputStreamReader isr = new InputStreamReader(myis);
                 br = new BufferedReader(isr);
             }

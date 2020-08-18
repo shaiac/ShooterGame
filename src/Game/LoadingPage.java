@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.InputStream;
 
 public class LoadingPage {
     private int i = 0;
@@ -34,8 +35,10 @@ public class LoadingPage {
 
     private void loadImages() {
         try {
-            image = ImageIO.read(new File(backgroundPath));
-            smallImage = ImageIO.read(new File("resources/loading_image_small.jpg"));
+            InputStream isIm = ClassLoader.getSystemClassLoader().getResourceAsStream(backgroundPath);
+            image = ImageIO.read(isIm);
+            InputStream isSmall = ClassLoader.getSystemClassLoader().getResourceAsStream("loading_image_small.jpg");
+            smallImage = ImageIO.read(isSmall);
         } catch (Exception e) {
             System.out.println(e);
         }

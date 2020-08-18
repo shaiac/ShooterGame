@@ -73,7 +73,7 @@ wall 0 0 -100 y 72 60 woodenWall.jpg n
 #wall top
 wall 0 20 -100 y 72 60 woodenWall.jpg n
 OldPirate objects/OldPirate/oldPirate.obj 30 0 -90
-Gun objects/Gun/pistol.obj 0 0 0 0
+Gun objects/Gun/Pistol.obj 0 0 0 0
 
 ROOM_TUNNEL_0NE_4
 show 2,3
@@ -116,12 +116,12 @@ wall 60 10 -105 z 10 5 woodenWall.jpg
 #JackSparrow objects/JackSparrow/Jack_Sparrow.obj 5 0 -175
 #Cannon objects/cannon/can.obj 0 0 0 270
 #OldPirate objects/OldPirate/oldPirate.obj 55 0 -175
-#Gun objects/Gun/pistol.obj 0 0 0 0
+#Gun objects/Gun/Pistol.obj 0 0 0 0
 Heart objects/Heart/love_heart.obj 20 3 -175 90
 Shotgun objects/Shotgun/GunTwo.obj 5 5 -120
 #right part
 OldPirate objects/OldPirate/oldPirate.obj 110 0 -175
-Gun objects/Gun/pistol.obj 0 0 0 0
+Gun objects/Gun/Pistol.obj 0 0 0 0
 JackSparrow objects/JackSparrow/Jack_Sparrow.obj 90 0 -130
 Cannon objects/cannon/can.obj 0 0 0 270
 Barrel objects/barrel/barrel_obj.obj 85 0 -110
@@ -185,7 +185,7 @@ Barrel objects/barrel/barrel_obj.obj -133 0 -97.5
 Barrel objects/barrel/barrel_obj.obj -133 0 -102
 Treasure objects/Treasure/treasure_chest.obj -137.5 0 -100 90
 OldPirate objects/OldPirate/oldPirate.obj -138 0 -108
-Gun objects/Gun/pistol.obj 0 0 0 0
+Gun objects/Gun/Pistol.obj 0 0 0 0
 #top right part
 JackSparrow objects/JackSparrow/Jack_Sparrow.obj -90 0 -108
 Cannon objects/cannon/can.obj 0 0 0 270

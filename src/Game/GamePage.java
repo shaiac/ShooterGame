@@ -14,6 +14,7 @@ import javax.media.opengl.GL2;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 public abstract class GamePage {
     TextRenderer renderer;
@@ -29,8 +30,10 @@ public abstract class GamePage {
 
     private void setTexture() {
         try {
-            String filename="resources/starting_menu.jpg"; // the FileName to open
-            Texture texture = TextureIO.newTexture(new File(filename), true);
+            String filename="starting_menu.jpg"; // the FileName to open
+            InputStream myis = ClassLoader.getSystemClassLoader().getResourceAsStream(filename);
+
+            Texture texture = TextureIO.newTexture(myis, true,"jpg");
             data.setTexture(texture);
 
         } catch (IOException e) {

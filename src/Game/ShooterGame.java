@@ -70,7 +70,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         gl.glLoadIdentity();  // Reset The View
         //calculate fps
         fps.updateTime(System.currentTimeMillis() - startTime);
-        System.out.println(FPS.fps);
+        //System.out.println(FPS.fps);
         startTime = System.currentTimeMillis();
         if (needHelp) {
             animator.pause();
@@ -85,7 +85,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
             if (nextLevel) {
                 nextLevel = false;
                 loadingPage =  new LoadingPage(canvas.getGraphics(), frame.getHeight(),
-                        frame.getWidth(), "resources/pirate_ship.jpg");
+                        frame.getWidth(), "pirate_ship.jpg");
                 this.subThread= new ControlSubThread(canvas, loadingPage);
                 this.subThread.start();
                 loadLevel(gl);
@@ -94,7 +94,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
             if (nextLevel) {
                 nextLevel = false;
                 loadingPage =  new LoadingPage(canvas.getGraphics(), frame.getHeight(),
-                        frame.getWidth(), "resources/pirate_ship.jpg");
+                        frame.getWidth(), "pirate_ship.jpg");
                 this.subThread= new ControlSubThread(canvas, loadingPage);
                 this.subThread.start();
                 loadLevel(gl);
@@ -129,7 +129,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
 
     public void init(GLAutoDrawable drawable) {
         loadingPage =  new LoadingPage(canvas.getGraphics(), frame.getHeight(),
-                frame.getWidth(), "resources/pirate_ship.jpg");
+                frame.getWidth(), "pirate_ship.jpg");
         this.subThread= new ControlSubThread(canvas, loadingPage);
         subThread.start();
         final GL2 gl = drawable.getGL().getGL2();
@@ -266,11 +266,12 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
                 character.changeWeapon();
                 break;
             case KeyEvent.VK_2:
-                if (!character.getAlive())
+                if (!character.getAlive() || gameEnded)
                     exit();
                 break;
             case KeyEvent.VK_1:
-                if (!character.getAlive()) {
+                if (!character.getAlive() || gameEnded) {
+                    gameEnded = false;
                     this.levelNum = 0;
                     this.nextLevel = true;
                 }

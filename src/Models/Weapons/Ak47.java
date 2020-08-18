@@ -17,6 +17,8 @@ import SoundEffects.SoundEffect;
 import javafx.util.Pair;
 
 import javax.media.opengl.GL2;
+import javax.sound.sampled.*;
+import java.io.IOException;
 import java.util.List;
 
 public class Ak47 extends Weapon {
@@ -118,6 +120,18 @@ public class Ak47 extends Weapon {
 
     @Override
     public int reload() {
+        /*try{
+            AudioInputStream audio = AudioSystem.getAudioInputStream(getClass().getResource("SoundEffects/shotgun_reload.wav"));
+            Clip clip = AudioSystem.getClip();
+            clip.open(audio);
+
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        }*/
         sound.play("resources/SoundEffects/shotgun_reload.wav");
         return magazine.reload();
     }
@@ -140,6 +154,7 @@ public class Ak47 extends Weapon {
                 int roomNum = this.level.getRoom(pos1);
                 addAsRoomModel(magazine.shotBullet(pos1,pos2,bulletPath,this.level),roomNum);
                 sound.play("resources/SoundEffects/ak47shot.mp3");
+
             }
             rChange += (5f/duration)*milliseconds;
             gl.glRotatef(rChange,0,1,0);
