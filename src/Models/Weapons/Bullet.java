@@ -1,3 +1,8 @@
+/*
+submit:
+Ziv Zaarur 206099913
+Shai Acoca 315314278
+ */
 package Models.Weapons;
 
 import CollisionDetection.CollisionData;
@@ -22,15 +27,9 @@ public class Bullet extends Model implements IDamage {
     private float[] bulletPos = {0,0,0};
     private long startTime = System.currentTimeMillis();
     private CollisionData collisionData;
-    private boolean dead = false;
-    private int demage = 10;
     private int roomNum;
 
 
-    public Bullet( List<ObjData> objData) {
-        this.data = objData;
-        this.move = 0;
-    }
     public Bullet(String path, LoaderFactory factory,Level level){
         Pair<List<ObjData>, CollisionData> data = factory.create(path, CollisionType.POINT);
         this.data = data.getKey();
@@ -55,11 +54,9 @@ public class Bullet extends Model implements IDamage {
         this.roomNum = roomNum;
     }
     private void destroy(){
-        this.dead = true;
         this.level.removeModel(this,this.roomNum);
     }
 
-    @Override
     public void create(ObjectLoader loader, GL2 gl, float[] startPos) {
         this.startPos = startPos;
     }
@@ -70,20 +67,16 @@ public class Bullet extends Model implements IDamage {
         long endTime = System.currentTimeMillis();
         long timePassed = endTime- startTime;
         move -= 0.03f*(float) FPS.timePassed;
-        //move -= 1.5f;
         startTime = System.currentTimeMillis();
 
         //update collision data
         this.collisionData.init();
         float[] moveArr = {0, 0, move};
-        //float[] scale = {0.04f,0.04f,0.04f};
         float[] trans = {0,0, -0.4f};
 
         this.collisionData.transAfterRotate(bulletPos);
         this.collisionData.transAfterRotate(moveArr);
         this.collisionData.transAfterRotate(trans);
-        //this.collisionData.setScale(scale);
-        this.collisionData.draw(gl);
         int roomNum = this.level.getRoom(this.collisionData.getCenter());
         if(this.roomNum != roomNum && roomNum != -1){
             this.level.removeModel(this,this.roomNum);
@@ -116,6 +109,7 @@ public class Bullet extends Model implements IDamage {
         if(!(obj instanceof Character)) {
             this.level.removeModel(this,this.roomNum);
             if (obj instanceof Enemy) {
+                int demage = 10;
                 ((Enemy) obj).hit(demage);
             }
         }

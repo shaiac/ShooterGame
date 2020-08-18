@@ -1,3 +1,8 @@
+/*
+submit:
+Ziv Zaarur 206099913
+Shai Acoca 315314278
+ */
 package Levels;
 
 import CollisionDetection.CollisionDetector;
@@ -36,7 +41,7 @@ public class Level {
     private boolean addValid = true;
     private HashMap<Integer, List<IModel>> removeQueue = new HashMap<>();
     private boolean removeValid = true;
-    CollisionDetector detector = new CollisionDetector();
+    private CollisionDetector detector = new CollisionDetector();
     private Character character;
 
     public Level(LoaderFactory factory,ShooterGame shooterGame, ObjectLoader loader,GL2 gl){
@@ -110,29 +115,23 @@ public class Level {
                     case "AK_47":
                         String path = splitData[1];
                         Ak47 ak47 = new Ak47(path,this,this.factory);
-                        //Ak47 ak47 = new Ak47(splitData[1], this);
                         float[] akPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
-                        //ak47.create(loader, gl, akPos);
                         ak47.setStartPos(akPos);
                         rooms.get(roomNumber - 1).addModel(ak47);
                         break;
                     case "Barrel":
                         Barrel barrel = new Barrel("objects/barrel/barrel_obj.obj",factory);
-                        //Barrel barrel = new Barrel("objects/barrel/barrel_obj.obj");
                         float[] barrelPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
-                        //barrel.create(loader, gl, barrelPos);
                         barrel.setStartPos(barrelPos);
                         rooms.get(roomNumber - 1).addModel(barrel);
                         break;
                     //enemies weapons
                     case "Gun":
                         Gun gun = new Gun(splitData[1],this,this.factory);
-                        //Gun gun = new Gun(splitData[1], this);
                         float[] gunPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
-                        //gun.create(loader, gl, gunPos);
                         gun.setStartPos(gunPos);
                         gun.rotate(Float.parseFloat(splitData[5]), 'x');
                         if(enemy != null){
@@ -144,11 +143,8 @@ public class Level {
                         break;
                     case "Cannon":
                         Cannon cannon = new Cannon(splitData[1],this,this.factory);
-                        //Cannon cannon = new Cannon(splitData[1], this);
-                        //this.tmpCannon = cannon;
                         float[] cannonPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
-                        //cannon.create(loader, gl, cannonPos);
                         cannon.setStartPos(cannonPos);
                         cannon.rotate(Float.parseFloat(splitData[5]), 'x');
                         if(enemy != null){
@@ -162,7 +158,6 @@ public class Level {
                     case "JackSparrow":
                         JackSparrow jack = new JackSparrow(splitData[1],this.factory, this,
                                 roomNumber - 1);
-                        //JackSparrow jack = new JackSparrow(splitData[1]);
                         float[] jackPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
                         jack.setStartPos(jackPos);
@@ -174,11 +169,8 @@ public class Level {
                     case "OldPirate":
                         OldPirate pirate = new OldPirate(splitData[1],this,this.factory,
                                 roomNumber - 1);
-                        //OldPirate pirate = new OldPirate(splitData[1]);
                         float[] piratePos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
-                        //pirate.create(loader, gl, piratePos);
-                        //pirate.rotate(Float.parseFloat(splitData[5]), 'z');
                         pirate.setStartPos(piratePos);
                         rooms.get(roomNumber - 1).addModel(pirate);
                         enemies.add(pirate);
@@ -186,48 +178,38 @@ public class Level {
                         break;
                     case "Shotgun":
                         Shotgun shotgun = new Shotgun("objects/Shotgun/GunTwo.obj", this,this.factory);
-                        //Shotgun shotgun = new Shotgun("objects/Shotgun/GunTwo.obj", this);
                         float[] shotgunPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
-                        //shotgun.create(loader, gl, shotgunPos);
                         shotgun.setStartPos(shotgunPos);
                         rooms.get(roomNumber - 1).addModel(shotgun);
                         break;
                     case "Sword":
                         Sword sword = new Sword("objects/RzR/rzr.obj",this,this.factory);
-                        //Sword sword = new Sword("objects/RzR/rzr.obj");
                         float[] swordPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
-                        //sword.create(loader, gl, swordPos);
                         sword.setStartPos(swordPos);
                         rooms.get(roomNumber - 1).addModel(sword);
                         break;
                     case "Treasure":
                         Treasure treasure = new Treasure(splitData[1],this,this.factory);
-                        //Treasure treasure = new Treasure(splitData[1]);
                         float[] treasurePos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
-                        //treasure.create(loader, gl, treasurePos);
                         treasure.setStartPos(treasurePos);
                         treasure.rotate(Float.parseFloat(splitData[5]), 'y');
                         rooms.get(roomNumber - 1).addModel(treasure);
                         break;
                     case "Map":
                         Map map = new Map(splitData[1],this.factory);
-                        //Map map = new Map(splitData[1]);
                         float[] mapPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
-                        //map.create(loader, gl, mapPos);
                         map.setStartPos(mapPos);
                         map.rotate(Float.parseFloat(splitData[5]), 'y');
                         rooms.get(roomNumber - 1).addModel(map);
                         break;
                     case "Skull":
                         Skull skull = new Skull(splitData[1],this.factory);
-                        //Skull skull = new Skull(splitData[1]);
                         float[] skullPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
-                        //skull.create(loader, gl, skullPos);
                         skull.setStartPos(skullPos);
                         skull.rotate(Float.parseFloat(splitData[5]), 'y');
                         skull.scale(Float.parseFloat(splitData[6]), Float.parseFloat(splitData[6]),
@@ -235,10 +217,8 @@ public class Level {
                         rooms.get(roomNumber - 1).addModel(skull);
                     case "Skellington":
                         Skellington skellington = new Skellington(splitData[1],this.factory);
-                        //Skellington skellington = new Skellington(splitData[1]);
                         float[] skellingtonPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
-                        //skellington.create(loader, gl, skellingtonPos);
                         skellington.setStartPos(skellingtonPos);
                         skellington.rotate(Float.parseFloat(splitData[5]), 'y');
                         skellington.scale(Float.parseFloat(splitData[6]), Float.parseFloat(splitData[6]),
@@ -247,29 +227,23 @@ public class Level {
                         break;
                     case "Heart":
                         Heart heart = new Heart(splitData[1],this,this.factory);
-                        //Heart heart = new Heart(splitData[1]);
                         float[] heartPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
-                        //heart.create(loader, gl, heartPos);
                         heart.setStartPos(heartPos);
                         heart.rotate(Float.parseFloat(splitData[5]), 'y');
                         rooms.get(roomNumber - 1).addModel(heart);
                         break;
                     case "AmmoBox":
                         AmmoBox ammoBox = new AmmoBox(splitData[1],this,this.factory);
-                        //AmmoBox ammoBox = new AmmoBox(splitData[1]);
                         float[] ammoPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
-                        //ammoBox.create(loader, gl, ammoPos);
                         ammoBox.setStartPos(ammoPos);
                         rooms.get(roomNumber - 1).addModel(ammoBox);
                         break;
                     case "SkullSymbol":
                         SkullSymbol skullSymbol = new SkullSymbol(splitData[1],this.factory);
-                        //SkullSymbol skullSymbol = new SkullSymbol(splitData[1]);
                         float[] symbolPos = {Float.parseFloat(splitData[2]), Float.parseFloat(splitData[3]),
                                 Float.parseFloat(splitData[4])};
-                        //skullSymbol.create(loader, gl, symbolPos);
                         skullSymbol.setStartPos(symbolPos);
                         skullSymbol.rotate(Float.parseFloat(splitData[5]), 'x');
                         rooms.get(roomNumber - 1).addModel(skullSymbol);
@@ -291,10 +265,6 @@ public class Level {
         }
     }
 
-    /*public Cannon getTmpCannon () {
-        return this.tmpCannon;
-    }*/
-
     private Wall createWall(String wallDefinitions) {
         String[] splitData = wallDefinitions.split(" ");
         Wall wall = new Wall(Float.parseFloat(splitData[1]),Float.parseFloat(splitData[2]),Float.parseFloat(splitData[3])
@@ -311,10 +281,8 @@ public class Level {
     private Texture getTextureFromPath(String texturePath) {
         try {
             InputStream myis = ClassLoader.getSystemClassLoader().getResourceAsStream(texturePath);
-            String data[] = texturePath.split("\\.");
+            String[] data = texturePath.split("\\.");
             return TextureIO.newTexture(myis, true, data[1]);
-            //Texture texture = TextureIO.newTexture(new File( texturePath ),true);
-            //return texture;
         } catch (IOException e) {
             return null;
         }
@@ -345,11 +313,6 @@ public class Level {
         removeValid = false;
         removeQueue.get(roomNum).add(model);
     }
-    public void addModel(IModel model) {
-        //rooms.get(0).addModel(model);
-        addValid = false;
-        addQueue.get(0).add(model);
-    }
     public void removeModel(IModel model){
         ICollisionObj colObj = (ICollisionObj) model;
         removeValid = false;
@@ -368,9 +331,6 @@ public class Level {
         if(!removeValid){
             for (Integer roomNum : removeQueue.keySet()) {
                 for (IModel model : removeQueue.get(roomNum)) {
-                    /*for (Room room : rooms) {
-                        room.removeModel(model);
-                    }*/
                     rooms.get(roomNum).removeModel(model);
                 }
                 removeQueue.get(roomNum).clear();
@@ -383,9 +343,6 @@ public class Level {
         for (int room:rooms.get(roomNum).getRoomsToDisplay()) {
             rooms.get(room).drawAll(gl);
         }
-        /*for (Room room : this.rooms) {
-            room.drawAll(gl);
-        }*/
     }
     public void updatePos(Vector origin){
         for (Enemy enemy:enemies) {
@@ -400,9 +357,6 @@ public class Level {
     public void removeEnemy(Enemy enemy){
         enemies.remove(enemy);
     }
-    public List<Room> getRooms(){
-        return rooms;
-    }
 
     public void levelEnded() {
         this.levelObserver.currentLevelEnded();
@@ -415,11 +369,6 @@ public class Level {
         for (Room room : rooms) {
             for (IModel model : room.getRoomObjects()) {
                 if (model instanceof ICollisionObj) {
-//                    if (detector.CheckCollision(collisionObj.getCollisionData(),
-//                            ((ICollisionObj)model).getCollisionData())) {
-//                        ((ICollisionObj) model).collide(collisionObj);
-//                        collisionObj.collide((ICollisionObj) model);
-//                    }
                     if (checkWithModel(collisionObj, (ICollisionObj)model)) {
                         return;
                     }
@@ -433,11 +382,6 @@ public class Level {
         }
             for (IModel model : rooms.get(roomNum).getRoomObjects()) {
                 if (model instanceof ICollisionObj) {
-//                    if (detector.CheckCollision(collisionObj.getCollisionData(),
-//                            ((ICollisionObj)model).getCollisionData())) {
-//                        ((ICollisionObj) model).collide(collisionObj);
-//                        collisionObj.collide((ICollisionObj) model);
-//                    }
                     if (checkWithModel(collisionObj, (ICollisionObj)model)) {
                         return;
                     }

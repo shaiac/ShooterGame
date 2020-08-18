@@ -1,3 +1,8 @@
+/*
+submit:
+Ziv Zaarur 206099913
+Shai Acoca 315314278
+ */
 package Models.Weapons;
 
 import Game.CoordinateSystem;
@@ -9,18 +14,11 @@ import Models.DataAndLoader.ObjectLoader;
 import javax.media.opengl.GL2;
 
 public class Gun extends Weapon{
-    private String path;
-    private ObjectLoader loader;
-    private GL2 gl;
     private float[] pos = {0,0,0};
-    boolean fire = false;
+    private boolean fire = false;
     private float angle;
     private LoaderFactory factory;
-    //old
-    public Gun(String path, Level level) {
-        this.level = level;
-        this.path = path;
-    }
+
     public Gun(String path, Level level, LoaderFactory factory){
         this.data = factory.create(path);
         this.factory = factory;
@@ -28,15 +26,6 @@ public class Gun extends Weapon{
     }
     public void setStartPos(float[] startPos){
         this.startPos = startPos;
-    }
-    //old
-    @Override
-    public void create(ObjectLoader loader, GL2 gl, float[] startPos) {
-        data = loader.LoadModelToGL(path,gl);
-        //this.translate(1f,0f,0f);
-        this.startPos = startPos;
-        this.loader = loader;
-        this.gl = gl;
     }
 
     @Override
@@ -79,11 +68,6 @@ public class Gun extends Weapon{
         this.pos = pos;
     }
     private void dofire() {
-        /*if(ball == null){
-            this.ball = new CannonBall("objects/ball/uploads_files_2078589_sphere.obj");
-            this.ball.create(loader,gl,pos);
-        }
-        CannonBall newBall = this.ball.create(pos);*/
         CannonBall ball = new CannonBall("objects/ball/uploads_files_2078589_sphere.obj",this.factory,this.level);
         ball.setStartPos(pos);
         ball.setRot(angle-2f);

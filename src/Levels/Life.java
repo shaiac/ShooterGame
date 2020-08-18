@@ -1,3 +1,8 @@
+/*
+submit:
+Ziv Zaarur 206099913
+Shai Acoca 315314278
+ */
 package Levels;
 
 import com.jogamp.opengl.util.awt.TextRenderer;
@@ -5,8 +10,8 @@ import com.jogamp.opengl.util.awt.TextRenderer;
 import java.awt.*;
 
 public class Life {
-    int life;
-    TextRenderer renderer;
+    private int life;
+    private TextRenderer renderer;
     public Life() {
         life = 100;
         renderer = new TextRenderer(new Font("Helvetica", Font.PLAIN, 40));
@@ -24,9 +29,6 @@ public class Life {
     }
     public void addLife(int amount){
         this.life += amount;
-//        if(life > 100){
-//            life = 100;
-//        }
     }
     public int getRemainLife() {
         return life;

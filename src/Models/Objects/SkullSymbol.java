@@ -8,7 +8,6 @@ import Models.Model;
 import javax.media.opengl.GL2;
 
 public class SkullSymbol extends Model {
-    private String path;
     public SkullSymbol(String path) {
         this.path = path;
     }
@@ -16,11 +15,6 @@ public class SkullSymbol extends Model {
         this.data = factory.create(path);
     }
     public void setStartPos(float[] startPos){
-        this.startPos = startPos;
-    }
-    @Override
-    public void create(ObjectLoader loader, GL2 gl, float[] startPos) {
-        data = loader.LoadModelToGL(path,gl);
         this.startPos = startPos;
     }
 

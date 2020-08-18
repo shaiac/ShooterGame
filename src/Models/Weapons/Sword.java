@@ -1,3 +1,8 @@
+/*
+submit:
+Ziv Zaarur 206099913
+Shai Acoca 315314278
+ */
 package Models.Weapons;
 
 import CollisionDetection.CollisionData;
@@ -13,16 +18,11 @@ import Models.DataAndLoader.ObjectLoader;
 import Models.Enemys.Enemy;
 
 import javax.media.opengl.GL2;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Sword extends Weapon implements IDamage {
-    private List<float[]> colPoints= new ArrayList<>();
-    private String path;
     private boolean attackMode = false;
     private float duration = 250f;
     private float time;
-    private float change = 0;
     private float rChange = 0;
     private long startTime = 0;
     private long endTime = 0;
@@ -30,7 +30,6 @@ public class Sword extends Weapon implements IDamage {
     private CollisionData collisionData;
     private CoordinateSystem coordinateSystem;
     private boolean attack = false;
-    private int demage = 30;
 
     public Sword(String path, Level level, LoaderFactory factory){
         this.data = factory.create(path);
@@ -47,7 +46,6 @@ public class Sword extends Weapon implements IDamage {
     }
     public void setStartPos(float[] startPos){
         this.startPos = startPos;
-        //this.collisionData.setStartPos(startPos);
     }
     public void create(ObjectLoader loader,GL2 gl,float[] startPos){
         data = loader.LoadModelToGL(path,gl);
@@ -71,7 +69,7 @@ public class Sword extends Weapon implements IDamage {
         if(attackMode){
             endTime = System.currentTimeMillis();
             milliseconds = endTime- startTime;
-            change = (0.5f/duration)*milliseconds;
+            float change = (0.5f / duration) * milliseconds;
 
             for (ObjData obj:data) {
                 moveSword(gl);
@@ -95,13 +93,10 @@ public class Sword extends Weapon implements IDamage {
     private void moveSword(GL2 gl) {
         if(time <= duration/2){
             rChange += (30f/duration)*milliseconds;
-            //translate(-change,-change,0f);
             gl.glTranslatef(-0.5f,-0.5f,0.5f);
             gl.glRotatef(-rChange,1,0,0);
             gl.glRotatef(rChange,0,1,0);
             gl.glTranslatef(0.5f,0.5f,-0.5f);
-            //rotate(-rChange,'x');
-            //rotate(rChange,'y');
         }else{
             if(!attack){
                 attack = true;
@@ -115,13 +110,10 @@ public class Sword extends Weapon implements IDamage {
                 this.level.checkCollision(this);
             }
             rChange -= (30f/duration)*milliseconds;
-            //translate(change, change,0f);
             gl.glTranslatef(-0.5f,-0.5f,0.5f);
             gl.glRotatef(-rChange,1,0,0);
             gl.glRotatef(rChange,0,1,0);
             gl.glTranslatef(0.5f,0.5f,-0.5f);
-            //rotate(rChange,'x');
-            //rotate(-rChange,'y');
         }
     }
     @Override
@@ -150,6 +142,7 @@ public class Sword extends Weapon implements IDamage {
     public void collide(ICollisionObj obj) {
         if(!(obj instanceof Character)) {
             if (obj instanceof Enemy) {
+                int demage = 30;
                 ((Enemy) obj).hit(demage);
             }
         }

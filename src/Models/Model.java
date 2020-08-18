@@ -1,6 +1,5 @@
 package Models;
 
-import Game.ShooterGame;
 import Levels.Level;
 import Models.DataAndLoader.ObjData;
 import java.util.ArrayList;
@@ -11,9 +10,7 @@ public abstract class Model implements IModel {
     protected float[] startPos = {0,0,0};
     protected Level level;
     protected String path;
-//    public Model(ShooterGame shooterGame) {
-//        this.level = shooterGame;
-//    }
+
     @Override
     public void translate(float x, float y, float z) {
         float[] trans = {x,y,z};

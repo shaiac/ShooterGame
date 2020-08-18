@@ -24,13 +24,9 @@ public class Wall extends Model implements IObstacle {
     private float x,y,z;
     private char axis;
     private float width,length;
-    private Texture tex;
     private float color[];
-    private int list;
     private ObjData data = new ObjData();
-    private List<Vector> rectangle;
     private CollisionData collisionData;
-    private float[] normal;
     public Wall(float x,float y,float z,char axis,float width,float length){
         this.x = x;
         this.y = y;
@@ -38,8 +34,6 @@ public class Wall extends Model implements IObstacle {
         this.axis = axis;
         this.width = width;
         this.length = length;
-        this.rectangle = new ArrayList<>();
-        insertVertex(x,y,z);
     }
 
     public void setTex(Texture tex) {
@@ -59,7 +53,7 @@ public class Wall extends Model implements IObstacle {
         float[] normal = getNormal();
         texhieght = 1;
         texwidth = 1;
-        list = gl.glGenLists(1);
+        int list = gl.glGenLists(1);
         gl.glNewList(list,GL2.GL_COMPILE);
 
         gl.glBegin(GL2.GL_QUADS);
@@ -173,47 +167,10 @@ public class Wall extends Model implements IObstacle {
         Vector minVec = new Vector(min,4);
         Vector maxVec = new Vector(max,4);
         this.collisionData = new AABB(minVec,maxVec);
-        //this.collisionData = new CollisionPolygon(rect);
     }
     @Override
     public void draw(GL2 gl){
-        float[] color = {0.8f,0.8f,0.8f,1};
-        float[] ambient = {1,1,1,1};
-        float[] spec = {1,1,1,1};
-        //gl.glMaterialfv(GL2.GL_FRONT_AND_BACK,GL2.GL_DIFFUSE,color,0);
-        //gl.glMaterialfv(GL2.GL_FRONT_AND_BACK,GL2.GL_AMBIENT,ambient,0);
-        //gl.glMaterialfv(GL2.GL_FRONT_AND_BACK,GL2.GL_SPECULAR,spec,0);
-        //gl.glFrontFace(GL.GL_CW);
-        //gl.glMaterialfv(GL2.GL_FRONT_AND_BACK,GL2.GL_S);
-        this.collisionData.draw(gl);
         data.draw(gl);
-    }
-
-
-    private void insertVertex(double vx, double vy, double vz) {
-        double[] arrVec = {vx, vy, vz};
-        Vector vec1 = new Vector(arrVec, 3);
-        rectangle.add(0, vec1);
-    }
-
-    private void createRectangle() {
-
-        double[] arrVec1 = {x, y, z,1}; //top left
-        Vector vec1 = new Vector(arrVec1, 4);
-        rectangle.add(vec1);
-        double[] arrVec2 = {20, 40, -20};//top right
-        Vector vec2 = new Vector(arrVec2, 3);
-        rectangle.add(1, vec2);
-        double[] arrVec3 = {20, 0, -20};//bottom right
-        Vector vec3 = new Vector(arrVec3, 3);
-        rectangle.add(2, vec3);
-        double[] arrVec4 = {x, y, z}; //bottom left
-        Vector vec4 = new Vector(arrVec4, 3);
-        rectangle.add(3, vec4);
-    }
-
-    public List<Vector> getRectangle() {
-        return rectangle;
     }
 
     @Override

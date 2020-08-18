@@ -1,12 +1,14 @@
+/*
+submit:
+Ziv Zaarur 206099913
+Shai Acoca 315314278
+ */
 package Models.Weapons;
 
-import CollisionDetection.CollisionData;
 import Levels.Level;
 import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
-import Models.IModel;
-import javafx.util.Pair;
 
 import javax.media.opengl.GL2;
 import java.util.List;
@@ -36,18 +38,6 @@ public class Magazine {
         bullet.setBulletPos(pos2);
         bullets--;
         return  bullet;
-    }
-    public Bullet shotBullet(float[] pos1,float[] pos2) {
-        Bullet bullet = new Bullet(objData);
-        //float[] bulletlPos = {0,5f,0f};
-        bullet.create(objectLoader,gl,pos1);
-        bullet.setBulletPos(pos2);
-        bullets--;
-        return bullet;
-    }
-
-    public int getNumOFBullets() {
-        return bullets;
     }
 
     public int reload() {

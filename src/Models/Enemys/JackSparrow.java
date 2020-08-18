@@ -1,3 +1,8 @@
+/*
+submit:
+Ziv Zaarur 206099913
+Shai Acoca 315314278
+ */
 package Models.Enemys;
 
 import CollisionDetection.CollisionData;
@@ -17,7 +22,6 @@ import javax.media.opengl.GL2;
 import java.util.List;
 
 public class JackSparrow extends Enemy implements ICollisionObj {
-    private long attackDuration = 2500;
     private long startTimeAtt = System.currentTimeMillis();
     public String path;
     private CollisionData collisionData;
@@ -38,24 +42,9 @@ public class JackSparrow extends Enemy implements ICollisionObj {
         this.startPos = startPos;
         this.collisionData.setStartPos(startPos);
     }
-    //old
-    @Override
-    public void create(ObjectLoader loader, GL2 gl, float[] startPos) {
-        this.data = loader.LoadModelToGL(path,gl, CollisionType.AABB);
-        this.collisionData = loader.getCollisionData();
-        this.startPos = startPos;
-        this.collisionData.setStartPos(startPos);
-        this.scale(0.03f,0.03f,0.03f);
-        this.rotate(90,'y');
-        float[] scale = {0.03f,0.03f,0.03f};
-        this.collisionData.setScale(scale);
-        float[] angle = {0,90,0};
-        this.collisionData.setRotate(angle);
-    }
 
     @Override
     public void draw(GL2 gl) {
-        collisionData.draw(gl);
         //rotate around the origin
         double m = ((-startPos[2] + charOrigin.getVec()[2])/(startPos[0] - charOrigin.getVec()[0]));
         float angle = (float) Math.toDegrees( Math.atan(m));
@@ -66,6 +55,7 @@ public class JackSparrow extends Enemy implements ICollisionObj {
         // calculate when to attack.
         long currentTime = System.currentTimeMillis();
         long diff = currentTime - startTimeAtt;
+        long attackDuration = 2500;
         if(diff > attackDuration){
             startTimeAtt = currentTime;
             attack();

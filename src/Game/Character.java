@@ -10,14 +10,12 @@ import CollisionDetection.CollisionData;
 import CollisionDetection.ICollisionObj;
 import Levels.Level;
 import Levels.Life;
-import Levels.Room;
 import LinearMath.Vector;
 import Models.Objects.IObstacle;
 import Models.Weapons.Ammunition;
 import Models.Weapons.Weapon;
 import Models.goods.IGood;
 import SoundEffects.SoundEffect;
-import com.jogamp.newt.event.KeyEvent;
 
 import javax.media.opengl.GL2;
 import java.util.*;
@@ -29,11 +27,9 @@ public class Character implements ICollisionObj {
     private Ammunition ammo;
     private Weapon currentWeapon;
     private double totalRotation = 0;
-    private float deg;
     private Life life;
     private Level currentLevel;
     private CollisionData collisionData;
-    private Vector toMove;
     private boolean hit;
     private boolean collided = false;
     private Vector lastMove;
@@ -63,7 +59,7 @@ public class Character implements ICollisionObj {
         return inRoomNumber;
     }
 
-    public boolean getAlive() {
+    boolean getAlive() {
         return alive;
     }
 
@@ -77,11 +73,11 @@ public class Character implements ICollisionObj {
         collisionData = new AABB(minVec,maxVec);
     }
 
-    public void setCurrentLevel(Level level) {
+    void setCurrentLevel(Level level) {
         currentLevel = level;
     }
 
-    public void changeWeapon(){
+    void changeWeapon(){
         if(weapons.isEmpty()){
             return;
         }
@@ -90,7 +86,6 @@ public class Character implements ICollisionObj {
     }
     public void draw(){
         findInWhichRoom();
-        collisionData.draw(gl);
         if(hit){
             drawHit();
             hitTime+= FPS.timePassed;
@@ -99,7 +94,7 @@ public class Character implements ICollisionObj {
                 hit = false;
             }
         }
-        deg = (float) Math.toDegrees(totalRotation);
+        float deg = (float) Math.toDegrees(totalRotation);
         currentWeapon.setAngle(deg);
         ammo.draw();
         life.draw();
@@ -112,14 +107,14 @@ public class Character implements ICollisionObj {
         gl.glPopMatrix();
     }
 
-    public void step(double[] movement){
+    void step(double[] movement){
         if(movement[0] != 0 || movement[2] != 0){
             double[] move = {movement[0]*FPS.fpsFactor,0,movement[2]*FPS.fpsFactor};
 
             cooSystem.moveStep(move);
             Vector currentPos = cooSystem.getOrigin();
             double[] moveA = {currentPos.get(0), currentPos.get(1) - 5, currentPos.get(2), 0};
-            toMove = new Vector(moveA, 4);
+            Vector toMove = new Vector(moveA, 4);
             collisionData.move(toMove);
             checkCollision();
             if(collided){

@@ -1,3 +1,8 @@
+/*
+submit:
+Ziv Zaarur 206099913
+Shai Acoca 315314278
+ */
 package Levels;
 import java.io.*;
 import java.util.ArrayList;
@@ -9,7 +14,7 @@ public class GameLevels {
         levelsList = new ArrayList<>();
         ReadLevels("Levels/level_sets.txt");
     }
-    public void ReadLevels(String level) {
+    private void ReadLevels(String level) {
         Reader reader = null;
         try {
             InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream(level);

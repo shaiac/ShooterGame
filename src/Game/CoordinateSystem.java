@@ -4,7 +4,6 @@ Ziv Zaarur 206099913
 Shai Acoca 315314278
  */
 import LinearMath.Vector;
-import javafx.util.Pair;
 
 public class CoordinateSystem {
  private Vector x;

@@ -1,8 +1,9 @@
-package Game;/*
+/*
 submit:
 Ziv Zaarur 206099913
 Shai Acoca 315314278
  */
+package Game;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -33,7 +34,6 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
     private static Animator animator;
     private ObjectLoader loader = new ObjectLoader();
     private Character character;
-    private Sword sword;
     private GameLevels gameLevels;
     private Level level;
     private double[] mousePos = {0,0,1};
@@ -45,13 +45,11 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
     private GameOver gameOver;
     private Help help;
     private boolean needHelp = false;
-    public int playerDecision = -1;
     private boolean firstInit = true;
     private StartingMenu startingMenu;
     private boolean starting = true;
     private double[] movement = {0,0,0};
     private double[] rotate = {0,0,0};
-    private boolean reload = false;
     private FPS fps = new FPS();
     private long startTime;
     private LoadingPage loadingPage;
@@ -80,7 +78,6 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         } else if(starting) {
             startingMenu.draw();
         }else if (!character.getAlive() || gameEnded) {
-            //animator.stop();
             if (gameEnded)
                 gameOver.draw("Finished The Game");
             else
@@ -96,8 +93,6 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         } else if (startAnimation.toStop()) {
             if (nextLevel) {
                 nextLevel = false;
-//                level = new Level(this.factory, this, loader, gl);
-//                level.BuildLevel(gameLevels.getLevelsList().get(levelNum));
                 loadingPage =  new LoadingPage(canvas.getGraphics(), frame.getHeight(),
                         frame.getWidth(), "resources/pirate_ship.jpg");
                 this.subThread= new ControlSubThread(canvas, loadingPage);
@@ -192,16 +187,15 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
             character.setCurrentLevel(level);
         }
     }
-    public void loadLevel(GL2 gl){
+    private void loadLevel(GL2 gl){
         this.cooSystem =  new CoordinateSystem();
         level = new Level(this.factory,this,loader,gl);
         level.BuildLevel(gameLevels.getLevelsList().get(levelNum));
         subThread.stop();
         //Setting the character
-        sword = new Sword("objects/RzR/rzr.obj",level,this.factory);
+        Sword sword = new Sword("objects/RzR/rzr.obj", level, this.factory);
         float[] pos = {0f,5f,-10f};
         sword.setStartPos(pos);
-        //level.addModel(sword);
         this.character = new Character(sword,this.cooSystem,gl);
         character.setCurrentLevel(level);
         level.setCharacter(character);
@@ -323,11 +317,7 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         }
     }
 
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    public static void exit(){
+    private static void exit(){
         animator.stop();
         frame.dispose();
         System.exit(0);

@@ -19,7 +19,7 @@ public class Map extends Model {
     public void setStartPos(float[] startPos){
         this.startPos = startPos;
     }
-    @Override
+
     public void create(ObjectLoader loader, GL2 gl, float[] startPos) {
         data = loader.LoadModelToGL(path,gl);
         this.startPos = startPos;

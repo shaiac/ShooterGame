@@ -1,3 +1,8 @@
+/*
+submit:
+Ziv Zaarur 206099913
+Shai Acoca 315314278
+ */
 package Models.goods;
 
 import CollisionDetection.CollisionData;
@@ -15,12 +20,8 @@ import javax.media.opengl.GL2;
 import java.util.List;
 
 public class Treasure extends Model implements IGood {
-    private String path;
     private CollisionData collisionData;
 
-    public Treasure(String path) {
-        this.path = path;
-    }
     public Treasure(String path, Level level, LoaderFactory factory){
         Pair<List<ObjData>,CollisionData> data = factory.create(path, CollisionType.AABB);
         this.data = data.getKey();
@@ -38,22 +39,9 @@ public class Treasure extends Model implements IGood {
         this.startPos = startPos;
         this.collisionData.setStartPos(startPos);
     }
-    //old
-    @Override
-    public void create(ObjectLoader loader, GL2 gl, float[] startPos) {
-        data = loader.LoadModelToGL(path,gl, CollisionType.AABB);
-        this.collisionData = loader.getCollisionData();
-        this.startPos = startPos;
-        this.collisionData.setStartPos(startPos);
-        float[] scale = {3f,3f,3f};
-        this.collisionData.setScale(scale);
-        float[] rotate = {0, 90 , 0};
-        this.collisionData.setRotate(rotate);
-    }
 
     @Override
     public void draw(GL2 gl) {
-        collisionData.draw(gl);
         gl.glPushMatrix();
         gl.glTranslatef(startPos[0],startPos[1],startPos[2]);
         gl.glScalef(3f,3f,3f);

@@ -1,3 +1,8 @@
+/*
+submit:
+Ziv Zaarur 206099913
+Shai Acoca 315314278
+ */
 package Game;
 
 import java.awt.*;
@@ -5,21 +10,20 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ControlSubThread implements Runnable {
     private LoadingPage loadingPage;
-    private Thread worker;
     private final AtomicBoolean running = new AtomicBoolean(false);
     private int interval = 0;
 
-    public ControlSubThread(Canvas canvas, LoadingPage loadingPage) {
+    ControlSubThread(Canvas canvas, LoadingPage loadingPage) {
         this.loadingPage = loadingPage;
         interval = 1000;
     }
 
-    public void start() {
-        worker = new Thread(this);
+    void start() {
+        Thread worker = new Thread(this);
         worker.start();
     }
 
-    public void stop() {
+    void stop() {
         running.set(false);
     }
 

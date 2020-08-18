@@ -1,3 +1,8 @@
+/*
+submit:
+Ziv Zaarur 206099913
+Shai Acoca 315314278
+ */
 package Models.Weapons;
 
 import CollisionDetection.CollisionData;
@@ -10,11 +15,9 @@ import javax.media.opengl.GL2;
 
 enum WeaponType {GUN,SWORD};
 public abstract class Weapon extends Model implements ICollisionObj {
-    protected int ammu;
     protected boolean picked = false;
     protected WeaponType weapontype;
     protected float[] rotate = {0,0,0};
-    protected boolean firstDraw = false;
     protected float[] pos ={0,0,0};
     SoundEffect sound;
     public Weapon() {
@@ -27,7 +30,6 @@ public abstract class Weapon extends Model implements ICollisionObj {
     public abstract void setCoordinateSystem(CoordinateSystem coordinateSystem);
 
     public void weaponPicked() {
-        //sound.play("resources/SoundEffects/weaponPickUp.wav");
         this.picked = true;
         if(weapontype != WeaponType.SWORD){
             this.level.removeModel(this);

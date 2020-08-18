@@ -1,3 +1,8 @@
+/*
+submit:
+Ziv Zaarur 206099913
+Shai Acoca 315314278
+ */
 package Models.DataAndLoader;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -41,7 +46,6 @@ public class ObjectLoader {
     }
 
     public ArrayList<ObjData> LoadModelToGL(String inModelPath,GL2 gl){
-        //OBJModelPath = inModelPath;
         LoadOBJModel(inModelPath,gl);
         if(mtllib != null){
             LoadMTLModel(mtllib,gl);
@@ -52,7 +56,6 @@ public class ObjectLoader {
     }
     public ArrayList<ObjData> LoadModelToGL(String inModelPath,GL2 gl,CollisionType type){
         this.collisionType = type;
-        //OBJModelPath = inModelPath;
         LoadOBJModel(inModelPath,gl);
         if(mtllib != null){
             LoadMTLModel(mtllib,gl);
@@ -77,12 +80,10 @@ public class ObjectLoader {
                 ZipInputStream tZipInputStream = new ZipInputStream(new BufferedInputStream((new Object()).getClass().getResourceAsStream(ModelPath)));
                 ZipEntry tZipEntry;
                 tZipEntry = tZipInputStream.getNextEntry();
-                String inZipEntryName = tZipEntry.getName();
                 if (!tZipEntry.isDirectory()) {
                     br = new BufferedReader(new InputStreamReader(tZipInputStream));
                 }
             } else {
-                Object obj = new Object();
                 InputStream	myis = ClassLoader.getSystemClassLoader().getResourceAsStream(ModelPath);
 
                 InputStreamReader isr = new InputStreamReader(myis);

@@ -1,17 +1,18 @@
+/*
+submit:
+Ziv Zaarur 206099913
+Shai Acoca 315314278
+ */
 package Models.Weapons;
 
 import Game.CoordinateSystem;
 import Levels.Level;
 import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
-import Models.DataAndLoader.ObjectLoader;
 
 import javax.media.opengl.GL2;
 
 public class Cannon extends Weapon {
-    private String path;
-    private ObjectLoader loader;
-    private GL2 gl;
     private float[] pos = {0,0,0};
     boolean fire = false;
     private float angle;
@@ -30,14 +31,7 @@ public class Cannon extends Weapon {
     public void setStartPos(float[] startPos){
         this.startPos =startPos;
     }
-    @Override
-    public void create(ObjectLoader loader, GL2 gl, float[] startPos) {
-        data = loader.LoadModelToGL(path,gl);
-        this.translate(1f,0f,0f);
-        this.startPos = startPos;
-        this.loader = loader;
-        this.gl = gl;
-    }
+
 
     @Override
     public void draw(GL2 gl) {
@@ -79,8 +73,6 @@ public class Cannon extends Weapon {
     }
     private void dofire() {
         CannonBall ball= new CannonBall("objects/ball/uploads_files_2078589_sphere.obj",this.factory,this.level);
-        //CannonBall ball = new CannonBall("objects/ball/uploads_files_2078589_sphere.obj");
-        //ball.create(loader,gl,pos);
         ball.setStartPos(pos);
         ball.setRot(angle);
         float[] afterPos = {-4f,3.6f,-6f};

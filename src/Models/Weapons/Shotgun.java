@@ -1,3 +1,8 @@
+/*
+submit:
+Ziv Zaarur 206099913
+Shai Acoca 315314278
+ */
 package Models.Weapons;
 
 import CollisionDetection.CollisionData;
@@ -31,12 +36,7 @@ public class Shotgun extends Weapon implements ICollisionObj  {
     private CollisionData collisionData;
     private LoaderFactory factory;
     private String bulletPath;
-    public Shotgun(String inPath, Level level) {
-        this.path = inPath;
-        weapontype = WeaponType.GUN;
-        this.level = level;
-        targetSymbol = new TargetSymbol("objects/TargetSymbol/TargetSymbol.obj");
-    }
+
     public Shotgun(String path, Level level, LoaderFactory factory){
         this.factory = factory;
         Pair<List<ObjData>,CollisionData> data = factory.create(path,CollisionType.AABB);
@@ -94,7 +94,6 @@ public class Shotgun extends Weapon implements ICollisionObj  {
     public void draw(GL2 gl) {
         gl.glPushMatrix();
         if(!picked){
-            this.collisionData.draw(gl);
             gl.glTranslatef(startPos[0],startPos[1],startPos[2]);
             gl.glScalef(7f, 7f, 7f);
             gl.glRotatef(90f, 0f, 1f, 0f);
@@ -199,6 +198,5 @@ public class Shotgun extends Weapon implements ICollisionObj  {
             this.rotate(180, 'y');
             this.rotate(10, 'z');
         }
-        //this.collisionData = null;
     }
 }

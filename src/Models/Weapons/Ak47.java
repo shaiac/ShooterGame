@@ -1,3 +1,8 @@
+/*
+submit:
+Ziv Zaarur 206099913
+Shai Acoca 315314278
+ */
 package Models.Weapons;
 
 import CollisionDetection.CollisionData;
@@ -15,28 +20,20 @@ import javax.media.opengl.GL2;
 import java.util.List;
 
 public class Ak47 extends Weapon {
-    //private String path;
     private Magazine magazine;
     private String bulletPath;
     private boolean attackMode = false;
     private float duration = 250f;
     private float time;
-    private float change = 0;
     private float rChange = 0;
     private long startTime = 0;
-    private long endTime = 0;
     private long milliseconds;
     private boolean shot = false;
     private CoordinateSystem cooSystem;
     private float angle;
     private TargetSymbol targetSymbol;
     private CollisionData collisionData;
-    public Ak47(String inPath, Level level) {
-        this.level = level;
-        this.path = inPath;
-        weapontype = WeaponType.GUN;
-        targetSymbol = new TargetSymbol("objects/TargetSymbol/TargetSymbol.obj");
-    }
+
     public Ak47(String path,Level level, LoaderFactory factory){
         Pair<List<ObjData>,CollisionData> data = factory.create(path, CollisionType.AABB);
         this.data = data.getKey();
@@ -46,9 +43,7 @@ public class Ak47 extends Weapon {
         this.magazine = new Magazine(factory,20);
         this.bulletPath = "objects/Bullet/lowpolybullet.obj";
         this.targetSymbol = new TargetSymbol("objects/TargetSymbol/TargetSymbol.obj",factory);
-        //this.targetSymbol.scale(2,2,2);
         this.targetSymbol.rotate(90,'x');
-        //this.scale(0.01f,0.01f,0.01f);
         float[] scale = {0.01f,0.01f,0.01f};
         this.collisionData.setScale(scale);
         this.sound = new SoundEffect();
@@ -70,23 +65,6 @@ public class Ak47 extends Weapon {
         this.collisionData.setStartPos(startPos);
 
     }
-    //old
-    @Override
-    public void create(ObjectLoader loader, GL2 gl, float[] startPos){
-        data = loader.LoadModelToGL(path,gl,CollisionType.AABB);
-        this.collisionData = loader.getCollisionData();
-
-        this.startPos = startPos;
-        this.magazine = new Magazine(loader, gl, 20);
-        float[] targerpos = {startPos[0] + 10,startPos[1] - 3.4f, startPos[2] - 15};
-        this.targetSymbol.create(loader,gl, targerpos);
-        targetSymbol.scale(2, 2, 2);
-        targetSymbol.rotate(90, 'x');
-
-        this.collisionData.setStartPos(startPos);
-        float[] scale = {0.01f,0.01f,0.01f};
-        this.collisionData.setScale(scale);
-    }
 
     private void addAsRoomModel(Bullet bullet,int roomNum) {
             bullet.setAngle(angle);
@@ -99,16 +77,15 @@ public class Ak47 extends Weapon {
 
         gl.glPushMatrix();
         if(!picked){
-            this.collisionData.draw(gl);
             gl.glTranslatef(startPos[0],startPos[1],startPos[2]);
             gl.glScalef(0.01f, 0.01f, 0.01f);
             drawUnpicked(gl);
 
         }
         if(attackMode){
-            endTime = System.currentTimeMillis();
-            milliseconds = endTime- startTime;
-            change = (1f/duration)*milliseconds;
+            long endTime = System.currentTimeMillis();
+            milliseconds = endTime - startTime;
+            float change = (1f / duration) * milliseconds;
             for (ObjData obj:data) {
                 moveGun(gl);
             }
@@ -121,7 +98,6 @@ public class Ak47 extends Weapon {
             }
             startTime = endTime;
         }
-        //drawTarget(startPos[0], startPos[1]);
         for (ObjData obj:data) {
             obj.draw(gl);
         }
@@ -169,7 +145,6 @@ public class Ak47 extends Weapon {
             gl.glRotatef(rChange,0,1,0);
 
         }
-        // y = -0.48f ,z = -3.9
     }
 
     @Override

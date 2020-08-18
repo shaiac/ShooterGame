@@ -19,7 +19,6 @@ public class Transformation3D {
     public static Matrix rotate(double angle, char axis) {
         double radians, cos, sin;
         Matrix matrix = new Matrix(4);
-        double[][] array;
         radians = Math.toRadians(angle);
         cos = Math.cos(radians);
         sin = Math.sin(radians);

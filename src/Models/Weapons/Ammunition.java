@@ -1,3 +1,8 @@
+/*
+submit:
+Ziv Zaarur 206099913
+Shai Acoca 315314278
+ */
 package Models.Weapons;
 
 import com.jogamp.opengl.util.awt.TextRenderer;
@@ -5,8 +10,8 @@ import com.jogamp.opengl.util.awt.TextRenderer;
 import java.awt.*;
 
 public class Ammunition {
-    int ammo;
-    TextRenderer renderer;
+    private int ammo;
+    private TextRenderer renderer;
     public Ammunition(int ammo) {
         this.ammo = ammo;
         renderer = new TextRenderer(new Font("Helvetica", Font.PLAIN, 40));
