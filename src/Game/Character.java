@@ -225,24 +225,7 @@ public class Character implements ICollisionObj {
         gl.glEnable(GL2.GL_LIGHTING);
     }
 
-    private boolean checkIfInThisRoom(Room room) {
-        double x = cooSystem.getOrigin().get(0);
-        double z = cooSystem.getOrigin().get(2);
-        double minX = room.getLeftFront().get(0);
-        double minZ = room.getLeftFront().get(2);
-        double maxX = room.getLeftFront().get(0) + room.getLength();
-        double maxZ = room.getLeftFront().get(2) + room.getWidth();
-        if (x > maxX || x < minX || z > maxZ || z < minZ) {
-            return false;
-        }
-        return true;
-    }
     public int findInWhichRoom() {
-        /*for (Room room : currentLevel.getRooms()) {
-            if (checkIfInThisRoom(room)) {
-                inRoomNumber = room.getRoomNumber();
-            }
-        }*/
         float[] pos = {(float)cooSystem.getOrigin().get(0),(float)cooSystem.getOrigin().get(1),(float)cooSystem.getOrigin().get(2)};
         inRoomNumber = this.currentLevel.getRoom(pos);
         return inRoomNumber;
