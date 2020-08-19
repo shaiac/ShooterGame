@@ -49,7 +49,7 @@ public class AmmoBox extends Model implements IGood {
 
     @Override
     public void collide(ICollisionObj obj) {
-        sound.play("resources/SoundEffects/shotgun_reload.wav");
+        sound.play("SoundEffects/shotgun_reload.wav");
     }
 
     @Override

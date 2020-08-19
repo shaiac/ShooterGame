@@ -14,6 +14,7 @@ import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjData;
 import Models.DataAndLoader.ObjectLoader;
 import Models.Model;
+import SoundEffects.SoundEffect;
 import javafx.util.Pair;
 
 import javax.media.opengl.GL2;
@@ -64,6 +65,8 @@ public class Treasure extends Model implements IGood {
     @Override
     public void pick(Character character) {
         if (level.allEnemiesDead()) {
+            SoundEffect sound = new SoundEffect();
+            sound.play("SoundEffect/victory.mp3");
             this.level.removeModel(this);
             this.level.levelEnded();
         }

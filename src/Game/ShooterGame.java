@@ -17,6 +17,7 @@ import LinearMath.Vector;
 import Models.DataAndLoader.LoaderFactory;
 import Models.DataAndLoader.ObjectLoader;
 import Models.Weapons.Sword;
+import SoundEffects.SoundEffect;
 import com.jogamp.newt.Window;
 import com.jogamp.newt.event.KeyAdapter;
 import com.jogamp.newt.event.KeyEvent;
@@ -76,6 +77,8 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
             animator.pause();
             help.showHelp();
         } else if(starting) {
+
+
             startingMenu.draw();
         }else if (!character.getAlive() || gameEnded) {
             if (gameEnded)
@@ -175,6 +178,21 @@ public class ShooterGame extends KeyAdapter implements GLEventListener, MouseLis
         }
 
         loadLevel(gl);
+
+        //background sound
+        new Thread(new Runnable() {
+            public void run() {
+                while(true) {
+                    SoundEffect sound = new SoundEffect();
+                    sound.play("SoundEffects/Pirates-Of-The-Caribbean-Theme-S.mp3");
+                    try {
+                        Thread.sleep(175000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
 
         if (drawable instanceof Window) {
             Window window = (Window) drawable;

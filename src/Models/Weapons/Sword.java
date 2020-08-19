@@ -118,7 +118,7 @@ public class Sword extends Weapon implements IDamage {
     }
     @Override
     public void attack() {
-        sound.play("resources/SoundEffects/sword_swing.mp3");
+        sound.play("SoundEffects/sword_swing.mp3");
         attackMode = true;
         startTime = System.currentTimeMillis();
     }

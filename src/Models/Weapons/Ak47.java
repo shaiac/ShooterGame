@@ -120,19 +120,7 @@ public class Ak47 extends Weapon {
 
     @Override
     public int reload() {
-        /*try{
-            AudioInputStream audio = AudioSystem.getAudioInputStream(getClass().getResource("SoundEffects/shotgun_reload.wav"));
-            Clip clip = AudioSystem.getClip();
-            clip.open(audio);
-
-        } catch (LineUnavailableException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (UnsupportedAudioFileException e) {
-            e.printStackTrace();
-        }*/
-        sound.play("resources/SoundEffects/shotgun_reload.wav");
+        sound.play("SoundEffects/shotgun_reload.wav");
         return magazine.reload();
     }
 
@@ -153,7 +141,7 @@ public class Ak47 extends Weapon {
                 float[] pos2 = {0f,-0.48f,-3.9f};
                 int roomNum = this.level.getRoom(pos1);
                 addAsRoomModel(magazine.shotBullet(pos1,pos2,bulletPath,this.level),roomNum);
-                sound.play("resources/SoundEffects/ak47shot.mp3");
+                sound.play("SoundEffects/ak47shot.mp3");
 
             }
             rChange += (5f/duration)*milliseconds;
@@ -174,7 +162,7 @@ public class Ak47 extends Weapon {
     @Override
     public void weaponPicked() {
         if(!this.picked){
-            sound.play("resources/SoundEffects/weaponPickUp.wav");
+            sound.play("SoundEffects/weaponPickUp.wav");
             this.level.removeModel(this);
 
             this.picked = true;

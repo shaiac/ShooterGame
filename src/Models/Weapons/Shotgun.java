@@ -136,7 +136,7 @@ public class Shotgun extends Weapon implements ICollisionObj  {
 
     @Override
     public int reload() {
-        sound.play("resources/SoundEffects/shotgun_reload.wav");
+        sound.play("SoundEffects/shotgun_reload.wav");
         return magazine.reload();
     }
 
@@ -167,7 +167,7 @@ public class Shotgun extends Weapon implements ICollisionObj  {
                 int roomNum = this.level.getRoom(pos1);
                 addAsRoomModel(magazine.shotBullet(pos1,bulletPos1,bulletPath,this.level),roomNum);
                 addAsRoomModel(magazine.shotBullet(pos2,bulletPos2,bulletPath,this.level),roomNum);
-                sound.play("resources/SoundEffects/shotgun-shot.wav");
+                sound.play("SoundEffects/shotgun-shot.wav");
             }
             rChange -= (5f/duration)*milliseconds;
             gl.glRotatef(rChange,1,0,0);
@@ -187,7 +187,7 @@ public class Shotgun extends Weapon implements ICollisionObj  {
     @Override
     public void weaponPicked(){
         if(!this.picked) {
-            sound.play("resources/SoundEffects/weaponPickUp.wav");
+            sound.play("SoundEffects/weaponPickUp.wav");
             this.level.removeModel(this);
             this.picked = true;
 

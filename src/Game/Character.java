@@ -135,7 +135,7 @@ public class Character implements ICollisionObj {
     }
 
     public void hit(int reduceLife){
-        sound.play("resources/SoundEffects/Character_get_hit.wav");
+        sound.play("SoundEffects/Character_get_hit.wav");
         life.reduceLife(reduceLife);
         hit = true;
         if (life.getRemainLife() <= 0) {

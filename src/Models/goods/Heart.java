@@ -53,7 +53,7 @@ public class Heart extends Model implements IGood {
 
     @Override
     public void collide(ICollisionObj obj) {
-        sound.play("resources/SoundEffects/heal.wav");
+        sound.play("SoundEffects/heal.wav");
     }
 
     @Override
