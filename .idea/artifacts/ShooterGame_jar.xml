@@ -1,0 +1,29 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ShooterGame:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ShooterGame_jar</output-path>
+    <root id="archive" name="ShooterGame.jar">
+      <element id="module-output" name="ShooterGame" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/gluegen.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/jogl-all.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/gluegen-rt.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/junit-3.8.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/jlayer-1.0.1-2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/mp3spi-1.9.5-2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/tritonus-share-0.3.7-3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/jogl-all-natives-windows-amd64.jar" path-in-jar="/" />
+      <element id="file-copy" path="$PROJECT_DIR$/resources/BottomWall.jpg" />
+      <element id="file-copy" path="$PROJECT_DIR$/resources/loading_image_small.jpg" />
+      <element id="file-copy" path="$PROJECT_DIR$/resources/Picture1.jpg" />
+      <element id="file-copy" path="$PROJECT_DIR$/resources/Picture2.jpg" />
+      <element id="file-copy" path="$PROJECT_DIR$/resources/pirate_ship.jpg" />
+      <element id="file-copy" path="$PROJECT_DIR$/resources/ShipWall1.jpg" />
+      <element id="file-copy" path="$PROJECT_DIR$/resources/ShipWall2.jpg" />
+      <element id="file-copy" path="$PROJECT_DIR$/resources/starting_menu.jpg" />
+      <element id="file-copy" path="$PROJECT_DIR$/resources/TopWall.jpg" />
+      <element id="file-copy" path="$PROJECT_DIR$/resources/woodenWall.jpg" />
+      <element id="dir-copy" path="$PROJECT_DIR$/resources/Levels" />
+      <element id="dir-copy" path="$PROJECT_DIR$/resources/objects" />
+      <element id="dir-copy" path="$PROJECT_DIR$/resources/SoundEffects" />
+    </root>
+  </artifact>
+</component>
